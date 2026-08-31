@@ -1,18 +1,26 @@
 import type { ReactNode } from 'react'
 
 interface EmptyStateProps {
-  action?: ReactNode
+  icon?: ReactNode
+  primaryAction?: ReactNode
+  secondaryAction?: ReactNode
   description: string
   title: string
 }
 
-export function EmptyState({ action, description, title }: EmptyStateProps) {
+export function EmptyState({ description, icon, primaryAction, secondaryAction, title }: EmptyStateProps) {
   return (
     <section className="feedback-state feedback-state--empty">
+      {icon ? <div className="feedback-state__icon">{icon}</div> : null}
       <p className="feedback-state__eyebrow">Nothing here yet</p>
       <h2 className="feedback-state__title">{title}</h2>
       <p className="feedback-state__description">{description}</p>
-      {action ? <div className="feedback-state__action">{action}</div> : null}
+      {primaryAction || secondaryAction ? (
+        <div className="feedback-state__action">
+          {primaryAction}
+          {secondaryAction}
+        </div>
+      ) : null}
     </section>
   )
 }

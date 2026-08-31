@@ -1,10 +1,10 @@
 import { cn } from '../../lib/cn.ts'
 
-type AvatarSize = 'sm' | 'md'
+type AvatarSize = 'sm' | 'md' | 'lg'
 
 interface AvatarProps {
   className?: string
-  name: string
+  name?: string
   size?: AvatarSize
   src?: string
 }
@@ -21,9 +21,11 @@ function getInitials(name: string) {
 }
 
 export function Avatar({ className, name, size = 'md', src }: AvatarProps) {
+  const accessibleName = name ? `${name} avatar` : 'Unassigned'
+
   return (
-    <span aria-label={name} className={cn('avatar', `avatar--${size}`, className)} role="img">
-      {src ? <img alt="" className="avatar__image" src={src} /> : getInitials(name)}
+    <span aria-label={accessibleName} className={cn('avatar', `avatar--${size}`, className)} role="img">
+      {src ? <img alt="" className="avatar__image" src={src} /> : getInitials(name ?? '')}
     </span>
   )
 }

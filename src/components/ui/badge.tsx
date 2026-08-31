@@ -7,14 +7,14 @@ type BadgeTone =
   | 'success'
   | 'warning'
   | 'danger'
-  | 'status-todo'
-  | 'status-in-progress'
-  | 'status-blocked'
-  | 'status-done'
-  | 'priority-low'
-  | 'priority-medium'
-  | 'priority-high'
-  | 'priority-urgent'
+  | 'todo'
+  | 'in-progress'
+  | 'blocked'
+  | 'done'
+  | 'low'
+  | 'medium'
+  | 'high'
+  | 'urgent'
 
 interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
   tone?: BadgeTone

@@ -16,7 +16,7 @@ export function TasksPage() {
         <div>
           <div className="feature-placeholder__heading">
             <h3 id="task-workspace-title">Task workspace is being prepared</h3>
-            <Badge tone="status-todo">Next phase</Badge>
+            <Badge tone="todo">Next phase</Badge>
           </div>
           <p>The responsive list, search, filters, and URL-driven views will connect here once realistic task data is introduced.</p>
         </div>
