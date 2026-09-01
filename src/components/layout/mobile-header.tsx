@@ -27,7 +27,7 @@ export function MobileHeader() {
       <IconButton
         aria-controls="mobile-navigation"
         aria-expanded={isNavigationOpen}
-        label="Open navigation"
+        label=""
         onClick={openNavigation}
         variant="secondary"
       >
@@ -45,7 +45,7 @@ export function MobileHeader() {
           <p className="mobile-navigation__eyebrow">Workspace</p>
           <p className="mobile-navigation__name">Webns product team</p>
         </div>
-        <NavigationLinks onNavigate={closeNavigation} />
+        <NavigationLinks className="mobile-navigation__links" onNavigate={closeNavigation} />
       </Sheet>
     </header>
   )

@@ -1864,6 +1864,31 @@ body,
   }
 }
 
+/* The mobile Sheet is a full navigation surface, not the compact icon-only rail. */
+.mobile-navigation__links {
+  width: 100%;
+  padding-inline: 0;
+}
+
+.mobile-navigation__links .navigation-link {
+  justify-content: flex-start;
+  gap: 0.75rem;
+  padding-inline: 0.75rem;
+}
+
+.mobile-navigation__links .navigation-link__label {
+  position: static;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip: auto;
+  color: inherit;
+  opacity: 1;
+  transform: none;
+  white-space: normal;
+  clip-path: none;
+}
+
 /* Employee directory: reusable list and board workspace. */
 .page--team-directory {
   display: grid;
@@ -2900,6 +2925,23 @@ body,
   animation-name: workspace-bottom-sheet-enter;
 }
 
+.dialog[data-closing='true'] .dialog__content {
+  animation: workspace-modal-exit 220ms ease-in both;
+}
+
+.sheet[data-closing='true'] .sheet__content {
+  animation: workspace-sheet-exit 220ms ease-in both;
+}
+
+.sheet--bottom[data-closing='true'] .sheet__content {
+  animation-name: workspace-bottom-sheet-exit;
+}
+
+.dialog[data-closing='true']::backdrop,
+.sheet[data-closing='true']::backdrop {
+  animation: workspace-backdrop-out 220ms ease-in both;
+}
+
 .task-table th,
 .task-table__group th {
   background: #151c25;
@@ -2976,6 +3018,18 @@ body,
   }
 }
 
+@keyframes workspace-modal-exit {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(0.5rem) scale(0.985);
+  }
+}
+
 @keyframes workspace-sheet-enter {
   from {
     opacity: 0;
@@ -2988,6 +3042,18 @@ body,
   }
 }
 
+@keyframes workspace-sheet-exit {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(1.25rem);
+  }
+}
+
 @keyframes workspace-bottom-sheet-enter {
   from {
     opacity: 0;
@@ -2997,6 +3063,28 @@ body,
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes workspace-bottom-sheet-exit {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+}
+
+@keyframes workspace-backdrop-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
   }
 }
 

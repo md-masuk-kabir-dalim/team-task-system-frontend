@@ -3,12 +3,13 @@ import { cn } from '../../lib/cn.ts'
 import { primaryNavigation } from '../../lib/navigation.ts'
 
 interface NavigationLinksProps {
+  className?: string
   onNavigate?: () => void
 }
 
-export function NavigationLinks({ onNavigate }: NavigationLinksProps) {
+export function NavigationLinks({ className, onNavigate }: NavigationLinksProps) {
   return (
-    <nav aria-label="Primary navigation" className="navigation-links">
+    <nav aria-label="Primary navigation" className={cn('navigation-links', className)}>
       {primaryNavigation.map((item) => {
         const Icon = item.icon
 

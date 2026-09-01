@@ -52,7 +52,7 @@ The mobile layout makes a deliberate information trade-off: it removes dense mul
 
 ## Testing and quality checks
 
-The Vitest suite currently contains 7 test files and 14 tests covering task query parsing, task service filtering/search/sort/pagination/errors, task and calendar stores, Team Management URL query handling, employee selection/creation, and new-employee assignee registration.
+The Vitest suite currently contains 8 test files and 16 tests covering task query parsing, task service filtering/search/sort/pagination/errors, task and calendar stores, Team Management URL query handling, employee selection/creation, new-employee assignee registration, and employee-detail data utilities.
 
 Before committing this revision, the following all pass:
 
@@ -62,9 +62,21 @@ npm run lint
 npm run test
 ```
 
-## Screenshot status
+## Screenshots
 
-The required screenshots at 375px, 768px, and 1280px are still pending capture. The in-app browser connection available during implementation reported `Browser is not available: iab`, so I have not added generated or inaccurate screenshots. Capture them locally from `/tasks` at those widths before submission; `design-qa.md` records this visual-verification blocker transparently.
+The following local captures show the responsive workspace on desktop and mobile device widths.
+
+### Desktop calendar
+
+![Calendar workspace on a MacBook Air](docs/screenshots/calendar-desktop-macbook-air.png)
+
+### Mobile task workspace
+
+![Task workspace on an iPhone SE](docs/screenshots/tasks-mobile-iphone-se.png)
+
+![Task workspace on a Xiaomi Mi 11i](docs/screenshots/tasks-mobile-xiaomi-mi-11i.png)
+
+![Task workspace on an iPhone 13 Pro](docs/screenshots/tasks-mobile-iphone-13-pro.png)
 
 ## Least-confident decisions
 
