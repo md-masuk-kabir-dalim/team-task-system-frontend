@@ -66,7 +66,7 @@ export function Topbar() {
   const toggleNotifications = usePreferencesStore((state) => state.toggleNotifications)
 
   const openCalendar = () => {
-    navigate({ pathname: appRoutes.tasks, search: '?view=timeline' })
+    navigate(appRoutes.calendar)
   }
 
   const toggleAppearance = () => {
@@ -115,7 +115,7 @@ export function Topbar() {
 
       <div className="topbar__actions">
         <div aria-label="Workspace utilities" className="topbar__utilities">
-          <button aria-label="Open task timeline" className="topbar__utility" onClick={openCalendar} type="button"><CalendarDays aria-hidden="true" size={18} /></button>
+          <button aria-label="Open calendar" className="topbar__utility" onClick={openCalendar} type="button"><CalendarDays aria-hidden="true" size={18} /></button>
           <div className="topbar__notifications">
             <button aria-controls="workspace-notifications" aria-expanded={isNotificationsOpen} aria-label="View notifications" className={`topbar__utility topbar__utility--notification${areNotificationsRead ? ' topbar__utility--notification-read' : ''}`} onClick={toggleNotifications} type="button"><Bell aria-hidden="true" size={18} /></button>
             {isNotificationsOpen ? (

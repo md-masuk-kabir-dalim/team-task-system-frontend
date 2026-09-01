@@ -11,10 +11,11 @@ import { TaskForm } from './task-form.tsx'
 import type { TeamMember } from '../types/task-types.ts'
 
 interface TaskCreateControlProps {
+  label?: string
   members: readonly TeamMember[]
 }
 
-export function TaskCreateControl({ members }: TaskCreateControlProps) {
+export function TaskCreateControl({ label = 'Add New Task', members }: TaskCreateControlProps) {
   const closeCreateTask = useUiStore((state) => state.closeCreateTask)
   const createTask = useTaskStore((state) => state.createTask)
   const isCreateTaskOpen = useUiStore((state) => state.isCreateTaskOpen)
@@ -34,7 +35,7 @@ export function TaskCreateControl({ members }: TaskCreateControlProps) {
     <>
       <Button onClick={openCreateTask}>
         <Plus aria-hidden="true" size={17} />
-        Add New Task
+        {label}
       </Button>
       {isMobile ? (
         <Sheet

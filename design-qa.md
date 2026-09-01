@@ -2,43 +2,60 @@
 
 ## Comparison target
 
-- Source visual truth: the dark Hrivo Kanban and Task Details desktop screenshots supplied in this conversation.
-- Intended implementation: `/tasks` in its default Kanban state and `/tasks/:taskId` for task details.
-- Target state: a deep navy task workspace with cyan primary actions, compact Kanban cards, and a two-panel Task Details screen with overview, attachments, checklist, metadata, and progress controls.
+- Source visual truth: dark desktop Calendar and Tasks-with-sidebar screenshots supplied in this conversation.
+- Intended implementation: `/calendar` and the shared desktop workspace sidebar.
+- Target state: a dark Hrivo workspace calendar plus an easy-to-scan Tasks sidebar with a clear active state, compact navigation, and an accessible desktop collapse control.
 
 ## Evidence status
 
 - Source visual target: available in the conversation.
-- Implementation browser capture: unavailable. The connected browser surface has no active browser instances.
-- Local implementation: Vite dev server responds at `/tasks` and task-detail routes; production build, lint, and automated tests succeed.
-- Viewport, CSS size, density normalization, full-view comparison, focused-region comparison, console review, and interaction verification: blocked until a browser is connected.
+- Implementation browser capture: blocked. The required in-app browser (`iab`) reports `Browser is not available: iab`.
+- Implementation screenshot path: unavailable because no browser-rendered capture can be produced.
+- Intended viewport: source desktop screenshot, approximately 1893 × 895 px. Implementation CSS viewport and device scale factor: unavailable.
+- Full-view and focused-region comparison: blocked because the implementation cannot be captured and placed alongside the reference.
+- Automated validation: production build, lint, ten tests, and diff checks pass.
 
 ## Findings
 
-- [P1] Browser-rendered fidelity check is blocked.
-  - Location: `/tasks` Kanban desktop view and `/tasks/:taskId` Task Details desktop view.
-  - Evidence: no in-app browser connection is available to capture the local implementation at the reference viewport.
-  - Impact: color, spacing, scroll behavior, generated-avatar crop, and control alignment cannot be honestly verified against the reference image.
-  - Fix: connect an in-app browser, capture `/tasks` and `/tasks/:taskId` at the source desktop dimensions, compare the two images, then address any P0/P1/P2 mismatches.
+- [P1] Browser-rendered calendar fidelity verification is blocked.
+  - Location: `/calendar`.
+  - Evidence: the in-app browser connection is unavailable, so the new calendar grid cannot be captured at the reference desktop viewport.
+  - Impact: calendar column density, time-grid height, sidebar width, event-card overlap, and small-screen behavior cannot be compared honestly with the supplied screenshot.
+  - Fix: connect the in-app browser, capture `/calendar` in Week view at the source desktop dimensions, compare the source and implementation together, then address any P0/P1/P2 differences.
+- [P1] Browser-rendered sidebar fidelity verification is blocked.
+  - Location: shared desktop app shell.
+  - Evidence: the in-app browser connection is unavailable, so the active outline, compact sidebar, and collapse transition cannot be captured at the supplied desktop viewport.
+  - Impact: the visual density and precise active-state alignment cannot be compared honestly with the latest sidebar reference.
+  - Fix: connect the in-app browser, capture `/tasks` with the sidebar expanded and collapsed, then address any P0/P1/P2 differences.
 
-## Implemented design changes awaiting visual verification
+## Implemented design and interaction work awaiting visual verification
 
-- Reworked the app shell, sidebar, utility header, task panel, Kanban columns, cards, badges, and form surfaces to the reference dark navy palette and density.
-- Updated the board to use the reference’s `In review` label, compact priority dots, slim internal scrolling, and fixed bottom `Add Task` actions.
-- Made Kanban the default task view, retained drag-and-drop movement, and preserved the keyboard-accessible move control.
-- Added a generated profile image at `public/images/alex-morgan.png` for the visible account avatar.
-- Rebuilt Task Details into the reference two-panel layout with attachments, interactive subtasks, status/priority metadata, progress, and a working completion action.
+- Added a responsive dark `/calendar` page with the screenshot-matched project header, left mini month, category toggles, upcoming-task rail, task time grid, and Day/Week/Month controls.
+- Calendar task cards are derived from real task due dates, priority/status data, and assignees; each opens its associated Task Details page.
+- Added reusable calendar types, date/event utilities, event card, mini month, sidebar, toolbar, and grid components.
+- Added Zustand-backed calendar view, selected date, category visibility, and import-feedback state; the calendar page has no local interaction state.
+- Added a direct Zustand store test for date navigation, filters, views, and import feedback.
+- Added a shared Zustand sidebar preference, an accessible collapse/expand control, keyboard focus treatment, and a more distinguishable active navigation state.
+
+## Required fidelity surfaces
+
+- Fonts and typography: implemented with the existing Hrivo font and compact desktop scale; browser comparison blocked.
+- Spacing and layout rhythm: implemented with reference-inspired sidebar/grid proportions and responsive collapse; browser comparison blocked.
+- Colors and visual tokens: uses the existing Hrivo deep navy palette with blue, green, violet, and amber event categories; browser comparison blocked.
+- Image and asset fidelity: reuses the existing application logo, avatar component, and icon library; no new raster assets were required by the task calendar UI.
+- Copy and content: calendar labels, range controls, and cards use live task titles and task due dates; browser comparison blocked.
 
 ## Implementation checklist
 
-- [x] Apply the dark visual system and reference-matched Kanban pattern.
-- [x] Keep task creation, filtering, view switching, and drag-and-drop behavior in scope.
-- [x] Add the reference-matched task-detail layout while preserving task status updates.
-- [x] Build, lint, and automated tests pass.
-- [ ] Capture and compare the browser-rendered desktop view.
+- [x] Add Calendar navigation, route, and top-bar shortcut.
+- [x] Render tasks in reusable day, week, and month calendar views.
+- [x] Store calendar UI state in Zustand.
+- [x] Verify build, lint, unit tests, and diff safety.
+- [x] Improve shared sidebar scanability and desktop density with shared Zustand UI state.
+- [ ] Capture and compare the browser-rendered calendar against the supplied reference.
 
 ## Comparison history
 
-No rendered comparison could be performed because no browser surface is attached.
+No rendered implementation comparison was possible because the required in-app browser is unavailable.
 
 final result: blocked
