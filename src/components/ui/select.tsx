@@ -10,6 +10,7 @@ export interface SelectOption {
 }
 
 interface SelectProps extends Omit<ComponentPropsWithoutRef<'select'>, 'aria-describedby' | 'children'> {
+  'aria-describedby'?: string
   error?: string
   helperText?: string
   label: string

@@ -5,3 +5,8 @@ export interface NavigationItem {
   label: string
   to: string
 }
+
+export interface PageContext {
+  eyebrow: string
+  title: string
+}

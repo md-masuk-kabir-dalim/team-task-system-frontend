@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom'
 import { MobileHeader } from './mobile-header.tsx'
+import { PageContainer } from './page-container.tsx'
 import { Sidebar } from './sidebar.tsx'
 import { Topbar } from './topbar.tsx'
 
@@ -12,7 +13,9 @@ export function AppLayout() {
         <MobileHeader />
         <Topbar />
         <main className="app-shell__content" id="main-content" tabIndex={-1}>
-          <Outlet />
+          <PageContainer>
+            <Outlet />
+          </PageContainer>
         </main>
       </div>
     </div>

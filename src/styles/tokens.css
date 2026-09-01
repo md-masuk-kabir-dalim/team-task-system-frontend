@@ -114,10 +114,10 @@
   --z-toast: 60;
 
   /* Layout */
-  --sidebar-width: 15.5rem;
+  --sidebar-width: 15rem;
   --content-max-width: 88rem;
   --page-padding: var(--space-8);
-  --topbar-height: 5.5rem;
+  --topbar-height: 4.75rem;
   --mobile-header-height: 4rem;
   --breakpoint-mobile: 23.4375rem;
   --breakpoint-tablet: 48rem;

@@ -1,23 +1,22 @@
-import { LayoutDashboard, ListTodo, Settings, UsersRound } from 'lucide-react'
-import type { NavigationItem } from '../types/navigation-types.ts'
+import { ListTodo, UsersRound } from 'lucide-react'
+import type { NavigationItem, PageContext } from '../types/navigation-types.ts'
 
-export const primaryNavigation: NavigationItem[] = [
-  { icon: LayoutDashboard, label: 'Dashboard', to: '/dashboard' },
-  { icon: ListTodo, label: 'Tasks', to: '/tasks' },
-  { icon: UsersRound, label: 'Team', to: '/team' },
-  { icon: Settings, label: 'Settings', to: '/settings' },
+export const appRoutes = {
+  root: '/',
+  tasks: '/tasks',
+  team: '/team',
+} as const
+
+export const primaryNavigation: readonly NavigationItem[] = [
+  { icon: ListTodo, label: 'Tasks', to: appRoutes.tasks },
+  { icon: UsersRound, label: 'Team', to: appRoutes.team },
 ]
 
-export function getPageTitle(pathname: string) {
-  const navigationItem = primaryNavigation.find((item) => item.to === pathname)
+const pageContexts: Record<string, PageContext> = {
+  [appRoutes.tasks]: { eyebrow: 'Workspace', title: 'Tasks' },
+  [appRoutes.team]: { eyebrow: 'Workspace', title: 'Team' },
+}
 
-  if (navigationItem) {
-    return navigationItem.label
-  }
-
-  if (pathname.startsWith('/tasks/')) {
-    return 'Task details'
-  }
-
-  return 'Team tasks'
+export function getPageContext(pathname: string): PageContext {
+  return pageContexts[pathname] ?? { eyebrow: 'Workspace', title: 'Page not found' }
 }

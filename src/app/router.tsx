@@ -1,22 +1,17 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, Navigate } from 'react-router-dom'
 import { AppLayout } from '../components/layout/app-layout.tsx'
-import { DashboardPage } from '../features/dashboard/dashboard-page.tsx'
-import { TaskDetailsPage } from '../features/tasks/task-details-page.tsx'
 import { TasksPage } from '../features/tasks/tasks-page.tsx'
 import { TeamPage } from '../features/team/team-page.tsx'
 import { NotFoundPage } from '../routes/not-found-page.tsx'
-import { SettingsPage } from '../routes/settings-page.tsx'
+import { appRoutes } from '../lib/navigation.ts'
 
 export const router = createBrowserRouter([
   {
     element: <AppLayout />,
     children: [
-      { index: true, element: <DashboardPage /> },
-      { path: 'dashboard', element: <DashboardPage /> },
-      { path: 'tasks', element: <TasksPage /> },
-      { path: 'tasks/:taskId', element: <TaskDetailsPage /> },
-      { path: 'team', element: <TeamPage /> },
-      { path: 'settings', element: <SettingsPage /> },
+      { index: true, element: <Navigate replace to={appRoutes.tasks} /> },
+      { path: appRoutes.tasks.slice(1), element: <TasksPage /> },
+      { path: appRoutes.team.slice(1), element: <TeamPage /> },
       { path: '*', element: <NotFoundPage /> },
     ],
   },

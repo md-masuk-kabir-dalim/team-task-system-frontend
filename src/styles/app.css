@@ -13,8 +13,12 @@
 }
 
 .app-shell__content {
-  width: min(100%, var(--content-max-width));
   min-width: 0;
+  outline: none;
+}
+
+.page-container {
+  width: min(100%, var(--content-max-width));
   margin-inline: auto;
   padding: var(--space-10) var(--page-padding) var(--space-16);
 }
@@ -28,6 +32,7 @@
   border-right: 1px solid var(--color-border);
   background: var(--color-surface);
   padding: var(--space-6) var(--space-4);
+  overflow-y: auto;
 }
 
 .brand {
@@ -114,23 +119,57 @@
   font-weight: var(--font-weight-semibold);
 }
 
-.sidebar__footer {
+.sidebar__account {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: var(--space-2);
   margin-top: auto;
   border-top: 1px solid var(--color-border);
+  padding: var(--space-4) var(--space-1) var(--space-1);
+}
+
+.sidebar__account-details {
+  min-width: 0;
+}
+
+.sidebar__account-name,
+.sidebar__account-role {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar__account-name {
+  color: var(--color-text);
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+.sidebar__account-role {
   color: var(--color-text-subtle);
   font-size: var(--font-size-caption);
-  line-height: var(--line-height-relaxed);
-  padding: var(--space-5) var(--space-2) var(--space-1);
+}
+
+.sidebar__account .icon-button {
+  flex: 0 0 auto;
+  width: 2rem;
+  height: 2rem;
+  margin-left: auto;
 }
 
 .topbar {
   display: flex;
   min-height: var(--topbar-height);
   align-items: center;
-  justify-content: space-between;
+  gap: var(--space-6);
   border-bottom: 1px solid var(--color-border);
   background: var(--color-surface);
   padding-inline: var(--page-padding);
+}
+
+.topbar__context {
+  min-width: max-content;
 }
 
 .topbar__title {
@@ -148,6 +187,7 @@
 }
 
 .topbar__actions {
+  flex: 0 0 auto;
   gap: var(--space-4);
 }
 
@@ -159,6 +199,33 @@
   color: var(--color-text-muted);
   font-size: var(--font-size-body-sm);
   font-weight: var(--font-weight-medium);
+}
+
+.topbar__search {
+  display: flex;
+  width: min(100%, 34rem);
+  min-width: 10rem;
+  height: 2.5rem;
+  align-items: center;
+  gap: var(--space-2);
+  margin-inline: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-muted);
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-body-sm);
+  padding-inline: var(--space-3);
+}
+
+.topbar__search-hint {
+  margin-left: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-subtle);
+  font-size: 0.6875rem;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1;
+  padding: 0.1875rem var(--space-1);
 }
 
 .mobile-header {
@@ -192,6 +259,24 @@
   margin-top: var(--space-3);
   color: var(--color-text-muted);
   line-height: var(--line-height-relaxed);
+}
+
+.page-intro__breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
+  list-style: none;
+  padding: 0;
+}
+
+.page-intro__breadcrumbs li + li::before {
+  color: var(--color-border-strong);
+  content: '/';
+  margin-right: var(--space-2);
 }
 
 .page-intro__actions {
@@ -656,6 +741,61 @@
   }
 }
 
+@media (max-width: 63.99rem) {
+  :root {
+    --sidebar-width: 4.75rem;
+  }
+
+  .sidebar {
+    align-items: center;
+    padding-inline: var(--space-3);
+  }
+
+  .sidebar .brand__name,
+  .sidebar__workspace,
+  .sidebar__account-details,
+  .sidebar__account .icon-button {
+    display: none;
+  }
+
+  .sidebar__account {
+    justify-content: center;
+    width: 100%;
+    padding-inline: 0;
+  }
+
+  .navigation-links {
+    width: 100%;
+  }
+
+  .navigation-link {
+    justify-content: center;
+    padding-inline: var(--space-2);
+  }
+
+  .navigation-link__label {
+    position: absolute;
+    width: 0.0625rem;
+    height: 0.0625rem;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    clip-path: inset(50%);
+  }
+
+  .topbar {
+    gap: var(--space-4);
+  }
+
+  .topbar__search {
+    max-width: 24rem;
+  }
+
+  .account-summary__name {
+    display: none;
+  }
+}
+
 @media (max-width: 47.99rem) {
   :root {
     --page-padding: var(--space-4);
@@ -742,6 +882,10 @@
   }
 
   .app-shell__content {
+    min-height: calc(100vh - var(--mobile-header-height));
+  }
+
+  .page-container {
     padding-top: var(--space-8);
   }
 
@@ -777,9 +921,6 @@
     display: none;
   }
 
-  .account-summary__name {
-    display: none;
-  }
 }
 
 @media (max-width: 29.99rem) {

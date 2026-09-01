@@ -2,7 +2,7 @@ import { CheckSquare2, Menu, X } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useEscapeKey } from '../../hooks/use-escape-key.ts'
-import { getPageTitle } from '../../lib/navigation.ts'
+import { appRoutes, getPageContext } from '../../lib/navigation.ts'
 import { IconButton } from '../ui/icon-button.tsx'
 import { NavigationLinks } from './navigation-links.tsx'
 
@@ -10,19 +10,20 @@ export function MobileHeader() {
   const [isNavigationOpen, setIsNavigationOpen] = useState(false)
   const { pathname } = useLocation()
   const closeNavigation = useCallback(() => setIsNavigationOpen(false), [])
+  const pageContext = getPageContext(pathname)
 
   useEscapeKey(isNavigationOpen, closeNavigation)
 
   return (
     <header className="mobile-header">
-      <Link aria-label="Pulseboard dashboard" className="brand brand--mobile" to="/dashboard">
+      <Link aria-label="Pulseboard tasks" className="brand brand--mobile" to={appRoutes.tasks}>
         <span aria-hidden="true" className="brand__mark">
           <CheckSquare2 size={18} strokeWidth={2.4} />
         </span>
         <span className="brand__name">Pulseboard</span>
       </Link>
 
-      <p className="mobile-header__title">{getPageTitle(pathname)}</p>
+      <p className="mobile-header__title">{pageContext.title}</p>
 
       <IconButton
         aria-controls="mobile-navigation"

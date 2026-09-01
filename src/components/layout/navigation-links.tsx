@@ -14,13 +14,14 @@ export function NavigationLinks({ onNavigate }: NavigationLinksProps) {
 
         return (
           <NavLink
+            aria-label={item.label}
             className={({ isActive }) => cn('navigation-link', isActive && 'navigation-link--active')}
             key={item.to}
             onClick={onNavigate}
             to={item.to}
           >
             <Icon aria-hidden="true" size={18} strokeWidth={1.8} />
-            <span>{item.label}</span>
+            <span className="navigation-link__label">{item.label}</span>
           </NavLink>
         )
       })}
