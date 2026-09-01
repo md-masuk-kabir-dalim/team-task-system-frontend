@@ -6,10 +6,10 @@ import type { TaskListQuery } from '../types/task-query-types.ts'
 type TaskListState =
   | { result: TaskListResult; status: 'success' }
   | { status: 'error'; error: Error }
-  | { status: 'loading' }
+  | { result: TaskListResult | null; status: 'loading' }
 
 export function useTaskList(query: TaskListQuery) {
-  const [state, setState] = useState<TaskListState>({ status: 'loading' })
+  const [state, setState] = useState<TaskListState>({ result: null, status: 'loading' })
   const [requestVersion, setRequestVersion] = useState(0)
 
   useEffect(() => {
@@ -17,7 +17,10 @@ export function useTaskList(query: TaskListQuery) {
 
     queueMicrotask(() => {
       if (isCurrent) {
-        setState({ status: 'loading' })
+        setState((currentState) => ({
+          result: currentState.status === 'success' ? currentState.result : currentState.status === 'loading' ? currentState.result : null,
+          status: 'loading',
+        }))
       }
     })
 
@@ -45,8 +48,9 @@ export function useTaskList(query: TaskListQuery) {
 
   return {
     error: state.status === 'error' ? state.error : null,
-    isLoading: state.status === 'loading',
-    result: state.status === 'success' ? state.result : null,
+    isInitialLoading: state.status === 'loading' && state.result === null,
+    isRefreshing: state.status === 'loading' && state.result !== null,
+    result: state.status === 'success' || state.status === 'loading' ? state.result : null,
     retry,
   }
 }

@@ -2,6 +2,7 @@ import { ListTodo } from 'lucide-react'
 import { EmptyState } from '../../components/feedback/empty-state.tsx'
 import { ErrorState } from '../../components/feedback/error-state.tsx'
 import { PageIntro } from '../../components/layout/page-intro.tsx'
+import { Button } from '../../components/ui/button.tsx'
 import { TaskFilterBar } from './components/task-filter-bar.tsx'
 import { TaskFilterSummary } from './components/task-filter-summary.tsx'
 import { TaskCreateControl } from './components/task-create-control.tsx'
@@ -14,7 +15,7 @@ import { useTaskQueryParams } from './hooks/use-task-query-params.ts'
 
 export function TasksPage() {
   const { clearView, query, setFilters, setPage, setSearch, setSort } = useTaskQueryParams()
-  const { error, isLoading, result, retry } = useTaskList(query)
+  const { error, isInitialLoading, isRefreshing, result, retry } = useTaskList(query)
 
   return (
     <section className="page">
@@ -26,7 +27,7 @@ export function TasksPage() {
         {result ? <TaskCreateControl members={result.members} onCreated={retry} /> : null}
       </PageIntro>
 
-      {isLoading ? <TaskListSkeleton /> : null}
+      {isInitialLoading ? <TaskListSkeleton /> : null}
 
       {error ? (
         <ErrorState
@@ -37,7 +38,7 @@ export function TasksPage() {
       ) : null}
 
       {result ? (
-        <div className="task-workspace">
+        <div aria-busy={isRefreshing || undefined} className="task-workspace">
           <TaskSummary summary={result.summary} />
           <TaskFilterBar
             currentMemberId={result.currentMemberId}
@@ -49,6 +50,7 @@ export function TasksPage() {
             search={query.search}
           />
           <TaskFilterSummary filters={query.filters} members={result.members} search={query.search} />
+          {isRefreshing ? <p aria-live="polite" className="task-workspace__refreshing">Updating task view…</p> : null}
           {result.items.length ? (
             <>
               <TaskList members={result.members} tasks={result.items} />
@@ -63,6 +65,7 @@ export function TasksPage() {
             <EmptyState
               description="Try changing your filters or search to see work in this workspace."
               icon={<ListTodo aria-hidden="true" size={24} />}
+              primaryAction={<Button onClick={clearView} variant="secondary">Clear view</Button>}
               title="No tasks match this view"
             />
           )}

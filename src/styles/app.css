@@ -434,6 +434,18 @@
   gap: var(--space-6);
 }
 
+.task-workspace__refreshing {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  border-radius: var(--radius-full);
+  background: var(--color-info-subtle);
+  color: var(--color-info);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
+  padding: var(--space-1) var(--space-3);
+}
+
 .task-filter-bar {
   display: grid;
   grid-template-columns: minmax(16rem, 1fr) auto;
