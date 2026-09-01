@@ -1,4 +1,4 @@
-import { CheckSquare2 } from 'lucide-react'
+import { Droplets } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { appRoutes } from '../../lib/navigation.ts'
 import { Avatar } from '../ui/avatar.tsx'
@@ -7,15 +7,15 @@ import { NavigationLinks } from './navigation-links.tsx'
 export function Sidebar() {
   return (
     <aside className="sidebar">
-      <Link aria-label="Pulseboard tasks" className="brand" to={appRoutes.tasks}>
+      <Link aria-label="Hrivo tasks" className="brand" to={appRoutes.tasks}>
         <span aria-hidden="true" className="brand__mark">
-          <CheckSquare2 size={20} strokeWidth={2.4} />
+          <Droplets size={27} strokeWidth={2.4} />
         </span>
-        <span className="brand__name">Pulseboard</span>
+        <span className="brand__name">Hrivo</span>
       </Link>
 
       <div className="sidebar__workspace">
-        <p className="sidebar__label">Workspace</p>
+        <p className="sidebar__label">Main</p>
         <p className="sidebar__workspace-name">Webns product team</p>
       </div>
 

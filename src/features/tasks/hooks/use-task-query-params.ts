@@ -5,9 +5,11 @@ import {
   isDueDateFilter,
   isSortDirection,
   isTaskSortField,
+  isTaskView,
   type TaskFilters,
   type TaskListQuery,
   type TaskSort,
+  type TaskView,
 } from '../types/task-query-types.ts'
 import { isTaskPriority, isTaskStatus } from '../types/task-types.ts'
 
@@ -24,6 +26,7 @@ export function parseTaskListQuery(searchParams: URLSearchParams): TaskListQuery
   const assigneeId = searchParams.get('assignee')
   const sortField = searchParams.get('sort')
   const direction = searchParams.get('direction')
+  const view = searchParams.get('view')
 
   return {
     filters: {
@@ -39,6 +42,7 @@ export function parseTaskListQuery(searchParams: URLSearchParams): TaskListQuery
       direction: direction && isSortDirection(direction) ? direction : defaultTaskSort.direction,
       field: sortField && isTaskSortField(sortField) ? sortField : defaultTaskSort.field,
     },
+    view: view && isTaskView(view) ? view : defaultTaskListQuery.view,
   }
 }
 
@@ -77,6 +81,10 @@ export function serializeTaskListQuery(query: TaskListQuery) {
     searchParams.set('page', String(query.page))
   }
 
+  if (query.view !== defaultTaskListQuery.view) {
+    searchParams.set('view', query.view)
+  }
+
   return searchParams
 }
 
@@ -104,6 +112,10 @@ export function useTaskQueryParams() {
     setQuery({ ...query, page })
   }, [query, setQuery])
 
+  const setView = useCallback((view: TaskView) => {
+    setQuery({ ...query, view })
+  }, [query, setQuery])
+
   const clearView = useCallback(() => {
     setQuery({
       ...defaultTaskListQuery,
@@ -119,5 +131,6 @@ export function useTaskQueryParams() {
     setPage,
     setSearch,
     setSort,
+    setView,
   }
 }

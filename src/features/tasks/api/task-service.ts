@@ -43,6 +43,7 @@ export const defaultTaskListQuery: TaskListQuery = {
   pageSize: DEFAULT_PAGE_SIZE,
   search: '',
   sort: defaultTaskSort,
+  view: 'list',
 }
 
 export interface TaskServiceOptions {

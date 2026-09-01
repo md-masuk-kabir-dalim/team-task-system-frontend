@@ -28,11 +28,11 @@ Then open the local Vite URL shown in the terminal. The primary product route is
 ## Product capabilities
 
 - Responsive app shell: full sidebar at desktop, compact tablet rail, and accessible mobile Sheet navigation.
-- Dense desktop task table and purpose-built mobile task cards; the mobile view never relies on horizontal table scrolling.
+- Three task workspace views built from the same data: dense grouped List, Kanban, and Timeline; mobile never relies on horizontal table scrolling.
 - Real mock-service loading, retryable error, empty, and in-place refresh states.
 - Search across task titles, descriptions, and assignee names.
 - Filters for status, priority, owner, and due-date state, including quick filters and a mobile filter Sheet.
-- URL-driven search, filters, sorting, and pagination. For example: `/tasks?status=blocked&priority=urgent&sort=title&direction=desc&page=2`.
+- URL-driven search, filters, sorting, pagination, and workspace view. For example: `/tasks?status=blocked&priority=urgent&sort=title&direction=desc&page=2&view=board`.
 - Task details, validated task creation, and asynchronous workflow status updates.
 - Team workspace with workload, urgent, and overdue signals.
 
@@ -71,17 +71,17 @@ The fixture generator creates 360 tasks from a deterministic seed, but dates are
 
 ## Product decisions
 
-### A table first, cards on mobile
+### List first, with focused workspace views
 
-Desktop work management benefits from scanning aligned status, priority, owner, and due-date columns, so `/tasks` uses a compact table. At mobile sizes the same information becomes task cards with wrapping titles and visible metadata; it is not a squeezed or horizontally scrollable table.
+The List is the default because desktop work management benefits from scanning aligned status, priority, owner, and due-date columns. Kanban supports stage-based triage and Timeline makes dates easier to scan without creating a separate data source. At mobile sizes the List becomes task cards with wrapping titles and visible metadata; it is not a squeezed or horizontally scrollable table.
 
 ### URL-owned task views
 
 Search, filters, sorting, and pagination belong in the URL because they represent a shareable view of work. Text search updates history with `replace` to avoid a browser-history entry for every keystroke; intentional filter, sort, and page actions create navigable history entries. Zustand is reserved for application UI state: the mobile filter Sheet and create-task dialog.
 
-### Focused summaries
+### Focused signals
 
-The task page exposes only the counts needed to decide where to look next: total, urgent, overdue, and unassigned work. The team page continues that approach with ownership and workload signals rather than a decorative analytics dashboard.
+The workspace uses status, priority, due-date, and ownership signals directly in each task view rather than a decorative analytics dashboard. The team page continues that approach with ownership and workload signals.
 
 ## Accessibility and responsive behavior
 

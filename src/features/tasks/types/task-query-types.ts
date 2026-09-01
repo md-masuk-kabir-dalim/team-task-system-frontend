@@ -34,12 +34,21 @@ export interface TaskSort {
   field: TaskSortField
 }
 
+export const taskViews = ['board', 'list', 'timeline'] as const
+
+export type TaskView = (typeof taskViews)[number]
+
+export function isTaskView(value: string): value is TaskView {
+  return taskViews.includes(value as TaskView)
+}
+
 export interface TaskListQuery {
   filters: TaskFilters
   page: number
   pageSize: number
   search: string
   sort: TaskSort
+  view: TaskView
 }
 
 export interface PaginationMetadata {

@@ -1,4 +1,4 @@
-import { CheckSquare2, Menu } from 'lucide-react'
+import { Droplets, Menu } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { appRoutes, getPageContext } from '../../lib/navigation.ts'
@@ -14,11 +14,11 @@ export function MobileHeader() {
 
   return (
     <header className="mobile-header">
-      <Link aria-label="Pulseboard tasks" className="brand brand--mobile" to={appRoutes.tasks}>
+      <Link aria-label="Hrivo tasks" className="brand brand--mobile" to={appRoutes.tasks}>
         <span aria-hidden="true" className="brand__mark">
-          <CheckSquare2 size={18} strokeWidth={2.4} />
+          <Droplets size={22} strokeWidth={2.4} />
         </span>
-        <span className="brand__name">Pulseboard</span>
+        <span className="brand__name">Hrivo</span>
       </Link>
 
       <p className="mobile-header__title">{pageContext.title}</p>

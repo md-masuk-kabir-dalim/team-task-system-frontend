@@ -15,13 +15,14 @@ describe('task query parameters', () => {
       page: 3,
       search: '  invoice  ',
       sort: { direction: 'desc', field: 'title' },
+      view: 'board',
     })
 
-    expect(params.toString()).toBe('search=invoice&status=blocked&priority=urgent&assignee=member-alex&due=overdue&sort=title&direction=desc&page=3')
+    expect(params.toString()).toBe('search=invoice&status=blocked&priority=urgent&assignee=member-alex&due=overdue&sort=title&direction=desc&page=3&view=board')
   })
 
   it('parses malformed values safely and preserves valid shareable state', () => {
-    const query = parseTaskListQuery(new URLSearchParams('search=design&status=blocked&priority=high&assignee=member-jamie&due=upcoming&sort=createdAt&direction=desc&page=2'))
+    const query = parseTaskListQuery(new URLSearchParams('search=design&status=blocked&priority=high&assignee=member-jamie&due=upcoming&sort=createdAt&direction=desc&page=2&view=timeline'))
 
     expect(query).toMatchObject({
       filters: {
@@ -33,6 +34,7 @@ describe('task query parameters', () => {
       page: 2,
       search: 'design',
       sort: { direction: 'desc', field: 'createdAt' },
+      view: 'timeline',
     })
 
     const fallback = parseTaskListQuery(new URLSearchParams('status=unknown&priority=critical&due=soon&sort=chaos&direction=sideways&page=-3'))
@@ -41,6 +43,7 @@ describe('task query parameters', () => {
       filters: { assigneeId: 'all', dueDate: 'all', priority: 'all', status: 'all' },
       page: 1,
       sort: { direction: 'asc', field: 'dueDate' },
+      view: 'list',
     })
   })
 })

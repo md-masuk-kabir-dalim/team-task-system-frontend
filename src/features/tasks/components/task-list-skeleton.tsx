@@ -11,6 +11,7 @@ export function TaskListSkeleton() {
           <Skeleton className="task-list-skeleton__metadata" shape="line" />
           <Skeleton className="task-list-skeleton__assignee" shape="line" />
           <Skeleton className="task-list-skeleton__metadata" shape="line" />
+          <Skeleton className="task-list-skeleton__assignee" shape="line" />
         </div>
       ))}
     </section>
