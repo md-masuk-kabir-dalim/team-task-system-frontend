@@ -2,9 +2,9 @@
 
 ## Comparison target
 
-- Source visual truth: dark desktop Calendar and Tasks-with-sidebar screenshots supplied in this conversation.
-- Intended implementation: `/calendar` and the shared desktop workspace sidebar.
-- Target state: a dark Hrivo workspace calendar plus an easy-to-scan Tasks sidebar with a clear active state, compact navigation, and an accessible desktop collapse control.
+- Source visual truth: dark desktop Calendar, Tasks-with-sidebar, and Employee Directory screenshots supplied in this conversation.
+- Intended implementation: `/calendar`, `/team`, and the shared desktop workspace sidebar.
+- Target state: a dark Hrivo workspace calendar, a streamlined Tasks sidebar, and a filterable employee directory with Board and List states.
 
 ## Evidence status
 
@@ -27,6 +27,11 @@
   - Evidence: the in-app browser connection is unavailable, so the active outline, compact sidebar, and collapse transition cannot be captured at the supplied desktop viewport.
   - Impact: the visual density and precise active-state alignment cannot be compared honestly with the latest sidebar reference.
   - Fix: connect the in-app browser, capture `/tasks` with the sidebar expanded and collapsed, then address any P0/P1/P2 differences.
+- [P1] Browser-rendered employee-directory fidelity verification is blocked.
+  - Location: `/team`.
+  - Evidence: the in-app browser connection is unavailable, so the directory header, employee-summary cards, board/list switch, and member-card density cannot be captured at the supplied desktop viewport.
+  - Impact: visual spacing, column sizing, responsive overflow, and the profile-inspector sheet cannot be compared honestly with the latest reference.
+  - Fix: connect the in-app browser, capture `/team` in Board and List states at the reference desktop viewport, then address any P0/P1/P2 differences.
 
 ## Implemented design and interaction work awaiting visual verification
 
@@ -36,6 +41,8 @@
 - Added Zustand-backed calendar view, selected date, category visibility, and import-feedback state; the calendar page has no local interaction state.
 - Added a direct Zustand store test for date navigation, filters, views, and import feedback.
 - Added a shared Zustand sidebar preference, an accessible collapse/expand control, keyboard focus treatment, and a more distinguishable active navigation state.
+- Rebuilt `/team` as a reusable employee directory with a dark reference-aligned header, summary cards, department board, paginated list, CSV export, employee inspector, and form-driven employee creation.
+- Added a dedicated Zustand directory store for view, search, department filtering, selection, pagination, profile-inspector, and creation-form state, plus direct store coverage.
 
 ## Required fidelity surfaces
 
@@ -52,6 +59,7 @@
 - [x] Store calendar UI state in Zustand.
 - [x] Verify build, lint, unit tests, and diff safety.
 - [x] Improve shared sidebar scanability and desktop density with shared Zustand UI state.
+- [x] Build reusable employee board/list surfaces backed by dedicated Zustand state.
 - [ ] Capture and compare the browser-rendered calendar against the supplied reference.
 
 ## Comparison history

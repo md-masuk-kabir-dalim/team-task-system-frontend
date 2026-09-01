@@ -1338,7 +1338,20 @@
   color: var(--color-text-disabled);
 }
 
+.button__content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.button__content > svg {
+  flex: 0 0 auto;
+}
+
 .button__spinner {
+  flex: 0 0 auto;
   animation: spin 800ms linear infinite;
 }
 
