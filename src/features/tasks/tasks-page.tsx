@@ -29,7 +29,7 @@ export function TasksPage() {
 
       {isInitialLoading ? <TaskListSkeleton /> : null}
 
-      {error ? (
+      {error && !result ? (
         <ErrorState
           description="Something went wrong while loading the task list. Your work has not been changed."
           onRetry={retry}
@@ -39,6 +39,12 @@ export function TasksPage() {
 
       {result ? (
         <div aria-busy={isRefreshing || undefined} className="task-workspace">
+          {error ? (
+            <section aria-live="assertive" className="task-workspace__refresh-error" role="alert">
+              <p>We couldn't update this view. You are seeing the last loaded task list.</p>
+              <Button onClick={retry} size="sm" variant="secondary">Retry</Button>
+            </section>
+          ) : null}
           <TaskSummary summary={result.summary} />
           <TaskFilterBar
             currentMemberId={result.currentMemberId}

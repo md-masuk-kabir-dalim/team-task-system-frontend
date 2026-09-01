@@ -210,6 +210,25 @@
   padding-inline: var(--space-3);
 }
 
+.topbar__search:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 0.1875rem var(--color-primary-subtle);
+}
+
+.topbar__search input {
+  min-width: 0;
+  flex: 1 1 auto;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--color-text);
+  font: inherit;
+}
+
+.topbar__search input::placeholder {
+  color: var(--color-text-subtle);
+}
+
 .topbar__search-hint {
   margin-left: auto;
   border: 1px solid var(--color-border);
@@ -444,6 +463,25 @@
   font-size: var(--font-size-caption);
   font-weight: var(--font-weight-semibold);
   padding: var(--space-1) var(--space-3);
+}
+
+.task-workspace__refresh-error {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  border: 1px solid var(--color-warning);
+  border-radius: var(--radius-md);
+  background: var(--color-warning-subtle);
+  color: var(--color-warning);
+  font-size: var(--font-size-body-sm);
+  line-height: var(--line-height-normal);
+  padding: var(--space-3) var(--space-4);
+}
+
+.task-workspace__refresh-error .button {
+  flex: 0 0 auto;
 }
 
 .task-filter-bar {
@@ -1222,37 +1260,43 @@
   padding-inline: var(--space-3);
 }
 
+.button--icon {
+  width: 2.75rem;
+  min-width: 2.75rem;
+  padding-inline: var(--space-0);
+}
+
 .button--lg {
   min-height: 3rem;
   padding-inline: var(--space-5);
 }
 
-.button--color-primary {
+.button--primary {
   background: var(--color-primary);
   color: var(--color-text-on-primary);
 }
 
-.button--color-primary:hover:not(:disabled) {
+.button--primary:hover:not(:disabled) {
   background: var(--color-primary-hover);
 }
 
-.button--color-primary:active:not(:disabled) {
+.button--primary:active:not(:disabled) {
   background: var(--color-primary-active);
 }
 
-.button--color-secondary {
+.button--secondary {
   border-color: var(--color-border);
   background: var(--color-surface);
   color: var(--color-text);
 }
 
-.button--color-secondary:hover:not(:disabled),
-.icon-button--color-secondary:hover:not(:disabled) {
+.button--secondary:hover:not(:disabled),
+.icon-button--secondary:hover:not(:disabled) {
   background: var(--color-secondary-hover);
 }
 
-.button--color-secondary:active:not(:disabled),
-.icon-button--color-secondary:active:not(:disabled) {
+.button--secondary:active:not(:disabled),
+.icon-button--secondary:active:not(:disabled) {
   background: var(--color-secondary-active);
 }
 
@@ -1267,12 +1311,12 @@
   color: var(--color-text);
 }
 
-.button--color-danger {
+.button--danger {
   background: var(--color-danger);
   color: var(--color-text-on-primary);
 }
 
-.button--color-danger:hover:not(:disabled) {
+.button--danger:hover:not(:disabled) {
   background: var(--color-danger);
   box-shadow: var(--shadow-sm);
 }
@@ -1313,7 +1357,7 @@
   background: transparent;
 }
 
-.icon-button--color-secondary {
+.icon-button--secondary {
   border-color: var(--color-border);
   background: var(--color-surface);
 }
@@ -1420,42 +1464,42 @@
   white-space: nowrap;
 }
 
-.badge--color-info {
+.badge--info {
   background: var(--color-info-subtle);
   color: var(--color-info);
 }
 
-.badge--color-success,
-.badge--color-status-done {
+.badge--success,
+.badge--done {
   background: var(--color-success-subtle);
   color: var(--color-success);
 }
 
-.badge--color-warning,
-.badge--color-priority-high {
+.badge--warning,
+.badge--high {
   background: var(--color-warning-subtle);
   color: var(--color-warning);
 }
 
-.badge--color-danger,
-.badge--color-priority-urgent {
+.badge--danger,
+.badge--urgent {
   background: var(--color-danger-subtle);
   color: var(--color-danger);
 }
 
-.badge--color-status-todo,
-.badge--color-priority-low {
+.badge--todo,
+.badge--low {
   background: var(--color-status-todo-subtle);
   color: var(--color-status-todo);
 }
 
-.badge--color-status-in-progress,
-.badge--color-priority-medium {
+.badge--in-progress,
+.badge--medium {
   background: var(--color-status-in-progress-subtle);
   color: var(--color-status-in-progress);
 }
 
-.badge--color-status-blocked {
+.badge--blocked {
   background: var(--color-status-blocked-subtle);
   color: var(--color-status-blocked);
 }

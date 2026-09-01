@@ -1,11 +1,58 @@
-import { Bell, Search } from 'lucide-react'
-import { useLocation } from 'react-router-dom'
-import { getPageContext } from '../../lib/navigation.ts'
+import { Search } from 'lucide-react'
+import { useState } from 'react'
+import type { FormEvent } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { appRoutes, getPageContext } from '../../lib/navigation.ts'
 import { Avatar } from '../ui/avatar.tsx'
-import { IconButton } from '../ui/icon-button.tsx'
+
+function getSearchValue(search: string) {
+  return new URLSearchParams(search).get('search') ?? ''
+}
+
+interface GlobalTaskSearchProps {
+  pathname: string
+  search: string
+}
+
+function GlobalTaskSearch({ pathname, search }: GlobalTaskSearchProps) {
+  const navigate = useNavigate()
+  const [searchValue, setSearchValue] = useState(() => getSearchValue(search))
+
+  const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    const nextParams = new URLSearchParams(pathname === appRoutes.tasks ? search : undefined)
+    const normalizedSearch = searchValue.trim()
+
+    if (normalizedSearch) {
+      nextParams.set('search', normalizedSearch)
+    } else {
+      nextParams.delete('search')
+    }
+
+    nextParams.delete('page')
+    const nextSearch = nextParams.toString()
+    navigate({ pathname: appRoutes.tasks, search: nextSearch ? `?${nextSearch}` : '' })
+  }
+
+  return (
+    <form aria-label="Global search" className="topbar__search" onSubmit={handleSearchSubmit} role="search">
+      <Search aria-hidden="true" size={18} strokeWidth={1.9} />
+      <label className="sr-only" htmlFor="global-task-search">Search tasks and people</label>
+      <input
+        id="global-task-search"
+        onChange={(event) => setSearchValue(event.target.value)}
+        placeholder="Search tasks and people"
+        type="search"
+        value={searchValue}
+      />
+      <span aria-hidden="true" className="topbar__search-hint">Enter</span>
+    </form>
+  )
+}
 
 export function Topbar() {
-  const { pathname } = useLocation()
+  const { pathname, search } = useLocation()
   const pageContext = getPageContext(pathname)
 
   return (
@@ -15,16 +62,9 @@ export function Topbar() {
         <p className="topbar__title">{pageContext.title}</p>
       </div>
 
-      <div aria-label="Global search" className="topbar__search" role="search">
-        <Search aria-hidden="true" size={18} strokeWidth={1.9} />
-        <span>Search tasks and people</span>
-        <span aria-hidden="true" className="topbar__search-hint">Soon</span>
-      </div>
+      <GlobalTaskSearch key={`${pathname}${search}`} pathname={pathname} search={search} />
 
       <div className="topbar__actions">
-        <IconButton label="Notifications">
-          <Bell aria-hidden="true" size={19} strokeWidth={1.8} />
-        </IconButton>
         <div className="account-summary">
           <Avatar name="Alex Morgan" size="sm" />
           <span className="account-summary__name">Alex Morgan</span>

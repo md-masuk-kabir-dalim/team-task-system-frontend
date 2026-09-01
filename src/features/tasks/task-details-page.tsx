@@ -2,7 +2,6 @@ import { ArrowLeft, FileQuestion } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
 import { EmptyState } from '../../components/feedback/empty-state.tsx'
 import { ErrorState } from '../../components/feedback/error-state.tsx'
-import { PageIntro } from '../../components/layout/page-intro.tsx'
 import { appRoutes } from '../../lib/navigation.ts'
 import { updateTaskStatus } from './api/task-service.ts'
 import { TaskDetails } from './components/task-details.tsx'
@@ -24,11 +23,10 @@ export function TaskDetailsPage() {
 
   return (
     <section className="page">
-      <PageIntro
-        description="Review the context and ownership behind this piece of work."
-        eyebrow="Task workspace"
-        title="Task details"
-      />
+      <Link className="text-link" to={appRoutes.tasks}>
+        <ArrowLeft aria-hidden="true" size={17} />
+        Back to tasks
+      </Link>
 
       {isLoading ? <TaskDetailsSkeleton /> : null}
       {error ? (

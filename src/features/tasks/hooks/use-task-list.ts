@@ -5,7 +5,7 @@ import type { TaskListQuery } from '../types/task-query-types.ts'
 
 type TaskListState =
   | { result: TaskListResult; status: 'success' }
-  | { status: 'error'; error: Error }
+  | { error: Error; result: TaskListResult | null; status: 'error' }
   | { result: TaskListResult | null; status: 'loading' }
 
 export function useTaskList(query: TaskListQuery) {
@@ -17,10 +17,7 @@ export function useTaskList(query: TaskListQuery) {
 
     queueMicrotask(() => {
       if (isCurrent) {
-        setState((currentState) => ({
-          result: currentState.status === 'success' ? currentState.result : currentState.status === 'loading' ? currentState.result : null,
-          status: 'loading',
-        }))
+        setState((currentState) => ({ result: currentState.result, status: 'loading' }))
       }
     })
 
@@ -32,10 +29,11 @@ export function useTaskList(query: TaskListQuery) {
       })
       .catch((error: unknown) => {
         if (isCurrent) {
-          setState({
+          setState((currentState) => ({
             error: error instanceof Error ? error : new Error('Unable to load tasks. Please try again.'),
+            result: currentState.result,
             status: 'error',
-          })
+          }))
         }
       })
 
@@ -50,7 +48,7 @@ export function useTaskList(query: TaskListQuery) {
     error: state.status === 'error' ? state.error : null,
     isInitialLoading: state.status === 'loading' && state.result === null,
     isRefreshing: state.status === 'loading' && state.result !== null,
-    result: state.status === 'success' || state.status === 'loading' ? state.result : null,
+    result: state.result,
     retry,
   }
 }
