@@ -1,4 +1,4 @@
-# Hrivo Team Task System
+# Team Task System
 
 A responsive React task-management frontend for the WEBNS practical exercise. The product focuses on a team finding, sharing, creating, and moving work quickly; Calendar and Team Management are supporting workspace views built from the same in-memory task domain.
 
@@ -31,6 +31,7 @@ Open the Vite URL printed in the terminal. The primary route is `/tasks`; suppor
 - URL-backed task views. Search, filters, sorting, pagination, and view are shareable, for example: `/tasks?status=review&priority=urgent&sort=title&direction=desc&page=2&view=board`.
 - Responsive layouts for 1280px desktop, 768px tablet, and 375px mobile. The task List becomes cards, the Timeline becomes stacked task rows, the Calendar uses a focused day view on compact screens, and the Team List uses cards instead of a scrollable table.
 - A Team Management directory with Board/List modes, shareable URL-backed search/department/page/view state, CSV export, employee creation, selection, and an inspector. Zustand owns ephemeral UI state; URL query parameters own shareable directory state.
+- Employee Details pages at `/team/:employeeId`, linked from the Team Board and List, with editable profile fields, contact actions, work/personal information, and honest text-document downloads.
 - New employees are registered as task assignees immediately, so the Task form and task search use the same source of team members.
 
 ## Data model and boundaries

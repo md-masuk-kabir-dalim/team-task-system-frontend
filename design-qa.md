@@ -2,9 +2,9 @@
 
 ## Comparison target
 
-- Source visual truth: dark desktop Calendar, Tasks-with-sidebar, and Employee Directory screenshots supplied in this conversation.
-- Intended implementation: `/calendar`, `/team`, and the shared desktop workspace sidebar.
-- Target state: a dark Hrivo workspace calendar, a streamlined Tasks sidebar, and a filterable employee directory with Board and List states.
+- Source visual truth: dark desktop Calendar, Tasks-with-sidebar, Employee Directory, and Employee Details screenshots supplied in this conversation.
+- Intended implementation: `/calendar`, `/team`, `/team/:employeeId`, and the shared desktop workspace sidebar.
+- Target state: a dark workspace calendar, a streamlined Tasks sidebar, a filterable employee directory, and a full employee profile page.
 
 ## Evidence status
 
@@ -32,6 +32,11 @@
   - Evidence: the in-app browser connection is unavailable, so the directory header, employee-summary cards, board/list switch, and member-card density cannot be captured at the supplied desktop viewport.
   - Impact: visual spacing, column sizing, responsive overflow, and the profile-inspector sheet cannot be compared honestly with the latest reference.
   - Fix: connect the in-app browser, capture `/team` in Board and List states at the reference desktop viewport, then address any P0/P1/P2 differences.
+- [P1] Browser-rendered employee-details fidelity verification is blocked.
+  - Location: `/team/:employeeId`.
+  - Evidence: the supplied profile-page reference cannot be compared with the new implementation because the in-app browser connection is unavailable.
+  - Impact: profile-card dimensions, information-grid density, documents card, and tablet/mobile stacking cannot be visually compared honestly.
+  - Fix: connect the in-app browser, capture `/team/EMP-002` at the supplied desktop viewport and the required tablet/mobile widths, then address any P0/P1/P2 differences.
 
 ## Implemented design and interaction work awaiting visual verification
 
@@ -44,12 +49,13 @@
 - Rebuilt `/team` as a reusable employee directory with a dark reference-aligned header, summary cards, department board, paginated list, CSV export, employee inspector, and form-driven employee creation.
 - Added URL-backed Team search, department, page, and view state; Zustand retains only ephemeral selection, profile-inspector, and creation-form state. New employees are registered as task assignees during the active session.
 - Normalized the workflow language to `To do`, `In progress`, `In review`, and `Completed`; exposed pagination in List, Board, and Timeline; and added responsive Timeline, Calendar, and Team List fallbacks to remove their horizontal-scroll dependency.
+- Added a routed Employee Details page backed by the Team directory store, including personal/work information, contact actions, editable directory fields, and downloadable text summaries.
 
 ## Required fidelity surfaces
 
-- Fonts and typography: implemented with the existing Hrivo font and compact desktop scale; browser comparison blocked.
+- Fonts and typography: implemented with the existing application font and compact desktop scale; browser comparison blocked.
 - Spacing and layout rhythm: implemented with reference-inspired sidebar/grid proportions and responsive collapse; browser comparison blocked.
-- Colors and visual tokens: uses the existing Hrivo deep navy palette with blue, green, violet, and amber event categories; browser comparison blocked.
+- Colors and visual tokens: uses the existing deep navy palette with blue, green, violet, and amber event categories; browser comparison blocked.
 - Image and asset fidelity: reuses the existing application logo, avatar component, and icon library; no new raster assets were required by the task calendar UI.
 - Copy and content: calendar labels, range controls, and cards use live task titles and task due dates; browser comparison blocked.
 
@@ -61,6 +67,7 @@
 - [x] Verify build, lint, unit tests, and diff safety.
 - [x] Improve shared sidebar scanability and desktop density with shared Zustand UI state.
 - [x] Build reusable employee board/list surfaces with URL-backed shareable views and dedicated Zustand UI state.
+- [x] Build a reusable responsive Employee Details route linked from Team directory members.
 - [ ] Capture and compare the browser-rendered calendar against the supplied reference.
 
 ## Comparison history

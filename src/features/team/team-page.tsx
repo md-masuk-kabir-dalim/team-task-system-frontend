@@ -1,12 +1,13 @@
 import { ChevronLeft, ChevronRight, Plus, Upload } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import { Button } from '../../components/ui/button.tsx'
+import { appRoutes } from '../../lib/navigation.ts'
 import { useTeamDirectoryStore } from '../../stores/team-directory-store.ts'
 import { TeamDirectoryBoard } from './components/team-directory-board.tsx'
 import { TeamDirectoryList } from './components/team-directory-list.tsx'
 import { TeamDirectorySummary } from './components/team-directory-summary.tsx'
 import { TeamDirectoryToolbar } from './components/team-directory-toolbar.tsx'
 import { TeamMemberCreateForm } from './components/team-member-create-form.tsx'
-import { TeamMemberInspector } from './components/team-member-inspector.tsx'
 import { useTeamDirectoryQueryParams } from './hooks/use-team-directory-query-params.ts'
 import { filterEmployees, getEmployeeStats, toEmployeeCsv } from './utils/team-directory-utils.ts'
 
@@ -30,12 +31,11 @@ export function TeamPage() {
   const isCreateFormOpen = useTeamDirectoryStore((state) => state.isCreateFormOpen)
   const openCreateForm = useTeamDirectoryStore((state) => state.openCreateForm)
   const closeCreateForm = useTeamDirectoryStore((state) => state.closeCreateForm)
-  const selectedEmployeeId = useTeamDirectoryStore((state) => state.selectedEmployeeId)
   const selectedEmployeeIds = useTeamDirectoryStore((state) => state.selectedEmployeeIds)
-  const setSelectedEmployee = useTeamDirectoryStore((state) => state.setSelectedEmployee)
   const toggleEmployeeSelection = useTeamDirectoryStore((state) => state.toggleEmployeeSelection)
   const toggleVisibleSelection = useTeamDirectoryStore((state) => state.toggleVisibleSelection)
   const updateCreateDraft = useTeamDirectoryStore((state) => state.updateCreateDraft)
+  const navigate = useNavigate()
   const { query, setDepartment, setPage, setSearch, setView } = useTeamDirectoryQueryParams()
   const { department, page, search, view } = query
 
@@ -44,7 +44,7 @@ export function TeamPage() {
   const pageCount = Math.max(1, Math.ceil(filteredEmployees.length / pageSize))
   const safePage = Math.min(page, pageCount)
   const visibleEmployees = filteredEmployees.slice((safePage - 1) * pageSize, safePage * pageSize)
-  const selectedEmployee = employees.find((employee) => employee.id === selectedEmployeeId)
+  const openEmployeeDetails = (employeeId: string) => navigate(appRoutes.teamDetails(employeeId))
 
   return (
     <section className="page page--team-directory">
@@ -88,13 +88,12 @@ export function TeamPage() {
         <TeamDirectoryBoard
           employees={filteredEmployees}
           onAddEmployee={openCreateForm}
-          onOpenEmployee={setSelectedEmployee}
         />
       ) : (
         <>
           <TeamDirectoryList
             employees={visibleEmployees}
-            onOpenEmployee={setSelectedEmployee}
+            onOpenEmployee={openEmployeeDetails}
             onToggleEmployee={toggleEmployeeSelection}
             onToggleVisible={() => toggleVisibleSelection(visibleEmployees.map((employee) => employee.id))}
             selectedEmployeeIds={selectedEmployeeIds}
@@ -108,8 +107,6 @@ export function TeamPage() {
           </nav>
         </>
       )}
-
-      {selectedEmployee ? <TeamMemberInspector employee={selectedEmployee} onClose={() => setSelectedEmployee(null)} /> : null}
     </section>
   )
 }

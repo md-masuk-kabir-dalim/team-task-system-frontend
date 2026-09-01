@@ -30,6 +30,8 @@ export interface EmployeeDraft {
   status: EmployeeStatus
 }
 
+export type EmployeeProfileUpdate = Pick<DirectoryEmployee, 'department' | 'designation' | 'phone' | 'status'>
+
 export const defaultEmployeeDraft: EmployeeDraft = {
   department: 'Design',
   designation: '',

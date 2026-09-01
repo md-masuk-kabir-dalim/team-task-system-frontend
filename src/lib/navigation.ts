@@ -7,6 +7,7 @@ export const appRoutes = {
   tasks: '/tasks',
   taskDetails: (taskId: string) => `/tasks/${taskId}`,
   team: '/team',
+  teamDetails: (employeeId: string) => `/team/${employeeId}`,
 } as const
 
 export const primaryNavigation: readonly NavigationItem[] = [
@@ -24,6 +25,10 @@ const pageContexts: Record<string, PageContext> = {
 export function getPageContext(pathname: string): PageContext {
   if (pathname.startsWith(`${appRoutes.tasks}/`)) {
     return { eyebrow: 'Work queue', title: 'Task details' }
+  }
+
+  if (pathname.startsWith(`${appRoutes.team}/`)) {
+    return { eyebrow: 'People', title: 'Employee details' }
   }
 
   return pageContexts[pathname] ?? { eyebrow: 'Workspace', title: 'Page not found' }

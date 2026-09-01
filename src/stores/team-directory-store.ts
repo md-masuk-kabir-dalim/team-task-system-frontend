@@ -6,21 +6,21 @@ import {
   type DirectoryEmployee,
   type EmployeeDepartment,
   type EmployeeDraft,
+  type EmployeeProfileUpdate,
 } from '../features/team/types/team-directory-types.ts'
 
 interface TeamDirectoryStore {
   createDraft: EmployeeDraft
   employees: readonly DirectoryEmployee[]
   isCreateFormOpen: boolean
-  selectedEmployeeId: string | null
   selectedEmployeeIds: readonly string[]
   closeCreateForm: () => void
   createEmployee: () => void
   openCreateForm: (department?: EmployeeDepartment) => void
-  setSelectedEmployee: (employeeId: string | null) => void
   toggleEmployeeSelection: (employeeId: string) => void
   toggleVisibleSelection: (employeeIds: readonly string[]) => void
   updateCreateDraft: (values: Partial<EmployeeDraft>) => void
+  updateEmployee: (employeeId: string, values: Partial<EmployeeProfileUpdate>) => void
 }
 
 function getNewEmployeeId(employees: readonly DirectoryEmployee[]) {
@@ -47,7 +47,6 @@ export const useTeamDirectoryStore = create<TeamDirectoryStore>((set, get) => ({
       createDraft: defaultEmployeeDraft,
       employees: [...employees, employee],
       isCreateFormOpen: false,
-      selectedEmployeeId: employee.id,
     })
   },
   employees: teamDirectoryFixtures,
@@ -56,9 +55,7 @@ export const useTeamDirectoryStore = create<TeamDirectoryStore>((set, get) => ({
     createDraft: { ...defaultEmployeeDraft, department: department ?? defaultEmployeeDraft.department },
     isCreateFormOpen: true,
   }),
-  selectedEmployeeId: null,
   selectedEmployeeIds: [],
-  setSelectedEmployee: (selectedEmployeeId) => set({ selectedEmployeeId }),
   toggleEmployeeSelection: (employeeId) => set((state) => ({
     selectedEmployeeIds: state.selectedEmployeeIds.includes(employeeId)
       ? state.selectedEmployeeIds.filter((id) => id !== employeeId)
@@ -73,4 +70,7 @@ export const useTeamDirectoryStore = create<TeamDirectoryStore>((set, get) => ({
     return { selectedEmployeeIds }
   }),
   updateCreateDraft: (values) => set((state) => ({ createDraft: { ...state.createDraft, ...values } })),
+  updateEmployee: (employeeId, values) => set((state) => ({
+    employees: state.employees.map((employee) => employee.id === employeeId ? { ...employee, ...values } : employee),
+  })),
 }))

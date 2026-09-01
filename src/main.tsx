@@ -6,7 +6,7 @@ import './styles/global.css'
 import './styles/utilities.css'
 import './styles/app.css'
 import './styles/kanban-sortable.css'
-import './styles/hrivo-dark.css'
+import './styles/workspace-dark.css'
 import { App } from './app/app.tsx'
 
 const rootElement = document.getElementById('root')

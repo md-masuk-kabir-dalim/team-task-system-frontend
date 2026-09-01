@@ -10,7 +10,6 @@ describe('team directory store', () => {
       createDraft: defaultEmployeeDraft,
       employees: teamDirectoryFixtures,
       isCreateFormOpen: false,
-      selectedEmployeeId: null,
       selectedEmployeeIds: [],
     })
   })
@@ -35,7 +34,6 @@ describe('team directory store', () => {
     expect(state.selectedEmployeeIds).toEqual(['EMP-002'])
     expect(createdEmployee).toMatchObject({ department: 'Marketing', id: 'EMP-013', name: 'New Employee', taskMemberId: 'EMP-013' })
     expect(taskList.members).toContainEqual({ email: 'new.employee@webns.example', id: 'EMP-013', name: 'New Employee' })
-    expect(state.selectedEmployeeId).toBe('EMP-013')
     expect(state.isCreateFormOpen).toBe(false)
   })
 })

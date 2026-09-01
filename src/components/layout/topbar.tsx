@@ -71,7 +71,7 @@ export function Topbar() {
 
   const toggleAppearance = () => {
     const nextHighContrast = !isHighContrast
-    document.documentElement.classList.toggle('hrivo-high-contrast', nextHighContrast)
+    document.documentElement.classList.toggle('workspace-high-contrast', nextHighContrast)
     toggleHighContrast()
     setFeedback(nextHighContrast ? 'High-contrast appearance enabled.' : 'Standard appearance restored.')
   }
@@ -81,7 +81,7 @@ export function Topbar() {
 
     try {
       if (navigator.share) {
-        await navigator.share({ title: 'Hrivo workspace', url: shareUrl })
+        await navigator.share({ title: 'Team workspace', url: shareUrl })
         setFeedback('Workspace share sheet opened.')
       } else if (navigator.clipboard?.writeText) {
         await navigator.clipboard.writeText(shareUrl)

@@ -6,7 +6,6 @@ import { groupEmployeesByDepartment } from '../utils/team-directory-utils.ts'
 interface TeamDirectoryBoardProps {
   employees: readonly DirectoryEmployee[]
   onAddEmployee: (department: EmployeeDepartment) => void
-  onOpenEmployee: (employeeId: string) => void
 }
 
 const departmentTone: Record<EmployeeDepartment, string> = {
@@ -16,7 +15,7 @@ const departmentTone: Record<EmployeeDepartment, string> = {
   Marketing: 'pink',
 }
 
-export function TeamDirectoryBoard({ employees, onAddEmployee, onOpenEmployee }: TeamDirectoryBoardProps) {
+export function TeamDirectoryBoard({ employees, onAddEmployee }: TeamDirectoryBoardProps) {
   const groups = groupEmployeesByDepartment(employees)
   const visibleDepartments = employeeDepartments.filter((department) => (groups[department]?.length ?? 0) > 0)
 
@@ -35,7 +34,7 @@ export function TeamDirectoryBoard({ employees, onAddEmployee, onOpenEmployee }:
               </button>
             </header>
             <div className="team-department-column__cards">
-              {members.map((employee) => <TeamMemberCard employee={employee} key={employee.id} onOpen={onOpenEmployee} />)}
+              {members.map((employee) => <TeamMemberCard employee={employee} key={employee.id} />)}
             </div>
           </section>
         )

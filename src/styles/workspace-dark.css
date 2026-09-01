@@ -264,7 +264,7 @@ body,
   padding: 0.5rem 0.75rem;
 }
 
-.hrivo-high-contrast {
+.workspace-high-contrast {
   --color-background: #020509;
   --color-border: #526b85;
   --color-text-muted: #cad8e6;
@@ -379,7 +379,7 @@ body,
   background: #151c25;
   padding: 1rem;
   grid-template-rows: 2.375rem minmax(0, 1fr) 2.75rem;
-  animation: hrivo-column-enter 360ms both cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation: workspace-column-enter 360ms both cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .task-board__column:nth-child(2) {
@@ -472,7 +472,7 @@ body,
   background: #141a23;
   box-shadow: none;
   padding: 0.875rem;
-  animation: hrivo-card-enter 260ms both cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation: workspace-card-enter 260ms both cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .task-board-card:hover {
@@ -2190,10 +2190,19 @@ body,
   justify-content: space-between;
 }
 
-.team-member-card > header .icon-button {
+.team-member-card__details-action {
+  display: grid;
   width: 1.5rem;
   height: 1.5rem;
+  place-items: center;
+  border-radius: 0.375rem;
   color: #9cafc4;
+  text-decoration: none;
+}
+
+.team-member-card__details-action:hover {
+  background: #202b3a;
+  color: #f1f6fb;
 }
 
 .employee-status {
@@ -2236,6 +2245,11 @@ body,
   gap: 0.25rem;
   min-width: 0;
   text-align: center;
+  text-decoration: none;
+}
+
+.team-member-card__identity:hover h3 {
+  color: #54c5ff;
 }
 
 .team-member-card__identity .avatar {
@@ -2477,7 +2491,7 @@ body,
   background: #151d28;
   box-shadow: -1rem 1rem 3rem rgb(0 0 0 / 0.38);
   padding: 1rem;
-  animation: hrivo-sheet-enter 180ms ease-out both;
+  animation: workspace-sheet-enter 180ms ease-out both;
 }
 
 .team-member-inspector > header,
@@ -2842,14 +2856,14 @@ body,
 .sheet::backdrop {
   background: rgb(2 7 13 / 0.78);
   backdrop-filter: blur(0.25rem);
-  animation: hrivo-backdrop-in 180ms ease-out both;
+  animation: workspace-backdrop-in 180ms ease-out both;
 }
 
 .dialog__content {
   border-color: #2d394c;
   border-radius: 1.5rem;
   box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 0.48);
-  animation: hrivo-modal-enter 220ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation: workspace-modal-enter 220ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 .dialog__header,
@@ -2878,12 +2892,12 @@ body,
 .sheet__content {
   border-left-color: #2d394c;
   box-shadow: -1.25rem 0 3.5rem rgb(0 0 0 / 0.38);
-  animation: hrivo-sheet-enter 240ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation: workspace-sheet-enter 240ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 .sheet--bottom .sheet__content {
   border-top-color: #2d394c;
-  animation-name: hrivo-bottom-sheet-enter;
+  animation-name: workspace-bottom-sheet-enter;
 }
 
 .task-table th,
@@ -2916,7 +2930,7 @@ body,
   color: #7f8ea3;
 }
 
-@keyframes hrivo-column-enter {
+@keyframes workspace-column-enter {
   from {
     opacity: 0;
     transform: translateY(0.75rem);
@@ -2928,7 +2942,7 @@ body,
   }
 }
 
-@keyframes hrivo-card-enter {
+@keyframes workspace-card-enter {
   from {
     opacity: 0;
     transform: translateY(0.5rem) scale(0.985);
@@ -2940,7 +2954,7 @@ body,
   }
 }
 
-@keyframes hrivo-backdrop-in {
+@keyframes workspace-backdrop-in {
   from {
     opacity: 0;
   }
@@ -2950,7 +2964,7 @@ body,
   }
 }
 
-@keyframes hrivo-modal-enter {
+@keyframes workspace-modal-enter {
   from {
     opacity: 0;
     transform: translateY(0.75rem) scale(0.98);
@@ -2962,7 +2976,7 @@ body,
   }
 }
 
-@keyframes hrivo-sheet-enter {
+@keyframes workspace-sheet-enter {
   from {
     opacity: 0;
     transform: translateX(1.25rem);
@@ -2974,7 +2988,7 @@ body,
   }
 }
 
-@keyframes hrivo-bottom-sheet-enter {
+@keyframes workspace-bottom-sheet-enter {
   from {
     opacity: 0;
     transform: translateY(1.25rem);
@@ -3381,5 +3395,367 @@ body,
 
   .team-directory-list__cards {
     display: grid;
+  }
+}
+
+/* Employee details: a full profile page linked from the Team directory. */
+.page--employee-details {
+  display: grid;
+  gap: 0.875rem;
+}
+
+.employee-details__breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 1.5rem;
+  color: #8296ad;
+  font-size: 0.75rem;
+}
+
+.employee-details__breadcrumb a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: #a9c8df;
+  text-decoration: none;
+}
+
+.employee-details__breadcrumb a:hover {
+  color: #f1f7fc;
+}
+
+.employee-details__breadcrumb strong {
+  color: #eef4fa;
+  font-weight: var(--font-weight-semibold);
+}
+
+.employee-details__layout {
+  display: grid;
+  align-items: start;
+  grid-template-columns: minmax(17rem, 0.72fr) minmax(0, 1.45fr);
+  gap: 0.875rem;
+}
+
+.employee-details__sidebar,
+.employee-details__content {
+  display: grid;
+  gap: 0.875rem;
+}
+
+.employee-details__profile,
+.employee-details__contact,
+.employee-details__section {
+  border: 1px solid #273142;
+  border-radius: 1rem;
+  background: #141a23;
+  box-shadow: none;
+}
+
+.employee-details__profile {
+  display: grid;
+  justify-items: center;
+  gap: 0.375rem;
+  padding: 1.5rem 1rem 1rem;
+  text-align: center;
+}
+
+.employee-details__profile > .avatar {
+  width: 5.5rem;
+  height: 5.5rem;
+  border: 0.1875rem solid #263447;
+  font-size: 1.25rem;
+}
+
+.employee-details__profile h1 {
+  margin-top: 0.25rem;
+  color: #f3f7fb;
+  font-size: 1rem;
+  line-height: 1.3;
+}
+
+.employee-details__profile > p {
+  color: #9dafc4;
+  font-size: 0.75rem;
+}
+
+.employee-details__profile > .employee-status {
+  margin-top: 0.25rem;
+}
+
+.employee-details__actions {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.employee-details__actions .button,
+.employee-details__actions a {
+  display: inline-flex;
+  min-height: 2.375rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  border-radius: 0.75rem;
+  font-size: 0.75rem;
+  text-decoration: none;
+}
+
+.employee-details__actions a {
+  border: 1px solid #2c394c;
+  background: #151c26;
+  color: #a9bdd0;
+}
+
+.employee-details__actions a:hover {
+  border-color: #3a4c64;
+  background: #1c2634;
+  color: #f2f7fb;
+}
+
+.employee-details__editor {
+  display: grid;
+  width: 100%;
+  gap: 0.625rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid #273142;
+  padding-top: 1rem;
+  text-align: left;
+}
+
+.employee-details__editor label {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.employee-details__editor label > span {
+  color: #9cafc5;
+  font-size: 0.625rem;
+}
+
+.employee-details__editor input,
+.employee-details__editor select {
+  min-width: 0;
+  min-height: 2.125rem;
+  border: 1px solid #2d394b;
+  border-radius: 0.5rem;
+  background: #111822;
+  color: #e8f1f9;
+  font-size: 0.6875rem;
+  padding-inline: 0.625rem;
+}
+
+.employee-details__editor footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.employee-details__editor footer .button {
+  min-height: 2.125rem;
+  font-size: 0.6875rem;
+}
+
+.employee-details__contact {
+  padding: 1rem;
+}
+
+.employee-details__contact h2,
+.employee-details__section h2 {
+  color: #eef4fa;
+  font-size: 0.8125rem;
+  font-weight: var(--font-weight-semibold);
+}
+
+.employee-details__contact dl {
+  display: grid;
+  gap: 0.875rem;
+  margin: 1rem 0 0;
+}
+
+.employee-details__contact dl > div,
+.employee-details__grid > div {
+  display: grid;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.employee-details__contact dt,
+.employee-details__grid dt {
+  color: #8ca3bd;
+  font-size: 0.625rem;
+}
+
+.employee-details__contact dd,
+.employee-details__grid dd {
+  min-width: 0;
+  margin: 0;
+  color: #edf3f9;
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-medium);
+  overflow-wrap: anywhere;
+}
+
+.employee-details__contact-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.employee-details__contact-actions a {
+  display: inline-flex;
+  min-height: 2rem;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  border: 1px solid #2c4058;
+  border-radius: 0.625rem;
+  color: #9ed7f8;
+  font-size: 0.6875rem;
+  text-decoration: none;
+}
+
+.employee-details__contact-actions a:hover {
+  border-color: #20b2fb;
+  background: #112b3b;
+}
+
+.employee-details__section {
+  padding: 1.125rem;
+}
+
+.employee-details__section > header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #60caff;
+}
+
+.employee-details__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 3rem;
+  row-gap: 1.25rem;
+  margin: 1.125rem 0 0;
+}
+
+.employee-details__documents ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.625rem;
+  margin: 1.125rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.employee-details__documents li {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.625rem;
+  border: 1px solid #293547;
+  border-radius: 0.75rem;
+  background: #131923;
+  padding: 0.75rem;
+}
+
+.employee-details__document-icon {
+  display: grid;
+  width: 2.25rem;
+  height: 2.25rem;
+  place-items: center;
+  border-radius: 0.625rem;
+}
+
+.employee-details__document-icon--profile {
+  background: #11374f;
+  color: #52c5ff;
+}
+
+.employee-details__document-icon--work {
+  background: #103827;
+  color: #62dc9b;
+}
+
+.employee-details__documents li > span:nth-child(2) {
+  display: grid;
+  min-width: 0;
+  gap: 0.1875rem;
+}
+
+.employee-details__documents strong,
+.employee-details__documents small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.employee-details__documents strong {
+  color: #edf4fa;
+  font-size: 0.6875rem;
+}
+
+.employee-details__documents small {
+  color: #91a6bd;
+  font-size: 0.625rem;
+}
+
+.employee-details__documents .button {
+  width: 2rem;
+  height: 2rem;
+  min-height: 2rem;
+  color: #9ec7e3;
+}
+
+.employee-details__feedback {
+  position: fixed;
+  z-index: 4;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  border: 1px solid #276182;
+  border-radius: 0.625rem;
+  background: #112a3a;
+  color: #9bddff;
+  font-size: 0.75rem;
+  padding: 0.625rem 0.875rem;
+}
+
+@media (max-width: 71.99rem) {
+  .employee-details__layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .employee-details__sidebar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 47.99rem) {
+  .employee-details__sidebar,
+  .employee-details__grid,
+  .employee-details__documents ul {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .employee-details__profile,
+  .employee-details__contact,
+  .employee-details__section {
+    padding: 0.875rem;
+  }
+
+  .employee-details__actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .employee-details__feedback {
+    right: 1rem;
+    bottom: 1rem;
+    left: 1rem;
+    text-align: center;
   }
 }

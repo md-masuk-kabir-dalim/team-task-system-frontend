@@ -15,11 +15,11 @@ export function MobileHeader() {
 
   return (
     <header className="mobile-header">
-      <Link aria-label="Hrivo tasks" className="brand brand--mobile" to={appRoutes.tasks}>
+      <Link aria-label="Team tasks" className="brand brand--mobile" to={appRoutes.tasks}>
         <span aria-hidden="true" className="brand__mark">
           <Droplets size={22} strokeWidth={2.4} />
         </span>
-        <span className="brand__name">Hrivo</span>
+        <span className="brand__name">Team</span>
       </Link>
 
       <p className="mobile-header__title">{pageContext.title}</p>
