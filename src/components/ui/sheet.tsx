@@ -10,13 +10,14 @@ interface SheetProps {
   children: ReactNode
   description?: string
   footer?: ReactNode
+  id?: string
   onClose: () => void
   open: boolean
   side?: SheetSide
   title: string
 }
 
-export function Sheet({ children, description, footer, onClose, open, side = 'right', title }: SheetProps) {
+export function Sheet({ children, description, footer, id, onClose, open, side = 'right', title }: SheetProps) {
   const titleId = useId()
   const descriptionId = useId()
   const { dialogRef, handleBackdropClick, handleCancel } = useControlledDialog(open, onClose)
@@ -26,6 +27,7 @@ export function Sheet({ children, description, footer, onClose, open, side = 'ri
       aria-describedby={description ? descriptionId : undefined}
       aria-labelledby={titleId}
       className={`sheet sheet--${side}`}
+      id={id}
       onCancel={handleCancel}
       onClick={handleBackdropClick}
       ref={dialogRef}

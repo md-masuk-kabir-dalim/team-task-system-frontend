@@ -1,8 +1,7 @@
-import { CheckSquare2, MoreHorizontal } from 'lucide-react'
+import { CheckSquare2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { appRoutes } from '../../lib/navigation.ts'
 import { Avatar } from '../ui/avatar.tsx'
-import { IconButton } from '../ui/icon-button.tsx'
 import { NavigationLinks } from './navigation-links.tsx'
 
 export function Sidebar() {
@@ -28,9 +27,6 @@ export function Sidebar() {
           <p className="sidebar__account-name">Alex Morgan</p>
           <p className="sidebar__account-role">Product operations</p>
         </div>
-        <IconButton label="Account options" variant="ghost">
-          <MoreHorizontal aria-hidden="true" size={18} />
-        </IconButton>
       </div>
     </aside>
   )

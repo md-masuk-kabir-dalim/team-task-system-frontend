@@ -1,9 +1,9 @@
-import { CheckSquare2, Menu, X } from 'lucide-react'
+import { CheckSquare2, Menu } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { useEscapeKey } from '../../hooks/use-escape-key.ts'
 import { appRoutes, getPageContext } from '../../lib/navigation.ts'
 import { IconButton } from '../ui/icon-button.tsx'
+import { Sheet } from '../ui/sheet.tsx'
 import { NavigationLinks } from './navigation-links.tsx'
 
 export function MobileHeader() {
@@ -11,8 +11,6 @@ export function MobileHeader() {
   const { pathname } = useLocation()
   const closeNavigation = useCallback(() => setIsNavigationOpen(false), [])
   const pageContext = getPageContext(pathname)
-
-  useEscapeKey(isNavigationOpen, closeNavigation)
 
   return (
     <header className="mobile-header">
@@ -28,30 +26,26 @@ export function MobileHeader() {
       <IconButton
         aria-controls="mobile-navigation"
         aria-expanded={isNavigationOpen}
-        label={isNavigationOpen ? 'Close navigation' : 'Open navigation'}
-        onClick={() => setIsNavigationOpen((open) => !open)}
+        label="Open navigation"
+        onClick={() => setIsNavigationOpen(true)}
         variant="secondary"
       >
-        {isNavigationOpen ? <X aria-hidden="true" size={20} /> : <Menu aria-hidden="true" size={20} />}
+        <Menu aria-hidden="true" size={20} />
       </IconButton>
 
-      {isNavigationOpen ? (
-        <div className="mobile-navigation">
-          <button
-            aria-label="Close navigation"
-            className="mobile-navigation__backdrop"
-            onClick={closeNavigation}
-            type="button"
-          />
-          <nav aria-label="Mobile navigation" className="mobile-navigation__panel" id="mobile-navigation">
-            <div className="mobile-navigation__heading">
-              <span className="mobile-navigation__eyebrow">Workspace</span>
-              <span className="mobile-navigation__name">Webns product team</span>
-            </div>
-            <NavigationLinks onNavigate={closeNavigation} />
-          </nav>
+      <Sheet
+        description="Switch between workspace views."
+        id="mobile-navigation"
+        onClose={closeNavigation}
+        open={isNavigationOpen}
+        title="Navigation"
+      >
+        <div className="mobile-navigation__workspace">
+          <p className="mobile-navigation__eyebrow">Workspace</p>
+          <p className="mobile-navigation__name">Webns product team</p>
         </div>
-      ) : null}
+        <NavigationLinks onNavigate={closeNavigation} />
+      </Sheet>
     </header>
   )
 }
