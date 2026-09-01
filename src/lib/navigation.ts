@@ -4,6 +4,7 @@ import type { NavigationItem, PageContext } from '../types/navigation-types.ts'
 export const appRoutes = {
   root: '/',
   tasks: '/tasks',
+  taskDetails: (taskId: string) => `/tasks/${taskId}`,
   team: '/team',
 } as const
 
@@ -18,5 +19,9 @@ const pageContexts: Record<string, PageContext> = {
 }
 
 export function getPageContext(pathname: string): PageContext {
+  if (pathname.startsWith(`${appRoutes.tasks}/`)) {
+    return { eyebrow: 'Work queue', title: 'Task details' }
+  }
+
   return pageContexts[pathname] ?? { eyebrow: 'Workspace', title: 'Page not found' }
 }

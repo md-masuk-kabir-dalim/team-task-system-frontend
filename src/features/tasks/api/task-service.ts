@@ -9,7 +9,7 @@ import type {
   TaskSortField,
   TaskSummary,
 } from '../types/task-query-types.ts'
-import type { Task, TaskPriority } from '../types/task-types.ts'
+import type { Task, TaskPriority, TeamMember } from '../types/task-types.ts'
 import { getTodayDateKey, isTaskOverdue } from '../utils/task-date-utils.ts'
 
 const DEFAULT_DELAY_MS = 320
@@ -51,6 +51,7 @@ export interface TaskServiceOptions {
 
 export interface TaskListResult {
   items: readonly Task[]
+  members: readonly TeamMember[]
   pagination: PaginationMetadata
   summary: TaskSummary
 }
@@ -214,6 +215,7 @@ export async function listTasks(
 
   return resolveRequest({
     items,
+    members: teamMembers.map((member) => ({ ...member })),
     pagination,
     summary: createSummary(matchingTasks, today),
   }, options)

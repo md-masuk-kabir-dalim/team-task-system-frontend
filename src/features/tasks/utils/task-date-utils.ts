@@ -14,3 +14,16 @@ export function getTodayDateKey() {
 export function isTaskOverdue(task: Pick<Task, 'dueDate' | 'status'>, today = getTodayDateKey()) {
   return task.status !== 'done' && task.dueDate !== null && task.dueDate < today
 }
+
+export function formatTaskDueDate(dueDate: string | null) {
+  if (dueDate === null) {
+    return 'No due date'
+  }
+
+  if (dueDate === getTodayDateKey()) {
+    return 'Today'
+  }
+
+  return new Intl.DateTimeFormat(undefined, { day: 'numeric', month: 'short' })
+    .format(new Date(`${dueDate}T12:00:00`))
+}
