@@ -1,15 +1,16 @@
 import { Droplets, Menu } from 'lucide-react'
-import { useCallback, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { appRoutes, getPageContext } from '../../lib/navigation.ts'
+import { useUiStore } from '../../stores/ui-store.ts'
 import { IconButton } from '../ui/icon-button.tsx'
 import { Sheet } from '../ui/sheet.tsx'
 import { NavigationLinks } from './navigation-links.tsx'
 
 export function MobileHeader() {
-  const [isNavigationOpen, setIsNavigationOpen] = useState(false)
+  const closeNavigation = useUiStore((state) => state.closeMobileNavigation)
+  const isNavigationOpen = useUiStore((state) => state.isMobileNavigationOpen)
+  const openNavigation = useUiStore((state) => state.openMobileNavigation)
   const { pathname } = useLocation()
-  const closeNavigation = useCallback(() => setIsNavigationOpen(false), [])
   const pageContext = getPageContext(pathname)
 
   return (
@@ -27,7 +28,7 @@ export function MobileHeader() {
         aria-controls="mobile-navigation"
         aria-expanded={isNavigationOpen}
         label="Open navigation"
-        onClick={() => setIsNavigationOpen(true)}
+        onClick={openNavigation}
         variant="secondary"
       >
         <Menu aria-hidden="true" size={20} />

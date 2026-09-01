@@ -24,7 +24,7 @@ import type { CSSProperties } from 'react'
 import { Link } from 'react-router-dom'
 import { InlineError } from '../../../components/feedback/inline-error.tsx'
 import { appRoutes } from '../../../lib/navigation.ts'
-import { useTaskUiStore } from '../../../stores/task-ui-store.ts'
+import { useUiStore } from '../../../stores/ui-store.ts'
 import type { TaskMoveDestination } from '../api/task-service.ts'
 import type { Task, TaskStatus, TeamMember } from '../types/task-types.ts'
 import { formatTaskDueDate } from '../utils/task-date-utils.ts'
@@ -360,7 +360,7 @@ export function TaskBoard({ members, onTaskMove, tasks }: TaskBoardProps) {
   const dragPreviewRef = useRef<BoardOrder | null>(null)
   const dragStartOrderRef = useRef<BoardOrder | null>(null)
   const membersById = new Map(members.map((member) => [member.id, member]))
-  const openCreateTask = useTaskUiStore((state) => state.openCreateTask)
+  const openCreateTask = useUiStore((state) => state.openCreateTask)
   const boardTasks = tasks.map((task) => {
     const optimisticStatus = statusOverrides[task.id]
     return optimisticStatus ? { ...task, status: optimisticStatus } : task

@@ -1,54 +1,26 @@
-import { useCallback, useEffect, useState } from 'react'
-import { listTasks } from '../api/task-service.ts'
-import type { TaskListResult } from '../api/task-service.ts'
+import { useCallback, useEffect } from 'react'
+import { useTaskStore } from '../../../stores/task-store.ts'
 import type { TaskListQuery } from '../types/task-query-types.ts'
 
-type TaskListState =
-  | { result: TaskListResult; status: 'success' }
-  | { error: Error; result: TaskListResult | null; status: 'error' }
-  | { result: TaskListResult | null; status: 'loading' }
-
 export function useTaskList(query: TaskListQuery) {
-  const [state, setState] = useState<TaskListState>({ result: null, status: 'loading' })
-  const [requestVersion, setRequestVersion] = useState(0)
+  const error = useTaskStore((state) => state.listError)
+  const loadTaskList = useTaskStore((state) => state.loadList)
+  const result = useTaskStore((state) => state.list)
+  const status = useTaskStore((state) => state.listStatus)
 
   useEffect(() => {
-    let isCurrent = true
+    void loadTaskList(query)
+  }, [loadTaskList, query])
 
-    queueMicrotask(() => {
-      if (isCurrent) {
-        setState((currentState) => ({ result: currentState.result, status: 'loading' }))
-      }
-    })
-
-    void listTasks(query)
-      .then((result) => {
-        if (isCurrent) {
-          setState({ result, status: 'success' })
-        }
-      })
-      .catch((error: unknown) => {
-        if (isCurrent) {
-          setState((currentState) => ({
-            error: error instanceof Error ? error : new Error('Unable to load tasks. Please try again.'),
-            result: currentState.result,
-            status: 'error',
-          }))
-        }
-      })
-
-    return () => {
-      isCurrent = false
-    }
-  }, [query, requestVersion])
-
-  const retry = useCallback(() => setRequestVersion((version) => version + 1), [])
+  const retry = useCallback(() => {
+    void loadTaskList(query)
+  }, [loadTaskList, query])
 
   return {
-    error: state.status === 'error' ? state.error : null,
-    isInitialLoading: state.status === 'loading' && state.result === null,
-    isRefreshing: state.status === 'loading' && state.result !== null,
-    result: state.result,
+    error,
+    isInitialLoading: (status === 'idle' || status === 'loading') && result === null,
+    isRefreshing: status === 'loading' && result !== null,
+    result,
     retry,
   }
 }

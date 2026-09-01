@@ -2,6 +2,7 @@ import { ListTodo } from 'lucide-react'
 import { EmptyState } from '../../components/feedback/empty-state.tsx'
 import { ErrorState } from '../../components/feedback/error-state.tsx'
 import { Button } from '../../components/ui/button.tsx'
+import { useTaskStore } from '../../stores/task-store.ts'
 import { TaskBoard } from './components/task-board.tsx'
 import { TaskCreateControl } from './components/task-create-control.tsx'
 import { TaskFilterBar } from './components/task-filter-bar.tsx'
@@ -11,7 +12,7 @@ import { TaskListControls } from './components/task-list-controls.tsx'
 import { TaskListSkeleton } from './components/task-list-skeleton.tsx'
 import { TaskTimeline } from './components/task-timeline.tsx'
 import { TaskViewTabs } from './components/task-view-tabs.tsx'
-import { moveTask, type TaskMoveDestination } from './api/task-service.ts'
+import type { TaskMoveDestination } from './api/task-service.ts'
 import { useTaskList } from './hooks/use-task-list.ts'
 import { useTaskQueryParams } from './hooks/use-task-query-params.ts'
 import type { TaskStatus } from './types/task-types.ts'
@@ -19,10 +20,10 @@ import type { TaskStatus } from './types/task-types.ts'
 export function TasksPage() {
   const { clearView, query, setFilters, setPage, setSearch, setSort, setView } = useTaskQueryParams()
   const { error, isInitialLoading, isRefreshing, result, retry } = useTaskList(query)
+  const moveTask = useTaskStore((state) => state.moveTask)
 
   const handleBoardTaskMove = async (taskId: string, status: TaskStatus, destination: TaskMoveDestination) => {
     await moveTask({ destination, id: taskId, status })
-    retry()
   }
 
   return (
@@ -36,7 +37,7 @@ export function TasksPage() {
 
         {result ? (
           <div className="task-page-header__create">
-            <TaskCreateControl members={result.members} onCreated={retry} />
+            <TaskCreateControl members={result.members} />
           </div>
         ) : null}
 

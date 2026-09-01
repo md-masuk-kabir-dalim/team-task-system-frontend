@@ -5,27 +5,26 @@ import { Dialog } from '../../../components/ui/dialog.tsx'
 import { Sheet } from '../../../components/ui/sheet.tsx'
 import { useMediaQuery } from '../../../hooks/use-media-query.ts'
 import { appRoutes } from '../../../lib/navigation.ts'
-import { useTaskUiStore } from '../../../stores/task-ui-store.ts'
-import { createTask } from '../api/task-service.ts'
+import { useTaskStore } from '../../../stores/task-store.ts'
+import { useUiStore } from '../../../stores/ui-store.ts'
 import { TaskForm } from './task-form.tsx'
 import type { TeamMember } from '../types/task-types.ts'
 
 interface TaskCreateControlProps {
   members: readonly TeamMember[]
-  onCreated: () => void
 }
 
-export function TaskCreateControl({ members, onCreated }: TaskCreateControlProps) {
-  const closeCreateTask = useTaskUiStore((state) => state.closeCreateTask)
-  const isCreateTaskOpen = useTaskUiStore((state) => state.isCreateTaskOpen)
-  const openCreateTask = useTaskUiStore((state) => state.openCreateTask)
+export function TaskCreateControl({ members }: TaskCreateControlProps) {
+  const closeCreateTask = useUiStore((state) => state.closeCreateTask)
+  const createTask = useTaskStore((state) => state.createTask)
+  const isCreateTaskOpen = useUiStore((state) => state.isCreateTaskOpen)
+  const openCreateTask = useUiStore((state) => state.openCreateTask)
   const isMobile = useMediaQuery('(max-width: 767px)')
   const navigate = useNavigate()
 
   const handleSubmit = async (...[input]: Parameters<typeof createTask>) => {
     const task = await createTask(input)
     closeCreateTask()
-    onCreated()
     navigate(appRoutes.taskDetails(task.id))
   }
 

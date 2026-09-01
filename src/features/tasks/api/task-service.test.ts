@@ -6,6 +6,7 @@ import {
   listTasks,
   moveTask,
   TaskServiceError,
+  updateTask,
   updateTaskStatus,
 } from './task-service.ts'
 
@@ -74,5 +75,24 @@ describe('task service', () => {
     expect(updatedTask.status).toBe('done')
     expect(fetchedTask).toMatchObject({ id: createdTask.id, status: 'done' })
     expect(finalResult.pagination.totalItems).toBe(initialResult.pagination.totalItems + 1)
+  })
+
+  it('persists task-detail edits in the mock service', async () => {
+    const updatedTask = await updateTask('task-001', {
+      assigneeId: null,
+      description: 'Updated from the task details editor.',
+      dueDate: '2026-12-09',
+      priority: 'urgent',
+      title: 'Updated task details title',
+    }, { delayMs: 0 })
+    const fetchedTask = await getTaskById('task-001', { delayMs: 0 })
+
+    expect(updatedTask).toMatchObject({
+      assigneeId: null,
+      dueDate: '2026-12-09',
+      priority: 'urgent',
+      title: 'Updated task details title',
+    })
+    expect(fetchedTask).toMatchObject(updatedTask)
   })
 })

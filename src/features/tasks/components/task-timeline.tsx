@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react'
 import type { Task, TeamMember } from '../types/task-types.ts'
+import { formatTaskDueDate } from '../utils/task-date-utils.ts'
 
 interface TaskTimelineProps {
   members: readonly TeamMember[]
@@ -67,7 +68,7 @@ export function TaskTimeline({ members, tasks }: TaskTimelineProps) {
                 </div>
               </div>
               <span className={`task-timeline__bar task-timeline__bar--${task.status}`} style={barStyle}>
-                {task.dueDate ?? 'No due date'}
+                {formatTaskDueDate(task.dueDate)}
               </span>
             </article>
           )

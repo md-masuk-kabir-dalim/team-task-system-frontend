@@ -1,10 +1,9 @@
 import { ArrowDownUp, Filter, Search } from 'lucide-react'
-import { useState } from 'react'
 import type { ChangeEvent } from 'react'
 import { Button } from '../../../components/ui/button.tsx'
 import { Select } from '../../../components/ui/select.tsx'
 import { Sheet } from '../../../components/ui/sheet.tsx'
-import { useTaskUiStore } from '../../../stores/task-ui-store.ts'
+import { useUiStore } from '../../../stores/ui-store.ts'
 import type { DueDateFilter, TaskFilters, TaskSort } from '../types/task-query-types.ts'
 import type { TaskPriority, TaskStatus, TeamMember } from '../types/task-types.ts'
 
@@ -105,10 +104,12 @@ function TaskFilterFields({ filters, members, onFiltersChange }: Pick<TaskFilter
 }
 
 export function TaskFilterBar({ filters, members, onClear, onFiltersChange, onSearchChange, onSortChange, search, sort }: TaskFilterBarProps) {
-  const closeFilterSheet = useTaskUiStore((state) => state.closeFilterSheet)
-  const isFilterSheetOpen = useTaskUiStore((state) => state.isFilterSheetOpen)
-  const openFilterSheet = useTaskUiStore((state) => state.openFilterSheet)
-  const [isSortSheetOpen, setIsSortSheetOpen] = useState(false)
+  const closeFilterSheet = useUiStore((state) => state.closeFilterSheet)
+  const closeSortSheet = useUiStore((state) => state.closeSortSheet)
+  const isFilterSheetOpen = useUiStore((state) => state.isFilterSheetOpen)
+  const isSortSheetOpen = useUiStore((state) => state.isSortSheetOpen)
+  const openFilterSheet = useUiStore((state) => state.openFilterSheet)
+  const openSortSheet = useUiStore((state) => state.openSortSheet)
   const filterCount = getFilterCount(filters)
 
   return (
@@ -129,7 +130,7 @@ export function TaskFilterBar({ filters, members, onClear, onFiltersChange, onSe
           <Filter aria-hidden="true" size={16} />
           Filter{filterCount ? ` (${filterCount})` : ''}
         </Button>
-        <Button onClick={() => setIsSortSheetOpen(true)} variant="secondary">
+        <Button onClick={openSortSheet} variant="secondary">
           <ArrowDownUp aria-hidden="true" size={16} />
           Sort
         </Button>
@@ -150,7 +151,7 @@ export function TaskFilterBar({ filters, members, onClear, onFiltersChange, onSe
 
       <Sheet
         description="Choose how tasks are ordered in this view."
-        onClose={() => setIsSortSheetOpen(false)}
+        onClose={closeSortSheet}
         open={isSortSheetOpen}
         title="Sort tasks"
       >
@@ -169,7 +170,7 @@ export function TaskFilterBar({ filters, members, onClear, onFiltersChange, onSe
           />
         </div>
         <div className="task-filter-sheet__actions">
-          <Button onClick={() => setIsSortSheetOpen(false)}>Apply sort</Button>
+          <Button onClick={closeSortSheet}>Apply sort</Button>
         </div>
       </Sheet>
     </section>

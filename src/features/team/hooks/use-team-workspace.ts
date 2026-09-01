@@ -1,51 +1,24 @@
-import { useCallback, useEffect, useState } from 'react'
-import { listTeamWorkload } from '../../tasks/api/task-service.ts'
-import type { TeamMemberWorkload } from '../../tasks/api/task-service.ts'
-
-type TeamWorkspaceState =
-  | { members: readonly TeamMemberWorkload[]; status: 'success' }
-  | { error: Error; status: 'error' }
-  | { status: 'loading' }
+import { useCallback, useEffect } from 'react'
+import { useTeamWorkspaceStore } from '../../../stores/team-workspace-store.ts'
 
 export function useTeamWorkspace() {
-  const [state, setState] = useState<TeamWorkspaceState>({ status: 'loading' })
-  const [requestVersion, setRequestVersion] = useState(0)
+  const error = useTeamWorkspaceStore((state) => state.error)
+  const loadTeamWorkspace = useTeamWorkspaceStore((state) => state.load)
+  const members = useTeamWorkspaceStore((state) => state.members)
+  const status = useTeamWorkspaceStore((state) => state.status)
 
   useEffect(() => {
-    let isCurrent = true
+    void loadTeamWorkspace()
+  }, [loadTeamWorkspace])
 
-    queueMicrotask(() => {
-      if (isCurrent) {
-        setState({ status: 'loading' })
-      }
-    })
-
-    void listTeamWorkload()
-      .then((members) => {
-        if (isCurrent) {
-          setState({ members, status: 'success' })
-        }
-      })
-      .catch((error: unknown) => {
-        if (isCurrent) {
-          setState({
-            error: error instanceof Error ? error : new Error('Unable to load the team workspace. Please try again.'),
-            status: 'error',
-          })
-        }
-      })
-
-    return () => {
-      isCurrent = false
-    }
-  }, [requestVersion])
-
-  const retry = useCallback(() => setRequestVersion((version) => version + 1), [])
+  const retry = useCallback(() => {
+    void loadTeamWorkspace()
+  }, [loadTeamWorkspace])
 
   return {
-    error: state.status === 'error' ? state.error : null,
-    isLoading: state.status === 'loading',
-    members: state.status === 'success' ? state.members : null,
+    error,
+    isLoading: (status === 'idle' || status === 'loading') && members === null,
+    members,
     retry,
   }
 }

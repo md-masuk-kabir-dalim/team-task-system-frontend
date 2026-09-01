@@ -74,6 +74,14 @@ export interface CreateTaskInput {
   title: string
 }
 
+export interface UpdateTaskInput {
+  assigneeId: string | null
+  description: string | null
+  dueDate: string | null
+  priority: TaskPriority
+  title: string
+}
+
 export interface MoveTaskInput {
   destination: TaskMoveDestination
   id: string
@@ -333,6 +341,34 @@ export async function updateTaskStatus(
   return moveTask({ destination: { type: 'end' }, id, status }, options)
 }
 
+export async function updateTask(
+  id: string,
+  input: UpdateTaskInput,
+  options?: TaskServiceOptions,
+): Promise<Task> {
+  if (input.assigneeId !== null && !teamMemberById.has(input.assigneeId)) {
+    throw new TaskServiceError('The selected assignee is no longer available.')
+  }
+
+  await resolveRequest(undefined, options)
+
+  const currentTask = taskRecords.find((task) => task.id === id)
+
+  if (!currentTask) {
+    throw new TaskServiceError('This task could not be found.')
+  }
+
+  const updatedTask: Task = {
+    ...currentTask,
+    ...input,
+    updatedAt: new Date().toISOString(),
+  }
+
+  taskRecords = taskRecords.map((task) => task.id === id ? updatedTask : task)
+
+  return cloneTask(updatedTask)
+}
+
 export async function moveTask(
   { destination, id, status }: MoveTaskInput,
   options?: TaskServiceOptions,
@@ -399,5 +435,6 @@ export const taskService = {
   listTeamWorkload,
   listTasks,
   moveTask,
+  updateTask,
   updateTaskStatus,
 }
