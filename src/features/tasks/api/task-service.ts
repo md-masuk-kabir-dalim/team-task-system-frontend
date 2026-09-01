@@ -89,7 +89,7 @@ export class TaskServiceError extends Error {
 }
 
 function wait(duration: number) {
-  return new Promise<void>((resolve) => window.setTimeout(resolve, duration))
+  return new Promise<void>((resolve) => globalThis.setTimeout(resolve, duration))
 }
 
 function cloneTask(task: Task): Task {
