@@ -63,6 +63,7 @@ export function TaskBoard({ members, onStatusChange, tasks }: TaskBoardProps) {
 
   const handleDragStart = (event: DragEvent<HTMLElement>, taskId: string) => {
     event.dataTransfer.effectAllowed = 'move'
+    event.dataTransfer.dropEffect = 'move'
     event.dataTransfer.setData('text/plain', taskId)
     setDraggedTaskId(taskId)
     setMoveError(null)
@@ -90,10 +91,20 @@ export function TaskBoard({ members, onStatusChange, tasks }: TaskBoardProps) {
           <section
             className={`task-board__column task-board__column--${status}${isDropTarget ? ' task-board__column--drop-target' : ''}`}
             key={status}
+            onDragEnter={(event) => {
+              event.preventDefault()
+              setDropTarget((currentTarget) => currentTarget === status ? currentTarget : status)
+            }}
+            onDragLeave={(event) => {
+              const nextTarget = event.relatedTarget
+
+              if (!(nextTarget instanceof Node) || !event.currentTarget.contains(nextTarget)) {
+                setDropTarget((currentTarget) => currentTarget === status ? null : currentTarget)
+              }
+            }}
             onDragOver={(event) => {
               event.preventDefault()
               event.dataTransfer.dropEffect = 'move'
-              setDropTarget(status)
             }}
             onDrop={(event) => void handleDrop(event, status)}
           >
@@ -111,7 +122,11 @@ export function TaskBoard({ members, onStatusChange, tasks }: TaskBoardProps) {
               {columnTasks.length ? columnTasks.map((task) => (
                 <article
                   aria-busy={pendingTaskId === task.id || undefined}
-                  className={pendingTaskId === task.id ? 'task-board-card task-board-card--moving' : 'task-board-card'}
+                  className={[
+                    'task-board-card',
+                    pendingTaskId === task.id ? 'task-board-card--moving' : '',
+                    draggedTaskId === task.id ? 'task-board-card--dragging' : '',
+                  ].filter(Boolean).join(' ')}
                   draggable={pendingTaskId === null}
                   key={task.id}
                   onDragEnd={() => {
