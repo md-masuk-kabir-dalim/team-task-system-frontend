@@ -68,15 +68,13 @@ The following local captures show the responsive workspace on desktop and mobile
 
 ### Desktop calendar
 
-![Calendar workspace on a MacBook Air](docs/screenshots/calendar-desktop-macbook-air.png)
+<img src="docs/screenshots/calendar-desktop-macbook-air.png" alt="Calendar workspace on a MacBook Air" width="840" />
 
 ### Mobile task workspace
 
-![Task workspace on an iPhone SE](docs/screenshots/tasks-mobile-iphone-se.png)
-
-![Task workspace on a Xiaomi Mi 11i](docs/screenshots/tasks-mobile-xiaomi-mi-11i.png)
-
-![Task workspace on an iPhone 13 Pro](docs/screenshots/tasks-mobile-iphone-13-pro.png)
+<img src="docs/screenshots/tasks-mobile-iphone-se.png" alt="Task workspace on an iPhone SE" width="240" />
+<img src="docs/screenshots/tasks-mobile-xiaomi-mi-11i.png" alt="Task workspace on a Xiaomi Mi 11i" width="240" />
+<img src="docs/screenshots/tasks-mobile-iphone-13-pro.png" alt="Task workspace on an iPhone 13 Pro" width="240" />
 
 ## Least-confident decisions
 
