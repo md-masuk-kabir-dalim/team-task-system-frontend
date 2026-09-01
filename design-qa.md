@@ -2,35 +2,41 @@
 
 ## Comparison target
 
-- Source visual truth: the three Hrivo task-workspace screenshots supplied in the current conversation (Kanban, List, and Timeline desktop states).
-- Intended implementation: `/tasks` with `view=board`, the default List view, and `view=timeline`.
-- Reference state: desktop workspace with the dark navy sidebar, white utility header, bright cyan actions, compact task controls, and dense task content.
+- Source visual truth: the dark Hrivo Kanban desktop screenshots supplied in this conversation, including the close board-state reference with fixed column footers.
+- Intended implementation: `/tasks` in its default Kanban state.
+- Target state: desktop task workspace with a deep navy shell, cyan primary actions, dark cards, four status columns, internal card scrolling, and fixed dashed `Add Task` actions at each column footer.
 
 ## Evidence status
 
-- Implementation screenshot: unavailable.
-- Browser viewport, implementation pixel dimensions, CSS size, and density normalization: unavailable.
-- Full-view comparison: blocked because the in-app browser surface (`iab`) is not attached to this workspace.
-- Focused-region comparison: blocked for the same reason.
-- Primary interaction and console check: blocked because no browser surface is available.
+- Source visual target: available in the conversation.
+- Implementation browser capture: unavailable. The connected browser surface has no active browser instances.
+- Local implementation: Vite dev server responds at `/tasks`; production build, lint, and automated tests succeed.
+- Viewport, CSS size, density normalization, full-view comparison, focused-region comparison, console review, and interaction verification: blocked until a browser is connected.
 
 ## Findings
 
-- [P1] Browser-rendered fidelity check is unavailable.
-  - Location: all reference-matched task workspace states.
-  - Evidence: the browser connection reports that the in-app browser is unavailable.
-  - Impact: the implementation cannot be truthfully compared against the supplied screenshots at matched dimensions; visual fidelity, responsive overflow, and interaction polish remain unverified.
-  - Fix: attach an in-app browser surface, capture `/tasks`, `/tasks?view=board`, and `/tasks?view=timeline` at the reference desktop size plus 768px and 375px, then compare the captures with the supplied references and iterate on any P0/P1/P2 findings.
+- [P1] Browser-rendered fidelity check is blocked.
+  - Location: `/tasks` Kanban desktop view.
+  - Evidence: no in-app browser connection is available to capture the local implementation at the reference viewport.
+  - Impact: color, spacing, scroll behavior, generated-avatar crop, and control alignment cannot be honestly verified against the reference image.
+  - Fix: connect an in-app browser, capture `/tasks` at the source desktop dimensions, compare the two images, then address any P0/P1/P2 mismatches.
+
+## Implemented design changes awaiting visual verification
+
+- Reworked the app shell, sidebar, utility header, task panel, Kanban columns, cards, badges, and form surfaces to the reference dark navy palette and density.
+- Updated the board to use the reference’s `In review` label, compact priority dots, slim internal scrolling, and fixed bottom `Add Task` actions.
+- Made Kanban the default task view, retained drag-and-drop movement, and preserved the keyboard-accessible move control.
+- Added a generated profile image at `public/images/alex-morgan.png` for the visible account avatar.
 
 ## Implementation checklist
 
-- [x] Apply the reference palette, shell proportions, dense task-list treatment, Kanban columns, and Timeline bars.
-- [x] Keep filters, sort, task creation, navigation, and URL state functional.
-- [x] Support Kanban drag-and-drop status changes with a keyboard-accessible status-select alternative.
-- [ ] Capture and compare rendered desktop, tablet, and mobile views.
+- [x] Apply the dark visual system and reference-matched Kanban pattern.
+- [x] Keep task creation, filtering, view switching, and drag-and-drop behavior in scope.
+- [x] Build, lint, and automated tests pass.
+- [ ] Capture and compare the browser-rendered desktop view.
 
 ## Comparison history
 
-No visual comparison iteration was possible because no browser-rendered implementation screenshot could be captured.
+No rendered comparison could be performed because no browser surface is attached.
 
 final result: blocked

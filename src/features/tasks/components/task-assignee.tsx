@@ -12,7 +12,7 @@ export function TaskAssignee({ assignee }: TaskAssigneeProps) {
 
   return (
     <span className="task-assignee">
-      <Avatar name={assignee.name} size="sm" />
+      <Avatar {...(assignee.avatarUrl ? { src: assignee.avatarUrl } : {})} name={assignee.name} size="sm" />
       <span className="task-assignee__name">{assignee.name}</span>
     </span>
   )

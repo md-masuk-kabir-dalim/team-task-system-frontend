@@ -3,7 +3,7 @@ import type { TeamMember } from '../types/task-types.ts'
 export const currentTeamMemberId = 'member-alex'
 
 export const teamMembers: readonly TeamMember[] = [
-  { email: 'alex.morgan@webns.example', id: 'member-alex', name: 'Alex Morgan' },
+  { avatarUrl: '/images/alex-morgan.png', email: 'alex.morgan@webns.example', id: 'member-alex', name: 'Alex Morgan' },
   { email: 'jamie.chen@webns.example', id: 'member-jamie', name: 'Jamie Chen' },
   { email: 'samir.patel@webns.example', id: 'member-samir', name: 'Samir Patel' },
   { email: 'morgan.lee@webns.example', id: 'member-morgan', name: 'Morgan Lee' },

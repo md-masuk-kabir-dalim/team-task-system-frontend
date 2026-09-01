@@ -22,7 +22,7 @@ export function Sidebar() {
       <NavigationLinks />
 
       <div className="sidebar__account">
-        <Avatar name="Alex Morgan" size="sm" />
+        <Avatar name="Alex Morgan" size="sm" src="/images/alex-morgan.png" />
         <div className="sidebar__account-details">
           <p className="sidebar__account-name">Alex Morgan</p>
           <p className="sidebar__account-role">Product operations</p>

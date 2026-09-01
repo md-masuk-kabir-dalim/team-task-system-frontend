@@ -15,6 +15,7 @@ export function isTaskPriority(value: string): value is TaskPriority {
 }
 
 export interface TeamMember {
+  avatarUrl?: string
   email: string
   id: string
   name: string

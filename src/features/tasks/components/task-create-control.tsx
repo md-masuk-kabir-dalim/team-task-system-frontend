@@ -35,7 +35,7 @@ export function TaskCreateControl({ members, onCreated }: TaskCreateControlProps
     <>
       <Button onClick={openCreateTask}>
         <Plus aria-hidden="true" size={17} />
-        Create task
+        Add New Task
       </Button>
       {isMobile ? (
         <Sheet

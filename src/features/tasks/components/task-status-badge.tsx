@@ -1,3 +1,4 @@
+import { CircleCheck } from 'lucide-react'
 import { Badge } from '../../../components/ui/badge.tsx'
 import type { TaskStatus } from '../types/task-types.ts'
 
@@ -13,5 +14,10 @@ interface TaskStatusBadgeProps {
 }
 
 export function TaskStatusBadge({ status }: TaskStatusBadgeProps) {
-  return <Badge tone={status}>{statusLabels[status]}</Badge>
+  return (
+    <Badge tone={status}>
+      {status === 'done' ? <CircleCheck aria-hidden="true" size={13} strokeWidth={2.2} /> : null}
+      {statusLabels[status]}
+    </Badge>
+  )
 }

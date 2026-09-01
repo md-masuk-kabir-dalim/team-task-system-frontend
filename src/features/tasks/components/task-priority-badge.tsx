@@ -1,4 +1,4 @@
-import { Flag } from 'lucide-react'
+import { Circle } from 'lucide-react'
 import { Badge } from '../../../components/ui/badge.tsx'
 import type { TaskPriority } from '../types/task-types.ts'
 
@@ -16,7 +16,7 @@ interface TaskPriorityBadgeProps {
 export function TaskPriorityBadge({ priority }: TaskPriorityBadgeProps) {
   return (
     <Badge tone={priority}>
-      <Flag aria-hidden="true" size={12} strokeWidth={2.2} />
+      <Circle aria-hidden="true" fill="currentColor" size={9} strokeWidth={0} />
       {priorityLabels[priority]}
     </Badge>
   )

@@ -18,7 +18,7 @@ describe('task query parameters', () => {
       view: 'board',
     })
 
-    expect(params.toString()).toBe('search=invoice&status=blocked&priority=urgent&assignee=member-alex&due=overdue&sort=title&direction=desc&page=3&view=board')
+    expect(params.toString()).toBe('search=invoice&status=blocked&priority=urgent&assignee=member-alex&due=overdue&sort=title&direction=desc&page=3')
   })
 
   it('parses malformed values safely and preserves valid shareable state', () => {
@@ -43,7 +43,7 @@ describe('task query parameters', () => {
       filters: { assigneeId: 'all', dueDate: 'all', priority: 'all', status: 'all' },
       page: 1,
       sort: { direction: 'asc', field: 'dueDate' },
-      view: 'list',
+      view: 'board',
     })
   })
 })

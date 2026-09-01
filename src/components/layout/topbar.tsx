@@ -1,9 +1,10 @@
-import { Search } from 'lucide-react'
+import { Bell, CalendarDays, Search, Share2, Sun } from 'lucide-react'
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { appRoutes, getPageContext } from '../../lib/navigation.ts'
 import { Avatar } from '../ui/avatar.tsx'
+import { Button } from '../ui/button.tsx'
 
 function getSearchValue(search: string) {
   return new URLSearchParams(search).get('search') ?? ''
@@ -65,10 +66,16 @@ export function Topbar() {
       <GlobalTaskSearch key={`${pathname}${search}`} pathname={pathname} search={search} />
 
       <div className="topbar__actions">
-        <div className="account-summary">
-          <Avatar name="Alex Morgan" size="sm" />
-          <span className="account-summary__name">Alex Morgan</span>
+        <div aria-label="Workspace utilities" className="topbar__utilities">
+          <button aria-label="Open calendar" className="topbar__utility" type="button"><CalendarDays aria-hidden="true" size={18} /></button>
+          <button aria-label="View notifications" className="topbar__utility topbar__utility--notification" type="button"><Bell aria-hidden="true" size={18} /></button>
+          <button aria-label="Toggle appearance" className="topbar__utility" type="button"><Sun aria-hidden="true" size={19} /></button>
         </div>
+        <div aria-label="Collaborators" className="topbar__collaborators">
+          <Avatar name="Alex Morgan" size="sm" src="/images/alex-morgan.png" />
+          <Avatar name="Jamie Chen" size="sm" />
+        </div>
+        <Button className="topbar__share" variant="primary"><Share2 aria-hidden="true" size={17} />Share</Button>
       </div>
     </header>
   )
