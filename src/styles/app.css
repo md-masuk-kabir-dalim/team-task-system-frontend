@@ -921,6 +921,122 @@
   height: 5rem;
 }
 
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.team-card {
+  display: grid;
+  gap: var(--space-5);
+  min-width: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-xs);
+  padding: var(--space-5);
+}
+
+.team-card__identity {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.team-card__identity > div {
+  min-width: 0;
+}
+
+.team-card__identity h2,
+.team-card__identity p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.team-card__identity h2 {
+  color: var(--color-text);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+}
+
+.team-card__identity p {
+  margin-top: var(--space-1);
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-caption);
+}
+
+.team-card__workload {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.team-card__workload > div {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.team-card__workload dt {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
+}
+
+.team-card__workload dd {
+  margin: 0;
+  color: var(--color-text);
+  font-size: var(--font-size-section);
+  font-weight: var(--font-weight-bold);
+}
+
+.team-card__alerts {
+  display: flex;
+  min-height: 1.5rem;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.team-card__calm {
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-caption);
+  font-style: italic;
+}
+
+.team-card--loading {
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+}
+
+.team-card__avatar-skeleton {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.team-card__name-skeleton {
+  width: min(100%, 10rem);
+  height: 1rem;
+}
+
+.team-card__email-skeleton {
+  width: min(100%, 12rem);
+  height: 0.75rem;
+  margin-top: var(--space-2);
+}
+
+.team-card__workload-skeleton {
+  width: 6rem;
+  height: 1rem;
+  grid-column: 1 / -1;
+}
+
 .task-list-controls strong {
   color: var(--color-text);
   font-weight: var(--font-weight-semibold);
@@ -1462,6 +1578,10 @@
     grid-column: span 2;
     min-height: 12.5rem;
   }
+
+  .team-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 63.99rem) {
@@ -1796,5 +1916,9 @@
 
   .task-status-control {
     width: 100%;
+  }
+
+  .team-grid {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

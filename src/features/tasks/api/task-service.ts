@@ -73,6 +73,14 @@ export interface CreateTaskInput {
   title: string
 }
 
+export interface TeamMemberWorkload {
+  activeTaskCount: number
+  overdueTaskCount: number
+  taskCount: number
+  urgentTaskCount: number
+  user: TeamMember
+}
+
 export class TaskServiceError extends Error {
   constructor(message = 'Unable to load tasks. Please try again.') {
     super(message)
@@ -309,10 +317,28 @@ export async function updateTaskStatus(
   return cloneTask(updatedTask)
 }
 
+export async function listTeamWorkload(options?: TaskServiceOptions): Promise<readonly TeamMemberWorkload[]> {
+  const today = getTodayDateKey()
+  const workload = teamMembers.map((user) => {
+    const memberTasks = taskRecords.filter((task) => task.assigneeId === user.id)
+
+    return {
+      activeTaskCount: memberTasks.filter((task) => task.status !== 'done').length,
+      overdueTaskCount: memberTasks.filter((task) => isTaskOverdue(task, today)).length,
+      taskCount: memberTasks.length,
+      urgentTaskCount: memberTasks.filter((task) => task.priority === 'urgent' && task.status !== 'done').length,
+      user: { ...user },
+    }
+  })
+
+  return resolveRequest(workload, options)
+}
+
 export const taskService = {
   createTask,
   getTaskDetailById,
   getTaskById,
+  listTeamWorkload,
   listTasks,
   updateTaskStatus,
 }
