@@ -26,6 +26,7 @@ export interface Task {
   description: string | null
   dueDate: string | null
   id: string
+  position: number
   priority: TaskPriority
   status: TaskStatus
   title: string

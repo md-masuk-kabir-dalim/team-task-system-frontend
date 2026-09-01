@@ -29,7 +29,7 @@ Then open the local Vite URL shown in the terminal. The primary product route is
 
 - Responsive app shell: full sidebar at desktop, compact tablet rail, and accessible mobile Sheet navigation.
 - Three task workspace views built from the same data: dense grouped List, Kanban, and Timeline; mobile never relies on horizontal table scrolling.
-- Drag a Kanban card into another workflow column to change its status, with optimistic feedback, rollback on failure, and an accessible status-select alternative.
+- Drag a Kanban card into another workflow column or a precise position within its current column. The Jira-style insertion marker, optimistic feedback, rollback on failure, and accessible status-select alternative keep workflow updates clear.
 - Real mock-service loading, retryable error, empty, and in-place refresh states.
 - Search across task titles, descriptions, and assignee names.
 - Filters for status, priority, owner, and due-date state, including quick filters and a mobile filter Sheet.
@@ -68,7 +68,7 @@ The mock collection is private to `features/tasks/api/task-service.ts`. UI compo
 
 Workflow states are `todo`, `in-progress`, `blocked`, and `done`. Priorities are `low`, `medium`, `high`, and `urgent`.
 
-The fixture generator creates 360 tasks from a deterministic seed, but dates are placed relative to the current day so the product always has meaningful overdue, today, future, and no-date cases. The data is held in memory; created tasks and status changes last for the running browser session and reset on refresh.
+The fixture generator creates 360 tasks from a deterministic seed, but dates are placed relative to the current day so the product always has meaningful overdue, today, future, and no-date cases. The data is held in memory; created tasks, status changes, and Kanban positions last for the running browser session and reset on refresh.
 
 ## Product decisions
 
@@ -107,7 +107,7 @@ The workspace uses status, priority, due-date, and ownership signals directly in
 - A real backend or persistence beyond the browser session;
 - Notifications, comments, attachments, file uploads, or real-time collaboration;
 - Saved views, advanced analytics, and bulk editing;
-- Drag-and-drop workflow movement.
+- Real backend persistence or multi-user synchronization.
 
 These cuts keep the assessment focused on task discovery, ownership, and workflow quality rather than unsupported surrounding systems.
 

@@ -4,6 +4,7 @@ import {
   defaultTaskListQuery,
   getTaskById,
   listTasks,
+  moveTask,
   TaskServiceError,
   updateTaskStatus,
 } from './task-service.ts'
@@ -33,6 +34,26 @@ describe('task service', () => {
   it('returns a recoverable error when a request is configured to fail', async () => {
     await expect(listTasks(defaultTaskListQuery, { delayMs: 0, forceError: true }))
       .rejects.toBeInstanceOf(TaskServiceError)
+  })
+
+  it('persists a Jira-style insertion position and shifts the remaining cards', async () => {
+    const movedTask = await moveTask({
+      destination: { taskId: 'task-001', type: 'before' },
+      id: 'task-003',
+      status: 'todo',
+    }, { delayMs: 0 })
+    const formerFirstTask = await getTaskById('task-001', { delayMs: 0 })
+
+    expect(movedTask).toMatchObject({ id: 'task-003', position: 0, status: 'todo' })
+    expect(formerFirstTask?.position).toBe(1)
+
+    const movedAcrossColumns = await moveTask({
+      destination: { taskId: 'task-004', type: 'before' },
+      id: 'task-003',
+      status: 'done',
+    }, { delayMs: 0 })
+
+    expect(movedAcrossColumns).toMatchObject({ id: 'task-003', position: 0, status: 'done' })
   })
 
   it('persists created tasks and workflow updates in the mock service', async () => {

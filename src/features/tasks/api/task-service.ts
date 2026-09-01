@@ -74,6 +74,16 @@ export interface CreateTaskInput {
   title: string
 }
 
+export interface MoveTaskInput {
+  destination: TaskMoveDestination
+  id: string
+  status: Task['status']
+}
+
+export type TaskMoveDestination =
+  | { taskId: string; type: 'after' | 'before' }
+  | { type: 'end' }
+
 export interface TeamMemberWorkload {
   activeTaskCount: number
   overdueTaskCount: number
@@ -97,6 +107,32 @@ function cloneTask(task: Task): Task {
   return { ...task }
 }
 
+function getTasksInStatus(status: Task['status']) {
+  return taskRecords
+    .filter((task) => task.status === status)
+    .toSorted((left, right) => left.position - right.position || left.id.localeCompare(right.id))
+}
+
+function getNextPosition(status: Task['status']) {
+  const lastTask = getTasksInStatus(status).at(-1)
+
+  return (lastTask?.position ?? -1) + 1
+}
+
+function getDestinationIndex(tasks: readonly Task[], destination: TaskMoveDestination) {
+  if (destination.type === 'end') {
+    return tasks.length
+  }
+
+  const anchorIndex = tasks.findIndex((task) => task.id === destination.taskId)
+
+  if (anchorIndex === -1) {
+    throw new TaskServiceError('The target task could not be found.')
+  }
+
+  return destination.type === 'before' ? anchorIndex : anchorIndex + 1
+}
+
 function createTaskRecord(input: CreateTaskInput): Task {
   const timestamp = new Date().toISOString()
 
@@ -104,6 +140,7 @@ function createTaskRecord(input: CreateTaskInput): Task {
     ...input,
     createdAt: timestamp,
     id: `task-${String(taskRecords.length + 1).padStart(3, '0')}`,
+    position: getNextPosition(input.status),
     updatedAt: timestamp,
   }
 }
@@ -293,15 +330,16 @@ export async function updateTaskStatus(
   status: Task['status'],
   options?: TaskServiceOptions,
 ): Promise<Task> {
+  return moveTask({ destination: { type: 'end' }, id, status }, options)
+}
+
+export async function moveTask(
+  { destination, id, status }: MoveTaskInput,
+  options?: TaskServiceOptions,
+): Promise<Task> {
   await resolveRequest(undefined, options)
 
-  const taskIndex = taskRecords.findIndex((record) => record.id === id)
-
-  if (taskIndex === -1) {
-    throw new TaskServiceError('This task could not be found.')
-  }
-
-  const currentTask = taskRecords[taskIndex]
+  const currentTask = taskRecords.find((record) => record.id === id)
 
   if (!currentTask) {
     throw new TaskServiceError('This task could not be found.')
@@ -312,10 +350,29 @@ export async function updateTaskStatus(
     status,
     updatedAt: new Date().toISOString(),
   }
+  const sourceTasks = getTasksInStatus(currentTask.status).filter((task) => task.id !== id)
+  const targetTasks = currentTask.status === status ? sourceTasks : getTasksInStatus(status)
+  const destinationIndex = getDestinationIndex(targetTasks, destination)
+  const reorderedTargetTasks = [...targetTasks]
+  reorderedTargetTasks.splice(destinationIndex, 0, updatedTask)
+  const reorderedTasks = currentTask.status === status
+    ? [reorderedTargetTasks]
+    : [sourceTasks, reorderedTargetTasks]
+  const orderedUpdates = new Map(
+    reorderedTasks.flatMap((columnTasks) => columnTasks.map((task, position) => [
+      task.id,
+      { ...task, position },
+    ] as const)),
+  )
+  const movedTask = orderedUpdates.get(id)
 
-  taskRecords = taskRecords.map((task, index) => index === taskIndex ? updatedTask : task)
+  if (!movedTask) {
+    throw new TaskServiceError('This task could not be reordered.')
+  }
 
-  return cloneTask(updatedTask)
+  taskRecords = taskRecords.map((task) => orderedUpdates.get(task.id) ?? task)
+
+  return cloneTask(movedTask)
 }
 
 export async function listTeamWorkload(options?: TaskServiceOptions): Promise<readonly TeamMemberWorkload[]> {
@@ -341,5 +398,6 @@ export const taskService = {
   getTaskById,
   listTeamWorkload,
   listTasks,
+  moveTask,
   updateTaskStatus,
 }

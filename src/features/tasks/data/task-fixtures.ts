@@ -144,6 +144,7 @@ function createTask(index: number, random: () => number): Task {
     description: getDescription(index, random),
     dueDate: getDueDate(index, random),
     id: `task-${String(index + 1).padStart(3, '0')}`,
+    position: index,
     priority: getRequiredItem(priorityCycle, index % priorityCycle.length),
     status: getRequiredItem(statusCycle, index % statusCycle.length),
     title: getTitle(index, random),

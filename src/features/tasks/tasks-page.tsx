@@ -11,7 +11,7 @@ import { TaskListControls } from './components/task-list-controls.tsx'
 import { TaskListSkeleton } from './components/task-list-skeleton.tsx'
 import { TaskTimeline } from './components/task-timeline.tsx'
 import { TaskViewTabs } from './components/task-view-tabs.tsx'
-import { updateTaskStatus } from './api/task-service.ts'
+import { moveTask, type TaskMoveDestination } from './api/task-service.ts'
 import { useTaskList } from './hooks/use-task-list.ts'
 import { useTaskQueryParams } from './hooks/use-task-query-params.ts'
 import type { TaskStatus } from './types/task-types.ts'
@@ -20,8 +20,8 @@ export function TasksPage() {
   const { clearView, query, setFilters, setPage, setSearch, setSort, setView } = useTaskQueryParams()
   const { error, isInitialLoading, isRefreshing, result, retry } = useTaskList(query)
 
-  const handleBoardStatusChange = async (taskId: string, status: TaskStatus) => {
-    await updateTaskStatus(taskId, status)
+  const handleBoardTaskMove = async (taskId: string, status: TaskStatus, destination: TaskMoveDestination) => {
+    await moveTask({ destination, id: taskId, status })
     retry()
   }
 
@@ -78,7 +78,7 @@ export function TasksPage() {
           <TaskFilterSummary filters={query.filters} members={result.members} search={query.search} />
           {isRefreshing ? <p aria-live="polite" className="task-workspace__refreshing">Updating task view&hellip;</p> : null}
           {result.items.length ? (
-            query.view === 'board' ? <TaskBoard members={result.members} onStatusChange={handleBoardStatusChange} tasks={result.items} />
+            query.view === 'board' ? <TaskBoard members={result.members} onTaskMove={handleBoardTaskMove} tasks={result.items} />
               : query.view === 'timeline' ? <TaskTimeline members={result.members} tasks={result.items} />
                 : (
                     <>
