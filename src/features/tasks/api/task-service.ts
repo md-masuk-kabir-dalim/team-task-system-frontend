@@ -1,5 +1,5 @@
 import { taskFixtures } from '../data/task-fixtures.ts'
-import { teamMembers } from '../data/team-members.ts'
+import { currentTeamMemberId, teamMembers } from '../data/team-members.ts'
 import type {
   DueDateFilter,
   PaginationMetadata,
@@ -50,6 +50,7 @@ export interface TaskServiceOptions {
 }
 
 export interface TaskListResult {
+  currentMemberId: string
   items: readonly Task[]
   members: readonly TeamMember[]
   pagination: PaginationMetadata
@@ -214,6 +215,7 @@ export async function listTasks(
     .map(cloneTask)
 
   return resolveRequest({
+    currentMemberId: currentTeamMemberId,
     items,
     members: teamMembers.map((member) => ({ ...member })),
     pagination,
