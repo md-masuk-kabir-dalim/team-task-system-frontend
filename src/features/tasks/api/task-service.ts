@@ -23,6 +23,7 @@ const priorityRank: Record<TaskPriority, number> = {
 }
 
 const teamMemberById = new Map(teamMembers.map((member) => [member.id, member]))
+let taskRecords = taskFixtures.map(cloneTask)
 
 export const defaultTaskFilters: TaskFilters = {
   assigneeId: 'all',
@@ -57,6 +58,21 @@ export interface TaskListResult {
   summary: TaskSummary
 }
 
+export interface TaskDetailResult {
+  currentMemberId: string
+  members: readonly TeamMember[]
+  task: Task
+}
+
+export interface CreateTaskInput {
+  assigneeId: string | null
+  description: string | null
+  dueDate: string | null
+  priority: TaskPriority
+  status: Task['status']
+  title: string
+}
+
 export class TaskServiceError extends Error {
   constructor(message = 'Unable to load tasks. Please try again.') {
     super(message)
@@ -70,6 +86,17 @@ function wait(duration: number) {
 
 function cloneTask(task: Task): Task {
   return { ...task }
+}
+
+function createTaskRecord(input: CreateTaskInput): Task {
+  const timestamp = new Date().toISOString()
+
+  return {
+    ...input,
+    createdAt: timestamp,
+    id: `task-${String(taskRecords.length + 1).padStart(3, '0')}`,
+    updatedAt: timestamp,
+  }
 }
 
 function normalizePage(page: number) {
@@ -205,7 +232,7 @@ export async function listTasks(
   const today = getTodayDateKey()
   const page = normalizePage(query.page)
   const pageSize = normalizePageSize(query.pageSize)
-  const matchingTasks = taskFixtures.filter(
+  const matchingTasks = taskRecords.filter(
     (task) => matchesFilters(task, query.filters, today) && matchesSearch(task, query.search),
   )
   const pagination = createPagination(matchingTasks.length, page, pageSize)
@@ -224,12 +251,37 @@ export async function listTasks(
 }
 
 export async function getTaskById(id: string, options?: TaskServiceOptions): Promise<Task | null> {
-  const task = taskFixtures.find((fixture) => fixture.id === id)
+  const task = taskRecords.find((record) => record.id === id)
 
   return resolveRequest(task ? cloneTask(task) : null, options)
 }
 
+export async function getTaskDetailById(id: string, options?: TaskServiceOptions): Promise<TaskDetailResult | null> {
+  const task = taskRecords.find((record) => record.id === id)
+
+  return resolveRequest(task ? {
+    currentMemberId: currentTeamMemberId,
+    members: teamMembers.map((member) => ({ ...member })),
+    task: cloneTask(task),
+  } : null, options)
+}
+
+export async function createTask(input: CreateTaskInput, options?: TaskServiceOptions): Promise<Task> {
+  if (input.assigneeId !== null && !teamMemberById.has(input.assigneeId)) {
+    throw new TaskServiceError('The selected assignee is no longer available.')
+  }
+
+  await resolveRequest(undefined, options)
+
+  const task = createTaskRecord(input)
+  taskRecords = [task, ...taskRecords]
+
+  return cloneTask(task)
+}
+
 export const taskService = {
+  createTask,
+  getTaskDetailById,
   getTaskById,
   listTasks,
 }

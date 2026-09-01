@@ -11,7 +11,7 @@ export interface SelectOption {
 
 interface SelectProps extends Omit<ComponentPropsWithoutRef<'select'>, 'aria-describedby' | 'children'> {
   'aria-describedby'?: string
-  error?: string
+  error?: string | undefined
   helperText?: string
   label: string
   options: readonly SelectOption[]

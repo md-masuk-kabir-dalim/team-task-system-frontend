@@ -4,6 +4,7 @@ import { ErrorState } from '../../components/feedback/error-state.tsx'
 import { PageIntro } from '../../components/layout/page-intro.tsx'
 import { TaskFilterBar } from './components/task-filter-bar.tsx'
 import { TaskFilterSummary } from './components/task-filter-summary.tsx'
+import { TaskCreateControl } from './components/task-create-control.tsx'
 import { TaskList } from './components/task-list.tsx'
 import { TaskListControls } from './components/task-list-controls.tsx'
 import { TaskListSkeleton } from './components/task-list-skeleton.tsx'
@@ -21,7 +22,9 @@ export function TasksPage() {
         description="A shared, focused view of the work your team needs to move forward."
         eyebrow="Work queue"
         title="Tasks"
-      />
+      >
+        {result ? <TaskCreateControl members={result.members} onCreated={retry} /> : null}
+      </PageIntro>
 
       {isLoading ? <TaskListSkeleton /> : null}
 

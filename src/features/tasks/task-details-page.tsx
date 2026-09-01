@@ -1,29 +1,47 @@
-import { FileText } from 'lucide-react'
-import { useParams } from 'react-router-dom'
+import { ArrowLeft, FileQuestion } from 'lucide-react'
+import { Link, useParams } from 'react-router-dom'
+import { EmptyState } from '../../components/feedback/empty-state.tsx'
+import { ErrorState } from '../../components/feedback/error-state.tsx'
 import { PageIntro } from '../../components/layout/page-intro.tsx'
-import { Badge } from '../../components/ui/badge.tsx'
+import { appRoutes } from '../../lib/navigation.ts'
+import { TaskDetails } from './components/task-details.tsx'
+import { TaskDetailsSkeleton } from './components/task-details-skeleton.tsx'
+import { useTaskDetail } from './hooks/use-task-detail.ts'
 
 export function TaskDetailsPage() {
   const { taskId } = useParams()
+  const { detail, error, isLoading, retry } = useTaskDetail(taskId)
 
   return (
     <section className="page">
       <PageIntro
-        description="Task details will use the same shared service and feedback patterns as the task list."
+        description="Review the context and ownership behind this piece of work."
         eyebrow="Task workspace"
         title="Task details"
       />
 
-      <section className="feature-placeholder" aria-label="Task detail placeholder">
-        <div className="feature-placeholder__icon"><FileText aria-hidden="true" size={22} /></div>
-        <div>
-          <div className="feature-placeholder__heading">
-            <h3>Details route is ready</h3>
-            <Badge tone="neutral">{taskId ?? 'No task selected'}</Badge>
-          </div>
-          <p>Data loading, editing, and status changes will be added after the task data layer is established.</p>
-        </div>
-      </section>
+      {isLoading ? <TaskDetailsSkeleton /> : null}
+      {error ? (
+        <ErrorState
+          description="Something went wrong while loading this task. Please try again."
+          onRetry={retry}
+          title="Unable to load task details"
+        />
+      ) : null}
+      {detail ? <TaskDetails members={detail.members} task={detail.task} /> : null}
+      {!isLoading && !error && !detail ? (
+        <EmptyState
+          description="The task may have been removed or the link is incomplete."
+          icon={<FileQuestion aria-hidden="true" size={24} />}
+          primaryAction={(
+            <Link className="text-link" to={appRoutes.tasks}>
+              <ArrowLeft aria-hidden="true" size={17} />
+              Back to Tasks
+            </Link>
+          )}
+          title="Task not found"
+        />
+      ) : null}
     </section>
   )
 }

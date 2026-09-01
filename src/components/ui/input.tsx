@@ -6,7 +6,7 @@ import { mergeDescribedBy } from '../../lib/form-utils.ts'
 
 interface InputProps extends Omit<ComponentPropsWithoutRef<'input'>, 'aria-describedby'> {
   'aria-describedby'?: string
-  error?: string
+  error?: string | undefined
   helperText?: string
   label: string
   loading?: boolean

@@ -5,7 +5,7 @@ import { mergeDescribedBy } from '../../lib/form-utils.ts'
 
 interface TextareaProps extends Omit<ComponentPropsWithoutRef<'textarea'>, 'aria-describedby'> {
   'aria-describedby'?: string
-  error?: string
+  error?: string | undefined
   helperText?: string
   label: string
 }
