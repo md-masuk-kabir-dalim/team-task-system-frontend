@@ -30,7 +30,7 @@ export function getCalendarCategory(status: TaskStatus): CalendarCategory {
   switch (status) {
     case 'in-progress':
       return 'work'
-    case 'blocked':
+    case 'review':
       return 'projects'
     case 'done':
       return 'design'

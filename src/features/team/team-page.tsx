@@ -7,6 +7,7 @@ import { TeamDirectorySummary } from './components/team-directory-summary.tsx'
 import { TeamDirectoryToolbar } from './components/team-directory-toolbar.tsx'
 import { TeamMemberCreateForm } from './components/team-member-create-form.tsx'
 import { TeamMemberInspector } from './components/team-member-inspector.tsx'
+import { useTeamDirectoryQueryParams } from './hooks/use-team-directory-query-params.ts'
 import { filterEmployees, getEmployeeStats, toEmployeeCsv } from './utils/team-directory-utils.ts'
 
 const pageSize = 6
@@ -25,24 +26,18 @@ function downloadEmployeeCsv(csv: string) {
 export function TeamPage() {
   const createDraft = useTeamDirectoryStore((state) => state.createDraft)
   const createEmployee = useTeamDirectoryStore((state) => state.createEmployee)
-  const department = useTeamDirectoryStore((state) => state.department)
   const employees = useTeamDirectoryStore((state) => state.employees)
   const isCreateFormOpen = useTeamDirectoryStore((state) => state.isCreateFormOpen)
   const openCreateForm = useTeamDirectoryStore((state) => state.openCreateForm)
   const closeCreateForm = useTeamDirectoryStore((state) => state.closeCreateForm)
-  const page = useTeamDirectoryStore((state) => state.page)
-  const search = useTeamDirectoryStore((state) => state.search)
   const selectedEmployeeId = useTeamDirectoryStore((state) => state.selectedEmployeeId)
   const selectedEmployeeIds = useTeamDirectoryStore((state) => state.selectedEmployeeIds)
-  const setDepartment = useTeamDirectoryStore((state) => state.setDepartment)
-  const setPage = useTeamDirectoryStore((state) => state.setPage)
-  const setSearch = useTeamDirectoryStore((state) => state.setSearch)
   const setSelectedEmployee = useTeamDirectoryStore((state) => state.setSelectedEmployee)
-  const setView = useTeamDirectoryStore((state) => state.setView)
   const toggleEmployeeSelection = useTeamDirectoryStore((state) => state.toggleEmployeeSelection)
   const toggleVisibleSelection = useTeamDirectoryStore((state) => state.toggleVisibleSelection)
   const updateCreateDraft = useTeamDirectoryStore((state) => state.updateCreateDraft)
-  const view = useTeamDirectoryStore((state) => state.view)
+  const { query, setDepartment, setPage, setSearch, setView } = useTeamDirectoryQueryParams()
+  const { department, page, search, view } = query
 
   const filteredEmployees = filterEmployees(employees, search, department)
   const stats = getEmployeeStats(employees)
@@ -55,7 +50,7 @@ export function TeamPage() {
     <section className="page page--team-directory">
       <header className="team-directory-header">
         <div>
-          <h1>HR Project Management Employee</h1>
+          <h1>Team Management</h1>
           <p>Manage your team members and their information.</p>
         </div>
         <div className="team-directory-header__actions">

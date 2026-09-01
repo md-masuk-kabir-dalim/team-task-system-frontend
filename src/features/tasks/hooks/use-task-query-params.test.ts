@@ -10,7 +10,7 @@ describe('task query parameters', () => {
         assigneeId: 'member-alex',
         dueDate: 'overdue',
         priority: 'urgent',
-        status: 'blocked',
+        status: 'review',
       },
       page: 3,
       search: '  invoice  ',
@@ -18,18 +18,18 @@ describe('task query parameters', () => {
       view: 'board',
     })
 
-    expect(params.toString()).toBe('search=invoice&status=blocked&priority=urgent&assignee=member-alex&due=overdue&sort=title&direction=desc&page=3')
+    expect(params.toString()).toBe('search=invoice&status=review&priority=urgent&assignee=member-alex&due=overdue&sort=title&direction=desc&page=3')
   })
 
   it('parses malformed values safely and preserves valid shareable state', () => {
-    const query = parseTaskListQuery(new URLSearchParams('search=design&status=blocked&priority=high&assignee=member-jamie&due=upcoming&sort=createdAt&direction=desc&page=2&view=timeline'))
+    const query = parseTaskListQuery(new URLSearchParams('search=design&status=review&priority=high&assignee=member-jamie&due=upcoming&sort=createdAt&direction=desc&page=2&view=timeline'))
 
     expect(query).toMatchObject({
       filters: {
         assigneeId: 'member-jamie',
         dueDate: 'upcoming',
         priority: 'high',
-        status: 'blocked',
+        status: 'review',
       },
       page: 2,
       search: 'design',

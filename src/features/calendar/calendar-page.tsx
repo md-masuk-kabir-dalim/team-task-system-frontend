@@ -3,6 +3,7 @@ import { useMemo, useRef } from 'react'
 import type { ChangeEvent } from 'react'
 import { ErrorState } from '../../components/feedback/error-state.tsx'
 import { Button } from '../../components/ui/button.tsx'
+import { useMediaQuery } from '../../hooks/use-media-query.ts'
 import { useCalendarStore } from '../../stores/calendar-store.ts'
 import { useUiStore } from '../../stores/ui-store.ts'
 import { defaultTaskListQuery } from '../tasks/api/task-service.ts'
@@ -31,12 +32,14 @@ export function CalendarPage() {
   const toggleCategory = useCalendarStore((state) => state.toggleCategory)
   const view = useCalendarStore((state) => state.view)
   const openCreateTask = useUiStore((state) => state.openCreateTask)
+  const isCompactCalendar = useMediaQuery('(max-width: 1023px)')
   const fileInputRef = useRef<HTMLInputElement>(null)
   const selectedDate = parseDateKey(selectedDateKey)
-  const days = getVisibleDays(view, selectedDate)
+  const displayedView = isCompactCalendar ? 'day' : view
+  const days = getVisibleDays(displayedView, selectedDate)
   const tasks = result?.items ?? []
   const members = result?.members ?? []
-  const rangeLabel = view === 'month' ? formatMonthTitle(selectedDate) : view === 'day' ? formatDayHeading(selectedDate) : formatWeekRange(selectedDate)
+  const rangeLabel = displayedView === 'month' ? formatMonthTitle(selectedDate) : displayedView === 'day' ? formatDayHeading(selectedDate) : formatWeekRange(selectedDate)
 
   const handleImport = (event: ChangeEvent<HTMLInputElement>) => {
     const [file] = Array.from(event.target.files ?? [])
@@ -74,8 +77,8 @@ export function CalendarPage() {
             tasks={tasks}
           />
           <section aria-label="Task calendar" className="calendar-page__calendar">
-            <CalendarToolbar onMoveDate={moveDate} onToday={goToToday} onViewChange={setView} rangeLabel={rangeLabel} view={view} />
-            <TaskCalendarGrid activeCategories={activeCategories} days={days} members={members} selectedDate={selectedDate} tasks={tasks} view={view} />
+            <CalendarToolbar compact={isCompactCalendar} onMoveDate={(direction) => moveDate(direction, displayedView)} onToday={goToToday} onViewChange={setView} rangeLabel={rangeLabel} view={displayedView} />
+            <TaskCalendarGrid activeCategories={activeCategories} days={days} members={members} selectedDate={selectedDate} tasks={tasks} view={displayedView} />
           </section>
         </div>
       ) : null}

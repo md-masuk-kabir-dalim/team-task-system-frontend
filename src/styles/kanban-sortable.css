@@ -56,8 +56,8 @@
   background: var(--color-status-in-progress);
 }
 
-.task-board__column--blocked .task-board__status-dot {
-  background: var(--color-status-blocked);
+.task-board__column--review .task-board__status-dot {
+  background: var(--color-status-review);
 }
 
 .task-board__column--done .task-board__status-dot {

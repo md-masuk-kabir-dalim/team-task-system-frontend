@@ -4,7 +4,7 @@ import type { Task, TaskPriority, TaskStatus } from '../types/task-types.ts'
 const DAY_IN_MILLISECONDS = 86_400_000
 const TASK_COUNT = 360
 
-const statusCycle: readonly TaskStatus[] = ['todo', 'in-progress', 'todo', 'done', 'in-progress', 'blocked', 'todo', 'done']
+const statusCycle: readonly TaskStatus[] = ['todo', 'in-progress', 'todo', 'done', 'in-progress', 'review', 'todo', 'done']
 const priorityCycle: readonly TaskPriority[] = ['medium', 'low', 'medium', 'high', 'medium', 'urgent', 'low', 'high']
 
 const workstreams = [

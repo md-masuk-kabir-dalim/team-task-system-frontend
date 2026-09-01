@@ -3,6 +3,7 @@ import { Button } from '../../../components/ui/button.tsx'
 import type { CalendarView } from '../types/calendar-types.ts'
 
 interface CalendarToolbarProps {
+  compact?: boolean
   onMoveDate: (direction: -1 | 1) => void
   onToday: () => void
   onViewChange: (view: CalendarView) => void
@@ -16,11 +17,13 @@ const viewOptions: readonly { label: string; value: CalendarView }[] = [
   { label: 'Month', value: 'month' },
 ]
 
-export function CalendarToolbar({ onMoveDate, onToday, onViewChange, rangeLabel, view }: CalendarToolbarProps) {
+export function CalendarToolbar({ compact = false, onMoveDate, onToday, onViewChange, rangeLabel, view }: CalendarToolbarProps) {
+  const visibleViewOptions = compact ? viewOptions.filter((option) => option.value === 'day') : viewOptions
+
   return (
     <header className="calendar-toolbar">
       <div aria-label="Calendar view" className="calendar-toolbar__views" role="tablist">
-        {viewOptions.map((option) => (
+        {visibleViewOptions.map((option) => (
           <button aria-selected={view === option.value} key={option.value} onClick={() => onViewChange(option.value)} role="tab" type="button">{option.label}</button>
         ))}
       </div>

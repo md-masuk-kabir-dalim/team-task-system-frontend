@@ -32,8 +32,8 @@
   --color-status-todo-subtle: #eef1f5;
   --color-status-in-progress: #079ded;
   --color-status-in-progress-subtle: #e5f5ff;
-  --color-status-blocked: #ee940d;
-  --color-status-blocked-subtle: #fff3d6;
+  --color-status-review: #ee940d;
+  --color-status-review-subtle: #fff3d6;
   --color-status-done: #28a35a;
   --color-status-done-subtle: #e7f8ec;
   --color-priority-low: #65738a;

@@ -35,7 +35,7 @@ import { TaskStatusBadge } from './task-status-badge.tsx'
 const boardColumns: readonly { label: string; status: TaskStatus }[] = [
   { label: 'To do', status: 'todo' },
   { label: 'In progress', status: 'in-progress' },
-  { label: 'In review', status: 'blocked' },
+  { label: 'In review', status: 'review' },
   { label: 'Completed', status: 'done' },
 ]
 
@@ -82,7 +82,7 @@ interface TaskLocation {
 
 function createEmptyBoardOrder(): BoardOrder {
   return {
-    blocked: [],
+    review: [],
     done: [],
     'in-progress': [],
     todo: [],
@@ -91,7 +91,7 @@ function createEmptyBoardOrder(): BoardOrder {
 
 function cloneBoardOrder(order: BoardOrder): BoardOrder {
   return {
-    blocked: [...order.blocked],
+    review: [...order.review],
     done: [...order.done],
     'in-progress': [...order['in-progress']],
     todo: [...order.todo],

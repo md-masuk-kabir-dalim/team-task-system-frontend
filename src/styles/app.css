@@ -1512,9 +1512,9 @@
   color: var(--color-status-in-progress);
 }
 
-.badge--blocked {
-  background: var(--color-status-blocked-subtle);
-  color: var(--color-status-blocked);
+.badge--review {
+  background: var(--color-status-review-subtle);
+  color: var(--color-status-review);
 }
 
 .avatar {
@@ -2337,10 +2337,10 @@
   background: var(--color-status-in-progress);
 }
 
-.task-table__group--blocked .task-table__group-dot,
-.task-timeline__dot--blocked,
-.task-board__column--blocked .task-board__status-dot {
-  background: var(--color-status-blocked);
+.task-table__group--review .task-table__group-dot,
+.task-timeline__dot--review,
+.task-board__column--review .task-board__status-dot {
+  background: var(--color-status-review);
 }
 
 .task-table__group--done .task-table__group-dot,
@@ -2666,7 +2666,7 @@
   white-space: nowrap;
 }
 
-.task-timeline__bar--blocked {
+.task-timeline__bar--review {
   border-color: #ffd384;
   background: var(--color-warning-subtle);
   color: #bd7000;

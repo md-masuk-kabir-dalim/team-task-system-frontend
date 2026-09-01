@@ -18,6 +18,7 @@ export interface DirectoryEmployee {
   name: string
   phone: string
   status: EmployeeStatus
+  taskMemberId: string
 }
 
 export interface EmployeeDraft {

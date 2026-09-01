@@ -6,7 +6,7 @@ interface CalendarStore {
   activeCategories: CalendarCategoryVisibility
   goToToday: () => void
   importNotice: string | null
-  moveDate: (direction: -1 | 1) => void
+  moveDate: (direction: -1 | 1, viewOverride?: CalendarView) => void
   selectedDate: string
   setImportNotice: (notice: string | null) => void
   setSelectedDate: (date: string) => void
@@ -26,9 +26,10 @@ export const useCalendarStore = create<CalendarStore>((set, get) => ({
   activeCategories: initialCategories,
   goToToday: () => set({ selectedDate: toDateKey(new Date()) }),
   importNotice: null,
-  moveDate: (direction) => {
+  moveDate: (direction, viewOverride) => {
     const currentDate = parseDateKey(get().selectedDate)
-    const nextDate = get().view === 'month' ? addMonths(currentDate, direction) : addDays(currentDate, direction * (get().view === 'week' ? 7 : 1))
+    const view = viewOverride ?? get().view
+    const nextDate = view === 'month' ? addMonths(currentDate, direction) : addDays(currentDate, direction * (view === 'week' ? 7 : 1))
     set({ selectedDate: toDateKey(nextDate) })
   },
   selectedDate: toDateKey(new Date()),

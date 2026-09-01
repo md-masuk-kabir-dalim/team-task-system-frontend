@@ -11,6 +11,7 @@ export const teamDirectoryFixtures: readonly DirectoryEmployee[] = [
     name: 'Alex Morgan',
     phone: '+1 555 0100',
     status: 'active',
+    taskMemberId: 'member-alex',
   },
   {
     department: 'Development',
@@ -21,6 +22,7 @@ export const teamDirectoryFixtures: readonly DirectoryEmployee[] = [
     name: 'Jamie Chen',
     phone: '+1 555 0101',
     status: 'active',
+    taskMemberId: 'member-jamie',
   },
   {
     department: 'Management',
@@ -31,6 +33,7 @@ export const teamDirectoryFixtures: readonly DirectoryEmployee[] = [
     name: 'Samir Patel',
     phone: '+1 555 0102',
     status: 'active',
+    taskMemberId: 'member-samir',
   },
   {
     department: 'Design',
@@ -41,6 +44,7 @@ export const teamDirectoryFixtures: readonly DirectoryEmployee[] = [
     name: 'Morgan Lee',
     phone: '+1 555 0103',
     status: 'on-leave',
+    taskMemberId: 'member-morgan',
   },
   {
     department: 'Marketing',
@@ -51,6 +55,7 @@ export const teamDirectoryFixtures: readonly DirectoryEmployee[] = [
     name: 'Taylor Brooks',
     phone: '+1 555 0104',
     status: 'active',
+    taskMemberId: 'member-taylor',
   },
   {
     department: 'Development',
@@ -61,6 +66,7 @@ export const teamDirectoryFixtures: readonly DirectoryEmployee[] = [
     name: 'Priya Nair',
     phone: '+1 555 0105',
     status: 'probation',
+    taskMemberId: 'member-priya',
   },
   {
     department: 'Management',
@@ -71,6 +77,7 @@ export const teamDirectoryFixtures: readonly DirectoryEmployee[] = [
     name: 'Jordan Williams',
     phone: '+1 555 0106',
     status: 'active',
+    taskMemberId: 'member-jordan',
   },
   {
     department: 'Design',
@@ -81,6 +88,7 @@ export const teamDirectoryFixtures: readonly DirectoryEmployee[] = [
     name: 'Aisha Khan',
     phone: '+1 555 0107',
     status: 'active',
+    taskMemberId: 'member-aisha',
   },
   {
     department: 'Marketing',
@@ -91,6 +99,7 @@ export const teamDirectoryFixtures: readonly DirectoryEmployee[] = [
     name: 'Elena García',
     phone: '+1 555 0108',
     status: 'active',
+    taskMemberId: 'member-elena',
   },
   {
     department: 'Development',
@@ -101,6 +110,7 @@ export const teamDirectoryFixtures: readonly DirectoryEmployee[] = [
     name: 'Christopher Nguyen',
     phone: '+1 555 0109',
     status: 'active',
+    taskMemberId: 'member-christopher',
   },
   {
     department: 'Design',
@@ -111,6 +121,7 @@ export const teamDirectoryFixtures: readonly DirectoryEmployee[] = [
     name: 'Alexandria Montgomery',
     phone: '+1 555 0110',
     status: 'active',
+    taskMemberId: 'member-alexandria',
   },
   {
     department: 'Management',
@@ -121,5 +132,6 @@ export const teamDirectoryFixtures: readonly DirectoryEmployee[] = [
     name: 'Noor Hassan',
     phone: '+1 555 0111',
     status: 'on-leave',
+    taskMemberId: 'member-noor',
   },
 ]

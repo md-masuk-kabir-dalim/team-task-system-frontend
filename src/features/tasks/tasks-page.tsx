@@ -82,10 +82,7 @@ export function TasksPage() {
             query.view === 'board' ? <TaskBoard members={result.members} onTaskMove={handleBoardTaskMove} tasks={result.items} />
               : query.view === 'timeline' ? <TaskTimeline members={result.members} tasks={result.items} />
                 : (
-                    <>
-                      <TaskList members={result.members} tasks={result.items} />
-                      <TaskListControls onPageChange={setPage} pagination={result.pagination} />
-                    </>
+                    <TaskList members={result.members} tasks={result.items} />
                   )
           ) : (
             <EmptyState
@@ -95,6 +92,7 @@ export function TasksPage() {
               title="No tasks match this view"
             />
           )}
+          {result.items.length ? <TaskListControls onPageChange={setPage} pagination={result.pagination} /> : null}
         </div>
       ) : null}
     </section>

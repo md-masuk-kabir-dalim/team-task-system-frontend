@@ -22,8 +22,8 @@ const priorityRank: Record<TaskPriority, number> = {
   urgent: 4,
 }
 
-const teamMemberById = new Map(teamMembers.map((member) => [member.id, member]))
 let taskRecords = taskFixtures.map(cloneTask)
+let teamMemberRecords = teamMembers.map((member) => ({ ...member }))
 
 export const defaultTaskFilters: TaskFilters = {
   assigneeId: 'all',
@@ -121,6 +121,20 @@ function getTasksInStatus(status: Task['status']) {
     .toSorted((left, right) => left.position - right.position || left.id.localeCompare(right.id))
 }
 
+function getTeamMemberById(id: string) {
+  return teamMemberRecords.find((member) => member.id === id)
+}
+
+export function registerTeamMember(member: TeamMember) {
+  if (getTeamMemberById(member.id)) {
+    throw new TaskServiceError('An employee with this identifier already exists.')
+  }
+
+  teamMemberRecords = [...teamMemberRecords, { ...member }]
+
+  return { ...member }
+}
+
 function getNextPosition(status: Task['status']) {
   const lastTask = getTasksInStatus(status).at(-1)
 
@@ -197,7 +211,7 @@ function matchesSearch(task: Task, search: string) {
     return true
   }
 
-  const assigneeName = task.assigneeId ? teamMemberById.get(task.assigneeId)?.name : undefined
+  const assigneeName = task.assigneeId ? getTeamMemberById(task.assigneeId)?.name : undefined
 
   return task.title.toLocaleLowerCase().includes(normalizedSearch)
     || task.description?.toLocaleLowerCase().includes(normalizedSearch) === true
@@ -298,7 +312,7 @@ export async function listTasks(
   return resolveRequest({
     currentMemberId: currentTeamMemberId,
     items,
-    members: teamMembers.map((member) => ({ ...member })),
+    members: teamMemberRecords.map((member) => ({ ...member })),
     pagination,
     summary: createSummary(matchingTasks, today),
   }, options)
@@ -315,13 +329,13 @@ export async function getTaskDetailById(id: string, options?: TaskServiceOptions
 
   return resolveRequest(task ? {
     currentMemberId: currentTeamMemberId,
-    members: teamMembers.map((member) => ({ ...member })),
+    members: teamMemberRecords.map((member) => ({ ...member })),
     task: cloneTask(task),
   } : null, options)
 }
 
 export async function createTask(input: CreateTaskInput, options?: TaskServiceOptions): Promise<Task> {
-  if (input.assigneeId !== null && !teamMemberById.has(input.assigneeId)) {
+  if (input.assigneeId !== null && !getTeamMemberById(input.assigneeId)) {
     throw new TaskServiceError('The selected assignee is no longer available.')
   }
 
@@ -346,7 +360,7 @@ export async function updateTask(
   input: UpdateTaskInput,
   options?: TaskServiceOptions,
 ): Promise<Task> {
-  if (input.assigneeId !== null && !teamMemberById.has(input.assigneeId)) {
+  if (input.assigneeId !== null && !getTeamMemberById(input.assigneeId)) {
     throw new TaskServiceError('The selected assignee is no longer available.')
   }
 
@@ -413,7 +427,7 @@ export async function moveTask(
 
 export async function listTeamWorkload(options?: TaskServiceOptions): Promise<readonly TeamMemberWorkload[]> {
   const today = getTodayDateKey()
-  const workload = teamMembers.map((user) => {
+  const workload = teamMemberRecords.map((user) => {
     const memberTasks = taskRecords.filter((task) => task.assigneeId === user.id)
 
     return {

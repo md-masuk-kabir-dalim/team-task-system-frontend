@@ -32,8 +32,8 @@
   --color-status-todo-subtle: #202936;
   --color-status-in-progress: #1aaef7;
   --color-status-in-progress-subtle: #103247;
-  --color-status-blocked: #ffa819;
-  --color-status-blocked-subtle: #3c2915;
+  --color-status-review: #ffa819;
+  --color-status-review-subtle: #3c2915;
   --color-status-done: #47d889;
   --color-status-done-subtle: #0d3425;
   --color-priority-low: #53dc92;
@@ -711,7 +711,7 @@ body,
   font-size: 0.75rem;
 }
 
-.task-timeline__bar--blocked {
+.task-timeline__bar--review {
   border-color: #f4b644;
   background: #3a2a17;
   color: #ffbf54;
@@ -3051,5 +3051,335 @@ body,
     border-top-color: #283344;
     white-space: normal;
     clip-path: none;
+  }
+
+  .task-timeline {
+    overflow: visible;
+  }
+
+  .task-timeline__header,
+  .task-timeline__row {
+    min-width: 0;
+  }
+
+  .task-calendar-grid--time,
+  .task-calendar-grid--month {
+    overflow: hidden;
+  }
+
+  .task-calendar-grid--time {
+    grid-template-columns: 3.25rem minmax(0, 1fr);
+  }
+
+  .task-calendar-grid__days {
+    min-width: 0;
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .task-calendar-grid__day {
+    min-width: 0;
+  }
+
+  .task-calendar-grid__month-weekdays,
+  .task-calendar-grid__month-days {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .task-calendar-grid__month-weekdays span:not(:first-child),
+  .task-calendar-grid__month-day:not(:first-child) {
+    display: none;
+  }
+
+  .task-calendar-grid__month-day {
+    min-height: 8rem;
+  }
+
+  .team-directory-board {
+    grid-template-columns: minmax(0, 1fr);
+    overflow: visible;
+  }
+
+  .team-department-column {
+    min-width: 0;
+  }
+
+  .team-directory-list__table {
+    display: none;
+  }
+
+  .team-directory-list__cards {
+    display: grid;
+    gap: 0.625rem;
+    margin: 0;
+    padding: 0.75rem;
+    list-style: none;
+  }
+
+  .team-directory-list__cards article {
+    display: grid;
+    gap: 0.75rem;
+    border: 1px solid #2b3647;
+    border-radius: 0.75rem;
+    background: #151c25;
+    padding: 0.75rem;
+  }
+
+  .team-directory-list__cards header,
+  .team-directory-list__cards header label,
+  .team-directory-list__card-person,
+  .team-directory-list__cards a {
+    display: flex;
+    align-items: center;
+  }
+
+  .team-directory-list__cards header {
+    justify-content: space-between;
+  }
+
+  .team-directory-list__cards header label {
+    gap: 0.5rem;
+  }
+
+  .team-directory-list__cards input[type='checkbox'] {
+    width: 1rem;
+    height: 1rem;
+    accent-color: #20b2fb;
+  }
+
+  .team-directory-list__cards .icon-button {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .team-directory-list__card-person {
+    gap: 0.625rem;
+    color: #f1f5fa;
+    text-align: left;
+  }
+
+  .team-directory-list__card-person > span {
+    display: grid;
+    gap: 0.1875rem;
+    min-width: 0;
+  }
+
+  .team-directory-list__card-person strong,
+  .team-directory-list__card-person small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .team-directory-list__card-person strong {
+    font-size: 0.75rem;
+  }
+
+  .team-directory-list__card-person small {
+    color: #9aafc3;
+    font-size: 0.625rem;
+  }
+
+  .team-directory-list__cards dl {
+    display: grid;
+    gap: 0.375rem;
+    margin: 0;
+  }
+
+  .team-directory-list__cards dl > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    color: #98abc0;
+    font-size: 0.625rem;
+  }
+
+  .team-directory-list__cards dd {
+    margin: 0;
+    color: #e5eef6;
+    text-align: right;
+  }
+
+  .team-directory-list__cards a {
+    gap: 0.375rem;
+    overflow: hidden;
+    border-top: 1px solid #273142;
+    color: #8ec6e8;
+    font-size: 0.625rem;
+    padding-top: 0.625rem;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.team-directory-list__cards {
+  display: none;
+}
+
+.task-calendar-grid--time,
+.task-calendar-grid--month {
+  overflow: hidden;
+}
+
+.task-calendar-grid__days,
+.task-calendar-grid--month {
+  min-width: 0;
+}
+
+@media (max-width: 71.99rem) {
+  .task-timeline {
+    overflow: visible;
+    padding: 0.75rem;
+  }
+
+  .task-timeline__header {
+    display: none;
+  }
+
+  .task-timeline__row {
+    display: grid;
+    min-width: 0;
+    min-height: 0;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.625rem;
+    padding: 0.75rem 0;
+  }
+
+  .task-timeline__label {
+    padding: 0;
+  }
+
+  .task-timeline__bar {
+    width: 100%;
+    min-width: 0;
+    grid-column: auto !important;
+    margin: 0;
+  }
+
+  .team-directory-board {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    overflow: visible;
+  }
+
+  .team-department-column {
+    min-width: 0;
+  }
+
+  .team-directory-list__table {
+    display: none;
+  }
+
+  .team-directory-list__cards {
+    display: grid;
+    gap: 0.625rem;
+    margin: 0;
+    padding: 0.75rem;
+    list-style: none;
+  }
+
+  .team-directory-list__cards article {
+    display: grid;
+    gap: 0.75rem;
+    border: 1px solid #2b3647;
+    border-radius: 0.75rem;
+    background: #151c25;
+    padding: 0.75rem;
+  }
+
+  .team-directory-list__cards header,
+  .team-directory-list__cards header label,
+  .team-directory-list__card-person,
+  .team-directory-list__cards a {
+    display: flex;
+    align-items: center;
+  }
+
+  .team-directory-list__cards header {
+    justify-content: space-between;
+  }
+
+  .team-directory-list__cards header label {
+    gap: 0.5rem;
+  }
+
+  .team-directory-list__cards input[type='checkbox'] {
+    width: 1rem;
+    height: 1rem;
+    accent-color: #20b2fb;
+  }
+
+  .team-directory-list__cards .icon-button {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .team-directory-list__card-person {
+    gap: 0.625rem;
+    color: #f1f5fa;
+    text-align: left;
+  }
+
+  .team-directory-list__card-person > span {
+    display: grid;
+    gap: 0.1875rem;
+    min-width: 0;
+  }
+
+  .team-directory-list__card-person strong,
+  .team-directory-list__card-person small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .team-directory-list__card-person strong {
+    font-size: 0.75rem;
+  }
+
+  .team-directory-list__card-person small {
+    color: #9aafc3;
+    font-size: 0.625rem;
+  }
+
+  .team-directory-list__cards dl {
+    display: grid;
+    gap: 0.375rem;
+    margin: 0;
+  }
+
+  .team-directory-list__cards dl > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    color: #98abc0;
+    font-size: 0.625rem;
+  }
+
+  .team-directory-list__cards dd {
+    margin: 0;
+    color: #e5eef6;
+    text-align: right;
+  }
+
+  .team-directory-list__cards a {
+    gap: 0.375rem;
+    overflow: hidden;
+    border-top: 1px solid #273142;
+    color: #8ec6e8;
+    font-size: 0.625rem;
+    padding-top: 0.625rem;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 47.99rem) {
+  .team-directory-board {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .team-directory-list__cards {
+    display: grid;
   }
 }

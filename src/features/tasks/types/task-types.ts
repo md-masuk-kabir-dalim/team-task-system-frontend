@@ -1,4 +1,4 @@
-export const taskStatuses = ['todo', 'in-progress', 'blocked', 'done'] as const
+export const taskStatuses = ['todo', 'in-progress', 'review', 'done'] as const
 
 export type TaskStatus = (typeof taskStatuses)[number]
 

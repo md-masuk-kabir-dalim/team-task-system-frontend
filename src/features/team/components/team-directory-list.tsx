@@ -67,6 +67,30 @@ export function TeamDirectoryList({
           </tbody>
         </table>
       </div>
+      <ul className="team-directory-list__cards">
+        {employees.map((employee) => (
+          <li key={employee.id}>
+            <article>
+              <header>
+                <label>
+                  <input aria-label={`Select ${employee.name}`} checked={selectedEmployeeIds.includes(employee.id)} onChange={() => onToggleEmployee(employee.id)} type="checkbox" />
+                  <span className={`employee-status employee-status--${employee.status}`}><span aria-hidden="true" />{getStatusLabel(employee.status)}</span>
+                </label>
+                <IconButton label={`Inspect ${employee.name}`} onClick={() => onOpenEmployee(employee.id)} variant="ghost"><Eye aria-hidden="true" size={16} /></IconButton>
+              </header>
+              <button className="team-directory-list__card-person" onClick={() => onOpenEmployee(employee.id)} type="button">
+                <Avatar name={employee.name} size="md" {...(employee.avatarUrl ? { src: employee.avatarUrl } : {})} />
+                <span><strong>{employee.name}</strong><small>{employee.designation}</small></span>
+              </button>
+              <dl>
+                <div><dt>Department</dt><dd>{employee.department}</dd></div>
+                <div><dt>Joined</dt><dd>{formatEmployeeDate(employee.joinDate)}</dd></div>
+              </dl>
+              <a href={`mailto:${employee.email}`}><Mail aria-hidden="true" size={14} />{employee.email}</a>
+            </article>
+          </li>
+        ))}
+      </ul>
       {!employees.length ? <p className="team-directory-list__empty">No employees match the current filters.</p> : null}
     </section>
   )

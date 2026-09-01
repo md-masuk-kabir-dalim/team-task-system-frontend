@@ -26,7 +26,7 @@ function CalendarTimeGrid({ activeCategories, days, members, selectedDate, tasks
       <div className="task-calendar-grid__times">
         {hours.map((hour) => <span key={hour}>{getTimeLabel(hour * 60)}</span>)}
       </div>
-      <div className="task-calendar-grid__days" style={{ gridTemplateColumns: `repeat(${days.length}, minmax(10.25rem, 1fr))` }}>
+      <div className="task-calendar-grid__days" style={{ gridTemplateColumns: `repeat(${days.length}, minmax(0, 1fr))` }}>
         {days.map((day) => {
           const events = filterEvents(tasks, day, activeCategories)
           const isToday = isSameCalendarDay(day, new Date())

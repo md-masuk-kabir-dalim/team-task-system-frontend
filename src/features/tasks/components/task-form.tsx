@@ -10,7 +10,7 @@ import type { TaskPriority, TaskStatus, TeamMember } from '../types/task-types.t
 const statusOptions = [
   { label: 'To do', value: 'todo' },
   { label: 'In progress', value: 'in-progress' },
-  { label: 'Blocked', value: 'blocked' },
+  { label: 'In review', value: 'review' },
   { label: 'Done', value: 'done' },
 ] as const
 

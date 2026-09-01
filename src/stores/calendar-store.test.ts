@@ -26,4 +26,15 @@ describe('calendar store', () => {
     expect(state.activeCategories.projects).toBe(false)
     expect(state.importNotice).toBe('schedule.ics is ready to map to calendar tasks.')
   })
+
+  it('can navigate using the compact day view without changing the saved desktop preference', () => {
+    const store = useCalendarStore.getState()
+
+    store.moveDate(1, 'day')
+
+    const state = useCalendarStore.getState()
+
+    expect(state.selectedDate).toBe('2026-09-03')
+    expect(state.view).toBe('week')
+  })
 })

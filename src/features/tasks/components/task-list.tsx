@@ -10,7 +10,7 @@ import { TaskStatusBadge } from './task-status-badge.tsx'
 const taskGroups: readonly { label: string; status: TaskStatus }[] = [
   { label: 'To do', status: 'todo' },
   { label: 'In progress', status: 'in-progress' },
-  { label: 'Blocked', status: 'blocked' },
+  { label: 'In review', status: 'review' },
   { label: 'Completed', status: 'done' },
 ]
 

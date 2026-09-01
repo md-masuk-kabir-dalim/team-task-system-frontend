@@ -9,7 +9,7 @@ type BadgeTone =
   | 'danger'
   | 'todo'
   | 'in-progress'
-  | 'blocked'
+  | 'review'
   | 'done'
   | 'low'
   | 'medium'

@@ -12,17 +12,17 @@ import {
 
 describe('task service', () => {
   it('filters, searches, sorts, and paginates task results', async () => {
-    const blockedTasks = await listTasks({
+    const reviewTasks = await listTasks({
       ...defaultTaskListQuery,
-      filters: { ...defaultTaskListQuery.filters, status: 'blocked' },
+      filters: { ...defaultTaskListQuery.filters, status: 'review' },
       page: 2,
       sort: { direction: 'desc', field: 'priority' },
     }, { delayMs: 0 })
 
-    expect(blockedTasks.items).toHaveLength(20)
-    expect(blockedTasks.pagination.page).toBe(2)
-    expect(blockedTasks.pagination.totalItems).toBeGreaterThan(20)
-    expect(blockedTasks.items.every((task) => task.status === 'blocked')).toBe(true)
+    expect(reviewTasks.items).toHaveLength(20)
+    expect(reviewTasks.pagination.page).toBe(2)
+    expect(reviewTasks.pagination.totalItems).toBeGreaterThan(20)
+    expect(reviewTasks.items.every((task) => task.status === 'review')).toBe(true)
 
     const assigneeSearch = await listTasks({
       ...defaultTaskListQuery,

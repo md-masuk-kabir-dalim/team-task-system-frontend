@@ -44,7 +44,7 @@ const attachments = [
 const statusOptions: readonly { label: string; value: TaskStatus }[] = [
   { label: 'To do', value: 'todo' },
   { label: 'In progress', value: 'in-progress' },
-  { label: 'In review', value: 'blocked' },
+  { label: 'In review', value: 'review' },
   { label: 'Completed', value: 'done' },
 ]
 

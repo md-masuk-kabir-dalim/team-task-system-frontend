@@ -13,7 +13,7 @@
 - Implementation screenshot path: unavailable because no browser-rendered capture can be produced.
 - Intended viewport: source desktop screenshot, approximately 1893 × 895 px. Implementation CSS viewport and device scale factor: unavailable.
 - Full-view and focused-region comparison: blocked because the implementation cannot be captured and placed alongside the reference.
-- Automated validation: production build, lint, ten tests, and diff checks pass.
+- Automated validation: production build, lint, 14 tests, and diff checks pass.
 
 ## Findings
 
@@ -42,7 +42,8 @@
 - Added a direct Zustand store test for date navigation, filters, views, and import feedback.
 - Added a shared Zustand sidebar preference, an accessible collapse/expand control, keyboard focus treatment, and a more distinguishable active navigation state.
 - Rebuilt `/team` as a reusable employee directory with a dark reference-aligned header, summary cards, department board, paginated list, CSV export, employee inspector, and form-driven employee creation.
-- Added a dedicated Zustand directory store for view, search, department filtering, selection, pagination, profile-inspector, and creation-form state, plus direct store coverage.
+- Added URL-backed Team search, department, page, and view state; Zustand retains only ephemeral selection, profile-inspector, and creation-form state. New employees are registered as task assignees during the active session.
+- Normalized the workflow language to `To do`, `In progress`, `In review`, and `Completed`; exposed pagination in List, Board, and Timeline; and added responsive Timeline, Calendar, and Team List fallbacks to remove their horizontal-scroll dependency.
 
 ## Required fidelity surfaces
 
@@ -59,7 +60,7 @@
 - [x] Store calendar UI state in Zustand.
 - [x] Verify build, lint, unit tests, and diff safety.
 - [x] Improve shared sidebar scanability and desktop density with shared Zustand UI state.
-- [x] Build reusable employee board/list surfaces backed by dedicated Zustand state.
+- [x] Build reusable employee board/list surfaces with URL-backed shareable views and dedicated Zustand UI state.
 - [ ] Capture and compare the browser-rendered calendar against the supplied reference.
 
 ## Comparison history
