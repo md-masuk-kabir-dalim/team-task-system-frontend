@@ -47,7 +47,10 @@ export function Pagination({ currentPage, onPageChange, totalPages }: Pagination
       </Button>
       <ol className="pagination__pages">
         {pageItems.map((item, index) => (
-          <li key={item === 'ellipsis' ? `ellipsis-${index}` : item}>
+          <li
+            className={item === 'ellipsis' ? 'pagination__item--ellipsis' : item === currentPage ? 'pagination__item--current' : undefined}
+            key={item === 'ellipsis' ? `ellipsis-${index}` : item}
+          >
             {item === 'ellipsis' ? (
               <span aria-hidden="true" className="pagination__ellipsis"><MoreHorizontal size={18} /></span>
             ) : (

@@ -2,6 +2,10 @@ import type { TaskPriority, TaskStatus } from './task-types.ts'
 
 export type DueDateFilter = 'all' | 'no-date' | 'overdue' | 'today' | 'upcoming'
 
+export function isDueDateFilter(value: string): value is DueDateFilter {
+  return ['all', 'no-date', 'overdue', 'today', 'upcoming'].includes(value)
+}
+
 export type AssigneeFilter = 'all' | 'unassigned' | string
 
 export interface TaskFilters {
@@ -15,7 +19,15 @@ export const taskSortFields = ['dueDate', 'priority', 'createdAt', 'updatedAt', 
 
 export type TaskSortField = (typeof taskSortFields)[number]
 
+export function isTaskSortField(value: string): value is TaskSortField {
+  return taskSortFields.includes(value as TaskSortField)
+}
+
 export type SortDirection = 'asc' | 'desc'
+
+export function isSortDirection(value: string): value is SortDirection {
+  return value === 'asc' || value === 'desc'
+}
 
 export interface TaskSort {
   direction: SortDirection
