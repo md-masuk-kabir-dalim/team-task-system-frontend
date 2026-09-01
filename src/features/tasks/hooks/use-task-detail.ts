@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { getTaskDetailById } from '../api/task-service.ts'
 import type { TaskDetailResult } from '../api/task-service.ts'
+import type { Task } from '../types/task-types.ts'
 
 type TaskDetailState =
   | { detail: TaskDetailResult | null; status: 'success' }
@@ -53,11 +54,24 @@ export function useTaskDetail(taskId: string | undefined) {
   }, [requestVersion, taskId])
 
   const retry = useCallback(() => setRequestVersion((version) => version + 1), [])
+  const replaceTask = useCallback((task: Task) => {
+    setState((currentState) => {
+      if (currentState.status !== 'success' || currentState.detail === null) {
+        return currentState
+      }
+
+      return {
+        detail: { ...currentState.detail, task },
+        status: 'success',
+      }
+    })
+  }, [])
 
   return {
     detail: state.status === 'success' ? state.detail : null,
     error: state.status === 'error' ? state.error : null,
     isLoading: state.status === 'loading',
+    replaceTask,
     retry,
   }
 }

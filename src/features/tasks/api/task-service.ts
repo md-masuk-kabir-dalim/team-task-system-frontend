@@ -279,9 +279,40 @@ export async function createTask(input: CreateTaskInput, options?: TaskServiceOp
   return cloneTask(task)
 }
 
+export async function updateTaskStatus(
+  id: string,
+  status: Task['status'],
+  options?: TaskServiceOptions,
+): Promise<Task> {
+  await resolveRequest(undefined, options)
+
+  const taskIndex = taskRecords.findIndex((record) => record.id === id)
+
+  if (taskIndex === -1) {
+    throw new TaskServiceError('This task could not be found.')
+  }
+
+  const currentTask = taskRecords[taskIndex]
+
+  if (!currentTask) {
+    throw new TaskServiceError('This task could not be found.')
+  }
+
+  const updatedTask: Task = {
+    ...currentTask,
+    status,
+    updatedAt: new Date().toISOString(),
+  }
+
+  taskRecords = taskRecords.map((task, index) => index === taskIndex ? updatedTask : task)
+
+  return cloneTask(updatedTask)
+}
+
 export const taskService = {
   createTask,
   getTaskDetailById,
   getTaskById,
   listTasks,
+  updateTaskStatus,
 }
