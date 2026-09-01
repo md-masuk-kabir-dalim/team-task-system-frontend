@@ -26,6 +26,7 @@
 
 - [x] Apply the reference palette, shell proportions, dense task-list treatment, Kanban columns, and Timeline bars.
 - [x] Keep filters, sort, task creation, navigation, and URL state functional.
+- [x] Support Kanban drag-and-drop status changes with a keyboard-accessible status-select alternative.
 - [ ] Capture and compare rendered desktop, tablet, and mobile views.
 
 ## Comparison history

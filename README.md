@@ -29,6 +29,7 @@ Then open the local Vite URL shown in the terminal. The primary product route is
 
 - Responsive app shell: full sidebar at desktop, compact tablet rail, and accessible mobile Sheet navigation.
 - Three task workspace views built from the same data: dense grouped List, Kanban, and Timeline; mobile never relies on horizontal table scrolling.
+- Drag a Kanban card into another workflow column to change its status, with optimistic feedback, rollback on failure, and an accessible status-select alternative.
 - Real mock-service loading, retryable error, empty, and in-place refresh states.
 - Search across task titles, descriptions, and assignee names.
 - Filters for status, priority, owner, and due-date state, including quick filters and a mobile filter Sheet.
