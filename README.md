@@ -72,9 +72,15 @@ The following local captures show the responsive workspace on desktop and mobile
 
 ### Mobile task workspace
 
+<div style="display:flex; flex-wrap:wrap; gap:20px;">
+
 <img src="docs/screenshots/tasks-mobile-iphone-se.png" alt="Task workspace on an iPhone SE" width="240" />
+
 <img src="docs/screenshots/tasks-mobile-xiaomi-mi-11i.png" alt="Task workspace on a Xiaomi Mi 11i" width="240" />
+
 <img src="docs/screenshots/tasks-mobile-iphone-13-pro.png" alt="Task workspace on an iPhone 13 Pro" width="240" />
+
+</div> 
 
 ## Least-confident decisions
 
