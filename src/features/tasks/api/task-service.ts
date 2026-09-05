@@ -7,7 +7,6 @@ import type {
   TaskListQuery,
   TaskSort,
   TaskSortField,
-  TaskSummary,
 } from '../types/task-query-types.ts'
 import type { Task, TaskPriority, TeamMember } from '../types/task-types.ts'
 import { getTodayDateKey, isTaskOverdue } from '../utils/task-date-utils.ts'
@@ -56,7 +55,6 @@ export interface TaskListResult {
   items: readonly Task[]
   members: readonly TeamMember[]
   pagination: PaginationMetadata
-  summary: TaskSummary
 }
 
 export interface TaskDetailResult {
@@ -91,14 +89,6 @@ export interface MoveTaskInput {
 export type TaskMoveDestination =
   | { taskId: string; type: 'after' | 'before' }
   | { type: 'end' }
-
-export interface TeamMemberWorkload {
-  activeTaskCount: number
-  overdueTaskCount: number
-  taskCount: number
-  urgentTaskCount: number
-  user: TeamMember
-}
 
 export class TaskServiceError extends Error {
   constructor(message = 'Unable to load tasks. Please try again.') {
@@ -263,15 +253,6 @@ function sortTasks(tasks: readonly Task[], sort: TaskSort) {
   })
 }
 
-function createSummary(tasks: readonly Task[], today: string): TaskSummary {
-  return tasks.reduce<TaskSummary>((summary, task) => ({
-    overdue: summary.overdue + Number(isTaskOverdue(task, today)),
-    total: summary.total + 1,
-    unassigned: summary.unassigned + Number(task.assigneeId === null),
-    urgent: summary.urgent + Number(task.priority === 'urgent'),
-  }), { overdue: 0, total: 0, unassigned: 0, urgent: 0 })
-}
-
 function createPagination(totalItems: number, page: number, pageSize: number): PaginationMetadata {
   const pageCount = Math.max(1, Math.ceil(totalItems / pageSize))
 
@@ -314,7 +295,6 @@ export async function listTasks(
     items,
     members: teamMemberRecords.map((member) => ({ ...member })),
     pagination,
-    summary: createSummary(matchingTasks, today),
   }, options)
 }
 
@@ -425,28 +405,10 @@ export async function moveTask(
   return cloneTask(movedTask)
 }
 
-export async function listTeamWorkload(options?: TaskServiceOptions): Promise<readonly TeamMemberWorkload[]> {
-  const today = getTodayDateKey()
-  const workload = teamMemberRecords.map((user) => {
-    const memberTasks = taskRecords.filter((task) => task.assigneeId === user.id)
-
-    return {
-      activeTaskCount: memberTasks.filter((task) => task.status !== 'done').length,
-      overdueTaskCount: memberTasks.filter((task) => isTaskOverdue(task, today)).length,
-      taskCount: memberTasks.length,
-      urgentTaskCount: memberTasks.filter((task) => task.priority === 'urgent' && task.status !== 'done').length,
-      user: { ...user },
-    }
-  })
-
-  return resolveRequest(workload, options)
-}
-
 export const taskService = {
   createTask,
   getTaskDetailById,
   getTaskById,
-  listTeamWorkload,
   listTasks,
   moveTask,
   updateTask,

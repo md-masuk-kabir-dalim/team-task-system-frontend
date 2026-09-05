@@ -643,7 +643,6 @@ body,
 
 .task-list,
 .task-timeline,
-.task-summary__item,
 .dialog__content,
 .sheet__content {
   border-color: var(--color-border);

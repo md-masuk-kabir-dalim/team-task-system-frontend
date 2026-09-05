@@ -15,7 +15,6 @@ import {
 import type { TaskListQuery } from '../features/tasks/types/task-query-types.ts'
 import type { Task, TaskStatus } from '../features/tasks/types/task-types.ts'
 import { asStoreError, type AsyncStatus } from './store-types.ts'
-import { useTeamWorkspaceStore } from './team-workspace-store.ts'
 
 interface TaskStore {
   createTask: (input: CreateTaskInput) => Promise<Task>
@@ -46,15 +45,10 @@ function applyTaskUpdate(state: Pick<TaskStore, 'detail' | 'list'>, task: Task) 
   }
 }
 
-function refreshRelatedWorkspaceData() {
-  void useTeamWorkspaceStore.getState().refresh()
-}
-
 export const useTaskStore = create<TaskStore>((set, get) => ({
   createTask: async (input) => {
     const task = await createTaskRequest(input)
     await get().refreshList()
-    refreshRelatedWorkspaceData()
     return task
   },
   detail: null,
@@ -106,7 +100,6 @@ export const useTaskStore = create<TaskStore>((set, get) => ({
     const task = await moveTaskRequest(input)
     set((state) => applyTaskUpdate(state, task))
     await get().refreshList()
-    refreshRelatedWorkspaceData()
     return task
   },
   refreshList: async () => {
@@ -120,14 +113,12 @@ export const useTaskStore = create<TaskStore>((set, get) => ({
     const task = await updateTaskRequest(taskId, input)
     set((state) => applyTaskUpdate(state, task))
     await get().refreshList()
-    refreshRelatedWorkspaceData()
     return task
   },
   updateTaskStatus: async (taskId, status) => {
     const task = await updateTaskStatusRequest(taskId, status)
     set((state) => applyTaskUpdate(state, task))
     await get().refreshList()
-    refreshRelatedWorkspaceData()
     return task
   },
 }))

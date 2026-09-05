@@ -64,7 +64,7 @@ npm run test
 
 ## Screenshots
 
-The following local captures show the responsive workspace on desktop and mobile device widths.
+The checked-in captures show the main task workflow at desktop and mobile sizes, plus the desktop Calendar. Before handing the project over, capture the primary `/tasks` workflow at the three assessment widths named in the brief: **1280px**, **768px**, and **375px**. Keep the files in `docs/screenshots/` and label each viewport in its caption so the reviewer can verify responsive behaviour quickly.
 
 ### Desktop calendar
 
@@ -81,6 +81,12 @@ The following local captures show the responsive workspace on desktop and mobile
 <img src="docs/screenshots/tasks-mobile-iphone-13-pro.png" alt="Task workspace on an iPhone 13 Pro" width="240" />
 
 </div> 
+
+### Submission handoff
+
+- Publish the GitHub repository or grant the reviewer access before sending the link.
+- If a Vercel deployment is available, include its URL with the repository link.
+- Confirm the three required viewport captures above are present before submission; the 768px tablet capture is the remaining required evidence in this repository.
 
 ## Least-confident decisions
 
