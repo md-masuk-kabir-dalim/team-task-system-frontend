@@ -1,6 +1,5 @@
 import type { ComponentPropsWithoutRef } from 'react'
 import { cn } from '../../lib/cn.ts'
-import { Tooltip } from './tooltip.tsx'
 
 type IconButtonVariant = 'ghost' | 'secondary'
 
@@ -20,8 +19,7 @@ export function IconButton({
   ...props
 }: IconButtonProps) {
   return (
-    <Tooltip content={tooltip ?? label}>
-      <button
+   <button
         {...props}
         aria-label={label}
         className={cn('icon-button', `icon-button--${variant}`, className)}
@@ -29,6 +27,5 @@ export function IconButton({
       >
         {children}
       </button>
-    </Tooltip>
   )
 }
