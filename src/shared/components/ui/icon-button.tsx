@@ -5,7 +5,6 @@ type IconButtonVariant = 'ghost' | 'secondary'
 
 interface IconButtonProps extends ComponentPropsWithoutRef<'button'> {
   label: string
-  tooltip?: string
   variant?: IconButtonVariant
 }
 
@@ -13,7 +12,6 @@ export function IconButton({
   children,
   className,
   label,
-  tooltip,
   type = 'button',
   variant = 'ghost',
   ...props
