@@ -14,7 +14,7 @@ export function Sidebar() {
   return (
     <aside className={cn('sidebar', isCollapsed && 'sidebar--collapsed')}>
       <div className="sidebar__brand-row">
-        <Link aria-label="Team tasks" className="brand" to={appRoutes.tasks}>
+        <Link aria-label="Team tasks home" className="brand" to={appRoutes.root}>
           <span aria-hidden="true" className="brand__mark">
             <Droplets size={27} strokeWidth={2.4} />
           </span>
@@ -22,7 +22,7 @@ export function Sidebar() {
         </Link>
         <IconButton
           className="sidebar__collapse-control"
-          label={isCollapsed ? '' : ''}
+          label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           onClick={toggleSidebar}
           variant="secondary"
         >

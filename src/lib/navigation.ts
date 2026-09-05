@@ -1,4 +1,4 @@
-import { CalendarDays, ListTodo, UsersRound } from 'lucide-react'
+import { CalendarDays, House, ListTodo, UsersRound } from 'lucide-react'
 import type { NavigationItem, PageContext } from '../types/navigation-types.ts'
 
 export const appRoutes = {
@@ -11,12 +11,14 @@ export const appRoutes = {
 } as const
 
 export const primaryNavigation: readonly NavigationItem[] = [
+  { icon: House, label: 'Home', to: appRoutes.root },
   { icon: ListTodo, label: 'Tasks', to: appRoutes.tasks },
   { icon: CalendarDays, label: 'Calendar', to: appRoutes.calendar },
   { icon: UsersRound, label: 'Team', to: appRoutes.team },
 ]
 
 const pageContexts: Record<string, PageContext> = {
+  [appRoutes.root]: { eyebrow: 'Workspace', title: 'Home' },
   [appRoutes.tasks]: { eyebrow: 'Workspace', title: 'Tasks' },
   [appRoutes.calendar]: { eyebrow: 'Workspace', title: 'Calendar' },
   [appRoutes.team]: { eyebrow: 'Workspace', title: 'Team' },

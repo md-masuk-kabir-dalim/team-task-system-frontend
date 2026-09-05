@@ -38,7 +38,7 @@ export function Sheet({ children, description, footer, id, onClose, open, side =
             <h2 className="sheet__title" id={titleId}>{title}</h2>
             {description ? <p className="sheet__description" id={descriptionId}>{description}</p> : null}
           </div>
-          <IconButton label="" onClick={onClose} variant="ghost">
+          <IconButton label={`Close ${title}`} onClick={onClose} variant="ghost">
             <X aria-hidden="true" size={20} />
           </IconButton>
         </header>

@@ -15,7 +15,7 @@ export function MobileHeader() {
 
   return (
     <header className="mobile-header">
-      <Link aria-label="Team tasks" className="brand brand--mobile" to={appRoutes.tasks}>
+      <Link aria-label="Team tasks home" className="brand brand--mobile" to={appRoutes.root}>
         <span aria-hidden="true" className="brand__mark">
           <Droplets size={22} strokeWidth={2.4} />
         </span>
@@ -27,7 +27,7 @@ export function MobileHeader() {
       <IconButton
         aria-controls="mobile-navigation"
         aria-expanded={isNavigationOpen}
-        label=""
+        label="Open navigation"
         onClick={openNavigation}
         variant="secondary"
       >

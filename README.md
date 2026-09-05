@@ -11,7 +11,7 @@ npm install
 npm run dev
 ```
 
-Open the Vite URL printed in the terminal. The primary route is `/tasks`; supporting routes are `/calendar`, `/team`, and `/tasks/:taskId`.
+Open the Vite URL printed in the terminal. The primary route is `/`, with `/tasks`, `/calendar`, `/team`, and `/tasks/:taskId` supporting the workspace flow.
 
 | Command | Purpose |
 | --- | --- |
@@ -24,6 +24,7 @@ Open the Vite URL printed in the terminal. The primary route is `/tasks`; suppor
 ## What is built
 
 - 360 deterministic task fixtures with long titles, missing descriptions, no-owner/no-date tasks, overdue/today/future dates, and varied priorities.
+- A user-friendly Home dashboard at `/` with live workload signals, attention-needed tasks, quick navigation, and task creation.
 - Fast task and assignee search, status/priority/owner/due-date filters, sorting, pagination, and task details.
 - Four unambiguous workflow stages: **To do**, **In progress**, **In review**, and **Completed**. Tasks can be moved by Kanban drag-and-drop or the keyboard-accessible status control.
 - List, Kanban, and Timeline views from one query result. Pagination is available in every view so Board and Timeline never silently hide the rest of the backlog.

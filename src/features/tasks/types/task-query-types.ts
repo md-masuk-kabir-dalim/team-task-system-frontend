@@ -57,3 +57,10 @@ export interface PaginationMetadata {
   pageSize: number
   totalItems: number
 }
+
+export interface TaskSummary {
+  overdue: number
+  total: number
+  unassigned: number
+  urgent: number
+}
