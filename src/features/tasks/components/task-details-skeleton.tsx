@@ -1,4 +1,4 @@
-import { Skeleton } from '../../../components/ui/skeleton.tsx'
+import { Skeleton } from '@/shared/components/ui/skeleton.tsx'
 
 export function TaskDetailsSkeleton() {
   return (

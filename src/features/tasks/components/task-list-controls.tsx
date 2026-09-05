@@ -1,4 +1,4 @@
-import { Pagination } from '../../../components/ui/pagination.tsx'
+import { Pagination } from '@/shared/components/ui/pagination.tsx'
 import type { PaginationMetadata } from '../types/task-query-types.ts'
 
 interface TaskListControlsProps {

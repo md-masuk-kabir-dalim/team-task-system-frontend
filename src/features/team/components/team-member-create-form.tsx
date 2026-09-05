@@ -1,7 +1,7 @@
 import type { FormEvent } from 'react'
-import { Button } from '../../../components/ui/button.tsx'
-import { Input } from '../../../components/ui/input.tsx'
-import { Select } from '../../../components/ui/select.tsx'
+import { Button } from '@/shared/components/ui/button.tsx'
+import { Input } from '@/shared/components/ui/input.tsx'
+import { Select } from '@/shared/components/ui/select.tsx'
 import { employeeDepartments, employeeStatuses, type EmployeeDepartment, type EmployeeDraft, type EmployeeStatus } from '../types/team-directory-types.ts'
 
 interface TeamMemberCreateFormProps {

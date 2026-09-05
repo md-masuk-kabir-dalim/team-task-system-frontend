@@ -1,16 +1,18 @@
 import { ArrowRight, CalendarDays, CircleAlert, ClipboardCheck, ListTodo, Sparkles, UsersRound } from 'lucide-react'
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { ErrorState } from '../../components/feedback/error-state.tsx'
-import { LoadingState } from '../../components/feedback/loading-state.tsx'
-import { Badge } from '../../components/ui/badge.tsx'
-import { appRoutes } from '../../lib/navigation.ts'
-import { defaultTaskListQuery } from '../tasks/api/task-service.ts'
-import { TaskAssignee } from '../tasks/components/task-assignee.tsx'
-import { TaskCreateControl } from '../tasks/components/task-create-control.tsx'
-import { TaskPriorityBadge } from '../tasks/components/task-priority-badge.tsx'
-import { useTaskList } from '../tasks/hooks/use-task-list.ts'
-import type { TaskSummary } from '../tasks/types/task-query-types.ts'
+import { ErrorState } from '@/shared/components/feedback/error-state.tsx'
+import { LoadingState } from '@/shared/components/feedback/loading-state.tsx'
+import { Badge } from '@/shared/components/ui/badge.tsx'
+import { appRoutes } from '@/app/navigation.ts'
+import {
+  defaultTaskListQuery,
+  TaskAssignee,
+  TaskCreateControl,
+  TaskPriorityBadge,
+  type TaskSummary,
+  useTaskList,
+} from '@/features/tasks'
 import { formatTaskDueDate, isTaskOverdue } from '../tasks/utils/task-date-utils.ts'
 
 interface HomeMetricProps {

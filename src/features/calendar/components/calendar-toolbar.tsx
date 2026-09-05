@@ -1,5 +1,5 @@
 import { CalendarDays, ChevronLeft, ChevronRight } from 'lucide-react'
-import { Button } from '../../../components/ui/button.tsx'
+import { Button } from '@/shared/components/ui/button.tsx'
 import type { CalendarView } from '../types/calendar-types.ts'
 
 interface CalendarToolbarProps {

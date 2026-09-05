@@ -13,6 +13,8 @@ npm run dev
 
 Open the Vite URL printed in the terminal. The primary route is `/`, with `/tasks`, `/calendar`, `/team`, and `/tasks/:taskId` supporting the workspace flow.
 
+The project uses a feature-based, layered frontend architecture. See [the architecture guide](docs/architecture.md) for folder ownership and dependency rules.
+
 | Command | Purpose |
 | --- | --- |
 | `npm run dev` | Start the development server. |

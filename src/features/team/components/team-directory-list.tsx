@@ -1,6 +1,6 @@
 import { Eye, Mail } from 'lucide-react'
-import { Avatar } from '../../../components/ui/avatar.tsx'
-import { IconButton } from '../../../components/ui/icon-button.tsx'
+import { Avatar } from '@/shared/components/ui/avatar.tsx'
+import { IconButton } from '@/shared/components/ui/icon-button.tsx'
 import type { DirectoryEmployee } from '../types/team-directory-types.ts'
 import { formatEmployeeDate } from '../utils/team-directory-utils.ts'
 

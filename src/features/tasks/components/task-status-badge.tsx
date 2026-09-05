@@ -1,5 +1,5 @@
 import { CircleCheck } from 'lucide-react'
-import { Badge } from '../../../components/ui/badge.tsx'
+import { Badge } from '@/shared/components/ui/badge.tsx'
 import type { TaskStatus } from '../types/task-types.ts'
 
 const statusLabels: Record<TaskStatus, string> = {

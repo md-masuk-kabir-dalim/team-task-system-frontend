@@ -1,4 +1,4 @@
-import { Avatar } from '../../../components/ui/avatar.tsx'
+import { Avatar } from '@/shared/components/ui/avatar.tsx'
 import type { TeamMember } from '../types/task-types.ts'
 
 interface TaskAssigneeProps {

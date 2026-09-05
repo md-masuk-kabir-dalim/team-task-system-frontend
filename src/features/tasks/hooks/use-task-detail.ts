@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react'
-import { useTaskStore } from '../../../stores/task-store.ts'
+import { useTaskStore } from '../model/task-store.ts'
 
 export function useTaskDetail(taskId: string | undefined) {
   const detail = useTaskStore((state) => state.detail)

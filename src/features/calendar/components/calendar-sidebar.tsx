@@ -1,5 +1,5 @@
 import { Plus } from 'lucide-react'
-import { Button } from '../../../components/ui/button.tsx'
+import { Button } from '@/shared/components/ui/button.tsx'
 import { CalendarMiniMonth } from './calendar-mini-month.tsx'
 import { getCalendarCategory, type CalendarCategoryDefinition, type CalendarCategoryVisibility } from '../types/calendar-types.ts'
 import type { Task } from '../../tasks/types/task-types.ts'

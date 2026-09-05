@@ -1,7 +1,7 @@
 import { Ellipsis, Mail, Phone, UserRound } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { Avatar } from '../../../components/ui/avatar.tsx'
-import { appRoutes } from '../../../lib/navigation.ts'
+import { Avatar } from '@/shared/components/ui/avatar.tsx'
+import { appRoutes } from '@/app/navigation.ts'
 import type { DirectoryEmployee } from '../types/team-directory-types.ts'
 
 interface TeamMemberCardProps {

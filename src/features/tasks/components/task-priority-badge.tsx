@@ -1,5 +1,5 @@
 import { Circle } from 'lucide-react'
-import { Badge } from '../../../components/ui/badge.tsx'
+import { Badge } from '@/shared/components/ui/badge.tsx'
 import type { TaskPriority } from '../types/task-types.ts'
 
 const priorityLabels: Record<TaskPriority, string> = {

@@ -1,4 +1,4 @@
-import { Badge } from '../../../components/ui/badge.tsx'
+import { Badge } from '@/shared/components/ui/badge.tsx'
 import type { TaskFilters } from '../types/task-query-types.ts'
 import type { TeamMember } from '../types/task-types.ts'
 

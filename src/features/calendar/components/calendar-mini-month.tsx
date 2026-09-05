@@ -1,5 +1,5 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { IconButton } from '../../../components/ui/icon-button.tsx'
+import { IconButton } from '@/shared/components/ui/icon-button.tsx'
 import { addMonths, formatMonthTitle, getMonthGridDays, isSameCalendarDay, toDateKey } from '../utils/calendar-utils.ts'
 
 interface CalendarMiniMonthProps {

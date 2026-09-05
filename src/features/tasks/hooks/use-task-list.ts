@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react'
-import { useTaskStore } from '../../../stores/task-store.ts'
+import { useTaskStore } from '../model/task-store.ts'
 import type { TaskListQuery } from '../types/task-query-types.ts'
 
 export function useTaskList(query: TaskListQuery) {

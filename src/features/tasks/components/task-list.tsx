@@ -1,6 +1,6 @@
 import { CalendarDays, ChevronRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { appRoutes } from '../../../lib/navigation.ts'
+import { appRoutes } from '@/app/navigation.ts'
 import type { Task, TaskStatus, TeamMember } from '../types/task-types.ts'
 import { formatTaskDueDate, isTaskOverdue } from '../utils/task-date-utils.ts'
 import { TaskAssignee } from './task-assignee.tsx'
