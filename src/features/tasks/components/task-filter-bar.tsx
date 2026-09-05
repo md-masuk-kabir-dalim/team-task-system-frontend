@@ -1,9 +1,13 @@
-import { ArrowDownUp, Filter, Search } from 'lucide-react'
+import { ArrowDownUp, Filter, ListTodo, Search } from 'lucide-react'
+import { useEffect, useId, useRef, useState } from 'react'
 import type { ChangeEvent } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Button } from '../../../components/ui/button.tsx'
 import { Select } from '../../../components/ui/select.tsx'
 import { Sheet } from '../../../components/ui/sheet.tsx'
+import { appRoutes } from '../../../lib/navigation.ts'
 import { useUiStore } from '../../../stores/ui-store.ts'
+import { defaultTaskListQuery, listTasks, type TaskListResult } from '../api/task-service.ts'
 import type { DueDateFilter, TaskFilters, TaskSort } from '../types/task-query-types.ts'
 import type { TaskPriority, TaskStatus, TeamMember } from '../types/task-types.ts'
 
@@ -103,6 +107,110 @@ function TaskFilterFields({ filters, members, onFiltersChange }: Pick<TaskFilter
   )
 }
 
+interface TaskSearchControlProps {
+  onSearchChange: (search: string) => void
+  search: string
+}
+
+function TaskSearchControl({ onSearchChange, search }: TaskSearchControlProps) {
+  const navigate = useNavigate()
+  const [suggestionResult, setSuggestionResult] = useState<TaskListResult | null>(null)
+  const [isSearching, setIsSearching] = useState(Boolean(search.trim()))
+  const [isSuggestionsOpen, setIsSuggestionsOpen] = useState(false)
+  const requestIdRef = useRef(0)
+  const suggestionListId = useId()
+  const normalizedSearch = search.trim()
+  const suggestions = suggestionResult?.items ?? []
+  const membersById = new Map(suggestionResult?.members.map((member) => [member.id, member]))
+
+  useEffect(() => {
+    const requestId = ++requestIdRef.current
+
+    if (!normalizedSearch) {
+      return undefined
+    }
+
+    const timer = globalThis.setTimeout(() => {
+      void listTasks({
+        ...defaultTaskListQuery,
+        pageSize: 5,
+        search: normalizedSearch,
+      }, { delayMs: 140 }).then((result) => {
+        if (requestId === requestIdRef.current) {
+          setSuggestionResult(result)
+          setIsSearching(false)
+        }
+      }).catch(() => {
+        if (requestId === requestIdRef.current) {
+          setSuggestionResult(null)
+          setIsSearching(false)
+        }
+      })
+    }, 180)
+
+    return () => globalThis.clearTimeout(timer)
+  }, [normalizedSearch])
+
+  const openTask = (taskId: string) => {
+    setIsSuggestionsOpen(false)
+    navigate(appRoutes.taskDetails(taskId))
+  }
+
+  return (
+    <div
+      className="task-search"
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) {
+          setIsSuggestionsOpen(false)
+        }
+      }}
+    >
+      <Search aria-hidden="true" size={18} />
+      <label className="sr-only" htmlFor="task-search">Search tasks</label>
+      <input
+        aria-autocomplete="list"
+        aria-controls={normalizedSearch ? suggestionListId : undefined}
+        aria-expanded={isSuggestionsOpen && Boolean(normalizedSearch)}
+        id="task-search"
+        onChange={(event) => {
+          const nextSearch = event.target.value
+          const canSearch = Boolean(nextSearch.trim())
+          onSearchChange(nextSearch)
+          setSuggestionResult(null)
+          setIsSearching(canSearch)
+          setIsSuggestionsOpen(canSearch)
+        }}
+        onFocus={() => setIsSuggestionsOpen(Boolean(normalizedSearch))}
+        placeholder="Search tasks, descriptions, or people"
+        type="search"
+        value={search}
+      />
+      {isSuggestionsOpen && normalizedSearch ? (
+        <section aria-label="Task search suggestions" className="task-search__suggestions" id={suggestionListId}>
+          {isSearching ? <p>Searching tasks…</p> : null}
+          {!isSearching && suggestions.length ? (
+            <ul>
+              {suggestions.map((task) => {
+                const assignee = task.assigneeId ? membersById.get(task.assigneeId) : undefined
+
+                return (
+                  <li key={task.id}>
+                    <button onClick={() => openTask(task.id)} type="button">
+                      <ListTodo aria-hidden="true" size={15} />
+                      <span><strong>{task.title}</strong><small>{assignee?.name ?? 'Unassigned'} · {task.status.replace('-', ' ')}</small></span>
+                    </button>
+                  </li>
+                )
+              })}
+            </ul>
+          ) : null}
+          {!isSearching && !suggestions.length ? <p>No task or owner matches “{normalizedSearch}”.</p> : null}
+        </section>
+      ) : null}
+    </div>
+  )
+}
+
 export function TaskFilterBar({ filters, members, onClear, onFiltersChange, onSearchChange, onSortChange, search, sort }: TaskFilterBarProps) {
   const closeFilterSheet = useUiStore((state) => state.closeFilterSheet)
   const closeSortSheet = useUiStore((state) => state.closeSortSheet)
@@ -114,16 +222,7 @@ export function TaskFilterBar({ filters, members, onClear, onFiltersChange, onSe
 
   return (
     <section aria-label="Task controls" className="task-filter-bar">
-      <label className="task-search">
-        <span className="sr-only">Search tasks</span>
-        <Search aria-hidden="true" size={18} />
-        <input
-          onChange={(event) => onSearchChange(event.target.value)}
-          placeholder="Search tasks, descriptions, or people"
-          type="search"
-          value={search}
-        />
-      </label>
+      <TaskSearchControl onSearchChange={onSearchChange} search={search} />
 
       <div className="task-filter-bar__actions">
         <Button onClick={openFilterSheet} variant="secondary">

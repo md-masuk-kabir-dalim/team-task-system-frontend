@@ -156,6 +156,102 @@ body,
   color: #9aa9bd;
 }
 
+.topbar__search {
+  position: relative;
+  z-index: 6;
+}
+
+.topbar__suggestions {
+  position: absolute;
+  z-index: 8;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  width: 100%;
+  max-height: min(28rem, calc(100vh - 7rem));
+  overflow: auto;
+  border: 1px solid #2e3d50;
+  border-radius: 0.875rem;
+  background: #111a25;
+  box-shadow: 0 1.25rem 3rem rgb(0 0 0 / 0.38);
+  padding: 0.375rem;
+}
+
+.topbar__suggestions ul {
+  display: grid;
+  gap: 0.375rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.topbar__suggestion {
+  display: grid;
+  width: 100%;
+  min-height: 3.5rem;
+  grid-template-columns: 2.25rem minmax(0, 1fr);
+  align-items: center;
+  gap: 0.625rem;
+  border: 1px solid #293b50;
+  border-radius: 0.75rem;
+  background: #182635;
+  color: inherit;
+  padding: 0.625rem;
+  text-align: left;
+  transition: background-color 150ms ease, border-color 150ms ease, transform 150ms ease;
+}
+
+.topbar__suggestion:hover,
+.topbar__suggestion--active {
+  border-color: #3d9bcb;
+  background: #1e3447;
+  transform: translateY(-1px);
+}
+
+.topbar__suggestion:focus-visible {
+  outline: 0.125rem solid var(--color-focus-ring);
+  outline-offset: -0.125rem;
+}
+
+.topbar__suggestion-icon {
+  display: grid;
+  width: 2.25rem;
+  height: 2.25rem;
+  place-items: center;
+  border-radius: 0.5625rem;
+  background: #103348;
+  color: #70d0fd;
+}
+
+.topbar__suggestion-content {
+  display: grid;
+  min-width: 0;
+  gap: 0.125rem;
+}
+
+.topbar__suggestion-content strong,
+.topbar__suggestion-content small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.topbar__suggestion-content strong { color: #edf5fc; font-size: 0.75rem; }
+.topbar__suggestion-content small { color: #90a4bb; font-size: 0.625rem; text-transform: capitalize; }
+.topbar__suggestions-status,
+.topbar__suggestions-hint {
+  margin: 0;
+  color: #8fa3b9;
+  font-size: 0.6875rem;
+  line-height: 1.45;
+  padding: 0.625rem;
+}
+
+.topbar__suggestions-hint {
+  border-top: 1px solid #293648;
+  color: #72859e;
+  font-size: 0.625rem;
+}
+
 .topbar__actions {
   gap: 0.625rem;
 }
@@ -2970,6 +3066,85 @@ body,
 .task-search input::placeholder {
   color: #7f8ea3;
 }
+
+.task-search {
+  position: relative;
+  z-index: 5;
+}
+
+.task-search__suggestions {
+  position: absolute;
+  z-index: 8;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  width: 100%;
+  max-height: min(28rem, calc(100vh - 7rem));
+  overflow: auto;
+  border: 1px solid #2d3b4e;
+  border-radius: 0.75rem;
+  background: #111a25;
+  box-shadow: 0 1rem 2.5rem rgb(0 0 0 / 0.32);
+  padding: 0.375rem;
+}
+
+.task-search__suggestions p {
+  margin: 0;
+  color: #8ea2b9;
+  font-size: 0.6875rem;
+  padding: 0.75rem;
+}
+
+.task-search__suggestions ul {
+  display: grid;
+  gap: 0.375rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.task-search__suggestions button {
+  display: grid;
+  width: 100%;
+  min-height: 3.5rem;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.625rem;
+  border: 1px solid #293b50;
+  border-radius: 0.75rem;
+  background: #182635;
+  color: #6fcdfb;
+  padding: 0.625rem;
+  text-align: left;
+  transition: background-color 150ms ease, border-color 150ms ease, transform 150ms ease;
+}
+
+.task-search__suggestions button:hover,
+.task-search__suggestions button:focus-visible {
+  border-color: #3d9bcb;
+  background: #1e3447;
+  transform: translateY(-1px);
+}
+
+.task-search__suggestions button:focus-visible {
+  outline: 0.125rem solid var(--color-focus-ring);
+  outline-offset: -0.125rem;
+}
+
+.task-search__suggestions button > span {
+  display: grid;
+  min-width: 0;
+  gap: 0.125rem;
+}
+
+.task-search__suggestions strong,
+.task-search__suggestions small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.task-search__suggestions strong { color: #edf5fc; font-size: 0.75rem; }
+.task-search__suggestions small { color: #91a4ba; font-size: 0.625rem; text-transform: capitalize; }
 
 @keyframes workspace-column-enter {
   from {

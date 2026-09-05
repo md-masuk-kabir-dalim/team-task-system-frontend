@@ -1,7 +1,8 @@
-import { Bell, CalendarDays, Search, Share2, Sun } from 'lucide-react'
-import { useState } from 'react'
-import type { FormEvent } from 'react'
+import { Bell, CalendarDays, ListTodo, Search, Share2, Sun } from 'lucide-react'
+import { useEffect, useId, useRef, useState } from 'react'
+import type { FormEvent, KeyboardEvent } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { defaultTaskListQuery, listTasks, type TaskListResult } from '../../features/tasks/api/task-service.ts'
 import { appRoutes, getPageContext } from '../../lib/navigation.ts'
 import { usePreferencesStore } from '../../stores/preferences-store.ts'
 import { Avatar } from '../ui/avatar.tsx'
@@ -19,6 +20,48 @@ interface GlobalTaskSearchProps {
 function GlobalTaskSearch({ pathname, search }: GlobalTaskSearchProps) {
   const navigate = useNavigate()
   const [searchValue, setSearchValue] = useState(() => getSearchValue(search))
+  const [suggestionResult, setSuggestionResult] = useState<TaskListResult | null>(null)
+  const [isSearching, setIsSearching] = useState(() => getSearchValue(search).trim().length > 0)
+  const [isSuggestionsOpen, setIsSuggestionsOpen] = useState(false)
+  const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(-1)
+  const requestIdRef = useRef(0)
+  const suggestionListId = useId()
+  const normalizedSearch = searchValue.trim()
+  const suggestions = suggestionResult?.items ?? []
+  const membersById = new Map(suggestionResult?.members.map((member) => [member.id, member]))
+
+  useEffect(() => {
+    const requestId = ++requestIdRef.current
+
+    if (!normalizedSearch) {
+      return undefined
+    }
+
+    const timer = globalThis.setTimeout(() => {
+      void listTasks({
+        ...defaultTaskListQuery,
+        pageSize: 5,
+        search: normalizedSearch,
+      }, { delayMs: 140 }).then((result) => {
+        if (requestId === requestIdRef.current) {
+          setSuggestionResult(result)
+          setIsSearching(false)
+        }
+      }).catch(() => {
+        if (requestId === requestIdRef.current) {
+          setSuggestionResult(null)
+          setIsSearching(false)
+        }
+      })
+    }, 180)
+
+    return () => globalThis.clearTimeout(timer)
+  }, [normalizedSearch])
+
+  const openTask = (taskId: string) => {
+    setIsSuggestionsOpen(false)
+    navigate(appRoutes.taskDetails(taskId))
+  }
 
   const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -34,21 +77,102 @@ function GlobalTaskSearch({ pathname, search }: GlobalTaskSearchProps) {
 
     nextParams.delete('page')
     const nextSearch = nextParams.toString()
+    setIsSuggestionsOpen(false)
     navigate({ pathname: appRoutes.tasks, search: nextSearch ? `?${nextSearch}` : '' })
   }
 
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Escape') {
+      setIsSuggestionsOpen(false)
+      setActiveSuggestionIndex(-1)
+      return
+    }
+
+    if (!suggestions.length || !isSuggestionsOpen) {
+      return
+    }
+
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault()
+      const direction = event.key === 'ArrowDown' ? 1 : -1
+      setActiveSuggestionIndex((currentIndex) => (currentIndex + direction + suggestions.length) % suggestions.length)
+      return
+    }
+
+    if (event.key === 'Enter' && activeSuggestionIndex >= 0) {
+      event.preventDefault()
+      const activeSuggestion = suggestions[activeSuggestionIndex]
+
+      if (activeSuggestion) {
+        openTask(activeSuggestion.id)
+      }
+    }
+  }
+
   return (
-    <form aria-label="Global search" className="topbar__search" onSubmit={handleSearchSubmit} role="search">
+    <form
+      aria-label="Global search"
+      className="topbar__search"
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) {
+          setIsSuggestionsOpen(false)
+          setActiveSuggestionIndex(-1)
+        }
+      }}
+      onSubmit={handleSearchSubmit}
+      role="search"
+    >
       <Search aria-hidden="true" size={18} strokeWidth={1.9} />
       <label className="sr-only" htmlFor="global-task-search">Search tasks and people</label>
       <input
+        aria-autocomplete="list"
+        aria-controls={normalizedSearch ? suggestionListId : undefined}
+        aria-expanded={isSuggestionsOpen && Boolean(normalizedSearch)}
         id="global-task-search"
-        onChange={(event) => setSearchValue(event.target.value)}
+        onChange={(event) => {
+          const nextValue = event.target.value
+          const canSearch = Boolean(nextValue.trim())
+          setSearchValue(nextValue)
+          setSuggestionResult(null)
+          setIsSearching(canSearch)
+          setIsSuggestionsOpen(canSearch)
+          setActiveSuggestionIndex(-1)
+        }}
+        onFocus={() => setIsSuggestionsOpen(Boolean(normalizedSearch))}
+        onKeyDown={handleKeyDown}
         placeholder="Search tasks and people"
         type="search"
         value={searchValue}
       />
       <span aria-hidden="true" className="topbar__search-hint">Enter</span>
+      {isSuggestionsOpen && normalizedSearch ? (
+        <section aria-label="Task search suggestions" className="topbar__suggestions" id={suggestionListId}>
+          {isSearching ? <p className="topbar__suggestions-status">Searching tasks…</p> : null}
+          {!isSearching && suggestions.length ? (
+            <ul>
+              {suggestions.map((task, index) => {
+                const assignee = task.assigneeId ? membersById.get(task.assigneeId) : undefined
+
+                return (
+                  <li key={task.id}>
+                    <button
+                      className={activeSuggestionIndex === index ? 'topbar__suggestion topbar__suggestion--active' : 'topbar__suggestion'}
+                      onClick={() => openTask(task.id)}
+                      onMouseMove={() => setActiveSuggestionIndex(index)}
+                      type="button"
+                    >
+                      <span className="topbar__suggestion-icon"><ListTodo aria-hidden="true" size={15} /></span>
+                      <span className="topbar__suggestion-content"><strong>{task.title}</strong><small>{assignee?.name ?? 'Unassigned'} · {task.status.replace('-', ' ')}</small></span>
+                    </button>
+                  </li>
+                )
+              })}
+            </ul>
+          ) : null}
+          {!isSearching && !suggestions.length ? <p className="topbar__suggestions-status">No tasks or owners match “{normalizedSearch}”.</p> : null}
+          {!isSearching && suggestions.length ? <p className="topbar__suggestions-hint">Use ↑ ↓ to choose, then Enter to open. Press Enter without a selection to see all results.</p> : null}
+        </section>
+      ) : null}
     </form>
   )
 }
