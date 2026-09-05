@@ -13,11 +13,12 @@ function getSearchValue(search: string) {
 }
 
 interface GlobalTaskSearchProps {
+  onNavigate?: () => void
   pathname: string
   search: string
 }
 
-function GlobalTaskSearch({ pathname, search }: GlobalTaskSearchProps) {
+export function GlobalTaskSearch({ onNavigate, pathname, search }: GlobalTaskSearchProps) {
   const navigate = useNavigate()
   const [searchValue, setSearchValue] = useState(() => getSearchValue(search))
   const [suggestionResult, setSuggestionResult] = useState<TaskListResult | null>(null)
@@ -60,6 +61,7 @@ function GlobalTaskSearch({ pathname, search }: GlobalTaskSearchProps) {
 
   const openTask = (taskId: string) => {
     setIsSuggestionsOpen(false)
+    onNavigate?.()
     navigate(appRoutes.taskDetails(taskId))
   }
 
@@ -78,6 +80,7 @@ function GlobalTaskSearch({ pathname, search }: GlobalTaskSearchProps) {
     nextParams.delete('page')
     const nextSearch = nextParams.toString()
     setIsSuggestionsOpen(false)
+    onNavigate?.()
     navigate({ pathname: appRoutes.tasks, search: nextSearch ? `?${nextSearch}` : '' })
   }
 
@@ -122,29 +125,31 @@ function GlobalTaskSearch({ pathname, search }: GlobalTaskSearchProps) {
       onSubmit={handleSearchSubmit}
       role="search"
     >
-      <Search aria-hidden="true" size={18} strokeWidth={1.9} />
-      <label className="sr-only" htmlFor="global-task-search">Search tasks and people</label>
-      <input
-        aria-autocomplete="list"
-        aria-controls={normalizedSearch ? suggestionListId : undefined}
-        aria-expanded={isSuggestionsOpen && Boolean(normalizedSearch)}
-        id="global-task-search"
-        onChange={(event) => {
-          const nextValue = event.target.value
-          const canSearch = Boolean(nextValue.trim())
-          setSearchValue(nextValue)
-          setSuggestionResult(null)
-          setIsSearching(canSearch)
-          setIsSuggestionsOpen(canSearch)
-          setActiveSuggestionIndex(-1)
-        }}
-        onFocus={() => setIsSuggestionsOpen(Boolean(normalizedSearch))}
-        onKeyDown={handleKeyDown}
-        placeholder="Search tasks and people"
-        type="search"
-        value={searchValue}
-      />
-      <span aria-hidden="true" className="topbar__search-hint">Enter</span>
+      <div className="topbar__search-field">
+        <Search aria-hidden="true" size={18} strokeWidth={1.9} />
+        <label className="sr-only" htmlFor="global-task-search">Search tasks and people</label>
+        <input
+          aria-autocomplete="list"
+          aria-controls={normalizedSearch ? suggestionListId : undefined}
+          aria-expanded={isSuggestionsOpen && Boolean(normalizedSearch)}
+          id="global-task-search"
+          onChange={(event) => {
+            const nextValue = event.target.value
+            const canSearch = Boolean(nextValue.trim())
+            setSearchValue(nextValue)
+            setSuggestionResult(null)
+            setIsSearching(canSearch)
+            setIsSuggestionsOpen(canSearch)
+            setActiveSuggestionIndex(-1)
+          }}
+          onFocus={() => setIsSuggestionsOpen(Boolean(normalizedSearch))}
+          onKeyDown={handleKeyDown}
+          placeholder="Search tasks and people"
+          type="search"
+          value={searchValue}
+        />
+        <span aria-hidden="true" className="topbar__search-hint">Enter</span>
+      </div>
       {isSuggestionsOpen && normalizedSearch ? (
         <section aria-label="Task search suggestions" className="topbar__suggestions" id={suggestionListId}>
           {isSearching ? <p className="topbar__suggestions-status">Searching tasks…</p> : null}

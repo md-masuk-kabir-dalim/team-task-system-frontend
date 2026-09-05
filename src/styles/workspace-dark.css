@@ -3300,6 +3300,53 @@ body,
     background: #10151e;
   }
 
+  .mobile-task-search .topbar__search {
+    display: grid;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 0.5rem;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .mobile-task-search .topbar__search:focus-within {
+    border-color: transparent;
+    box-shadow: none;
+  }
+
+  .mobile-task-search .topbar__search-field {
+    display: grid;
+    width: 100%;
+    min-height: 3.125rem;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid transparent;
+    border-radius: 1rem;
+    background: #1c2430;
+    color: #8ca1be;
+    padding-inline: 0.75rem;
+  }
+
+  .mobile-task-search .topbar__search-field:focus-within {
+    border-color: rgb(24 169 245 / 0.7);
+    box-shadow: 0 0 0 0.1875rem rgb(24 169 245 / 0.14);
+  }
+
+  .mobile-task-search .topbar__search > .topbar__suggestions {
+    position: static !important;
+    inset: auto !important;
+    z-index: auto;
+    width: auto;
+    max-height: none;
+    margin-top: 0;
+  }
+
   .page-container {
     padding: 1rem;
   }
@@ -3880,7 +3927,19 @@ body,
   .home-hero__actions > * { flex: 1; justify-content: center; }
   .home-overview { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .home-metric { min-height: 5.5rem; }
+  .home-section-heading > div { min-width: 0; }
+  .home-section-heading h2 { overflow-wrap: anywhere; }
+  .home-section-heading > a { flex: 0 0 auto; }
   .home-task-list a { align-items: flex-start; flex-direction: column; gap: 0.5rem; }
+  .home-task__main { width: 100%; }
+  .home-task__main h3 {
+    display: -webkit-box;
+    overflow-wrap: anywhere;
+    line-height: 1.35;
+    white-space: normal;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
   .home-task__meta { width: 100%; justify-content: space-between; }
   .home-workflow ol { grid-template-columns: minmax(0, 1fr); gap: 0.875rem; }
 }

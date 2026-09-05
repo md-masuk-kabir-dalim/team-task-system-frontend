@@ -210,6 +210,10 @@
   padding-inline: var(--space-3);
 }
 
+.topbar__search-field {
+  display: contents;
+}
+
 .topbar__search:focus-within {
   border-color: var(--color-primary);
   box-shadow: 0 0 0 0.1875rem var(--color-primary-subtle);
@@ -1687,7 +1691,7 @@
   .mobile-header {
     display: grid;
     min-height: var(--mobile-header-height);
-    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-columns: minmax(0, 1fr) auto auto auto;
     align-items: center;
     gap: var(--space-3);
     border-bottom: 1px solid var(--color-border);
@@ -1896,7 +1900,7 @@
   }
 
   .mobile-header {
-    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
   }
 
   .feature-placeholder,
